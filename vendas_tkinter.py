@@ -65,7 +65,7 @@ def sistema(usuario, data, empresa):
     
     frame_esquerda = ctk.CTkFrame(janela)
       # Posição e preenchimento do frame
-    frame_esquerda.pack(side=ctk.LEFT, fill=ctk.Y ,pady=0, padx=20,  expand=True )
+    frame_esquerda.pack(side=ctk.LEFT, fill=ctk.Y ,pady=0, padx=20,  expand=False )
 
     # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
     image_baner = "tdt.png"
@@ -75,29 +75,36 @@ def sistema(usuario, data, empresa):
     label = ctk.CTkLabel(frame_esquerda, image=image, text="")  # Definir text como vazio para mostrar apenas a imagem
     label.pack(pady=20)
 
-    frame_inputs = ctk.CTkFrame(frame_esquerda )
-    frame_inputs.pack()
+    
     # Informações do Produto
-    label_cod = ctk.CTkLabel(frame_esquerda, text="Código do Produto")
-    label_cod.pack(pady=0)
-    entry_cod = ctk.CTkEntry(frame_esquerda, font=("Arial", 10),width=300)
-    entry_cod.pack(pady=0,padx=5)
+    frame_inputs = ctk.CTkFrame(frame_esquerda) 
+    frame_inputs.pack(pady=0, padx=0)
 
-    label_descricao = ctk.CTkLabel(frame_esquerda, text="Descrição do Produto")
-    label_descricao.pack(pady=0 )
-    entry_descricao = ctk.CTkEntry(frame_esquerda, font=("Arial", 10),width=300)
-    entry_descricao.pack(pady=0, padx=5)
-
-    label_qtd = ctk.CTkLabel(frame_esquerda, text="Quantidade")
-    label_qtd.pack(pady=0)
-    entry_qtd = ctk.CTkEntry(frame_esquerda, font=("Arial", 10), width=300)
-    entry_qtd.pack(pady=0, padx=5)
+    label_cod = ctk.CTkLabel(frame_inputs, text="Código do Produto")
+    entry_cod = ctk.CTkEntry(frame_inputs, font=("Arial", 40),width=100)
+    label_qtd = ctk.CTkLabel(frame_inputs, text="Quantidade") 
+    entry_qtd = ctk.CTkEntry(frame_inputs, font=("Arial", 40), width=30)
+    label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
+    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 40),width=300)
+    button_pesquisar = ctk.CTkButton(frame_inputs, text="P", command=lambda: adicionar_item(),width=30,height=55)
+    
+    
+    label_cod.grid(row=0, column=0, padx=0, pady=0)
+    entry_cod.grid(row=1, column=0, padx=0, pady=0)
+    label_qtd.grid(row=0, column=1, padx=0, pady=0)
+    entry_qtd.grid(row=1, column=1, padx=0, pady=0)
+    label_descricao.grid(row=2, column=0, padx=0, pady=0)
+    entry_descricao.grid(row=3, column=0, padx=0, pady=0)
+    button_pesquisar.grid(row=3, column=1, padx=0, pady=0)
 
     # Botões
-    button_adicionar = ctk.CTkButton(frame_inputs, text="ADICIONAR", command=lambda: adicionar_item())
-    button_deletar = ctk.CTkButton(frame_inputs, text="DELETE", command=lambda: deletar_item())
-    button_pagar = ctk.CTkButton(frame_inputs, text="PAGAR", command=lambda: pagar_items())
-    button_voltar = ctk.CTkButton(frame_inputs, text="VOLTAR", command=lambda: voltar())
+    frame_butons = ctk.CTkFrame(frame_esquerda )
+    frame_butons.pack()
+
+    button_adicionar = ctk.CTkButton(frame_butons, text="ADICIONAR", command=lambda: adicionar_item())
+    button_deletar = ctk.CTkButton(frame_butons, text="DELETE", command=lambda: deletar_item())
+    button_pagar = ctk.CTkButton(frame_butons, text="PAGAR", command=lambda: pagar_items())
+    button_voltar = ctk.CTkButton(frame_butons, text="VOLTAR", command=lambda: voltar())
     
     # Criar 4 botões
     button_adicionar.grid(row=0, column=0, padx=10, pady=10)
@@ -105,11 +112,13 @@ def sistema(usuario, data, empresa):
     button_pagar.grid(row=1, column=0, padx=10, pady=10)
     button_voltar.grid(row=1, column=1, padx=10, pady=10)
 
+
+
     # ***cOMPONENTES DO FRAME DA DIREITA*** 
     frame_direita = ctk.CTkFrame(janela)
     frame_direita.pack(side=ctk.LEFT, fill=ctk.Y ,pady=20, padx=20,  expand=False)
     
-    # lABEL
+    # Cupom
     frame_cupon = ctk.CTkFrame(frame_direita, width=600)
     frame_cupon.pack(pady= 1, padx=1)
     
@@ -128,11 +137,37 @@ def sistema(usuario, data, empresa):
 
     tree.pack(fill=ctk.BOTH, expand=True)
 
+    # Valores
+    frame_valores= ctk.CTkFrame(frame_direita)
+    frame_valores.pack(pady=0, padx=0)
+
+    label_pre_unit = ctk.CTkLabel(frame_valores, text="Preço Unitario R$:")
+    entry_pre_unit = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300)
+    label_pre_comb = ctk.CTkLabel(frame_valores, text="Preço Combinado R$:")
+    entry_pre_comb = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300)
+    label_pre_total = ctk.CTkLabel(frame_valores, text="Valor Total R$:")
+    entry_pre_total = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300)
+    
+    label_pre_unit.grid(row=0, column=0, padx=10, pady=1)
+    entry_pre_unit.grid(row=1, column=0, padx=20, pady=1)
+    label_pre_comb.grid(row=0, column=1, padx=10, pady=1)
+    entry_pre_comb.grid(row=1, column=1, padx=20, pady=1)
+    label_pre_total.grid(row=2, column=1, padx=10, pady=1)
+    entry_pre_total.grid(row=3, column=1, padx=20, pady=1)
+
     # labels de usuario s e datas
-    usuario_label = ctk.CTkLabel(frame_direita, text=f"Operador: {usuario}", font=("Any", 14))
-    usuario_label.pack(padx=5, pady=5)
-    data_label = ctk.CTkLabel(frame_direita, text=f"Data: {data}", font=("Any", 14))
-    data_label.pack( padx=10, pady=10)
+    frame_userdates= ctk.CTkFrame(frame_direita)
+    frame_userdates.pack(pady=1, padx=1)
+
+    usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14))
+    data_label = ctk.CTkLabel(frame_userdates, text=f"Data: {data}", font=("Any", 14))
+
+    usuario_label.grid(row=0, column=0, padx=100, pady=10)
+    
+    data_label.grid(row=0, column=1, padx=100, pady=10)
+
+
+    
 
    
     # Funções
@@ -241,7 +276,7 @@ def sistema(usuario, data, empresa):
     janela.mainloop()
 
 # Teste da função
-usuario, data, empresa = "Administrador", '2024-03-21 17:41:22', "Tem De Tudo ME"
+usuario, data, empresa = "Administrador", '2024-03-21 17:gfffghgfgfhgfhgfhg', "Tem De Tudo ME"
 sistema(usuario, data, empresa)
 
 

@@ -1,0 +1,126 @@
+import sys
+import json
+from PyQt5.QtWidgets import (
+    QApplication, QWidget, QLabel, QComboBox, QLineEdit, QPushButton, 
+    QVBoxLayout, QHBoxLayout, QCalendarWidget, QMessageBox, QFrame, 
+    QGridLayout
+)
+from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtCore import Qt
+import modulo_registrar as vendas
+
+
+class LoginWindow(QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle('LOGIN VENDAS')
+        self.setWindowIcon(QIcon('img5.ico'))
+        self.setGeometry(100, 100, 740, 365)
+        self.initUI()
+
+    def initUI(self):
+        # Tentativa de carregar os dados dos usuários
+        try:
+            with open('usuarios.txt', 'r') as bd:
+                self.dados_usuario = json.load(bd)
+        except FileNotFoundError:
+            QMessageBox.critical(self, "Erro", "O arquivo 'usuarios.txt' não foi encontrado. Verifique o caminho ou crie o arquivo.")
+            self.dados_usuario = []
+
+        # Layout principal
+        layout = QVBoxLayout()
+
+        # Frame de login
+        frame = QFrame(self)
+        grid_layout = QGridLayout()
+
+        # Coluna 1: Imagem
+        label_imagem = QLabel(self)
+        pixmap = QPixmap("imagem/imagem_login.png").scaled(392, 267)
+        label_imagem.setPixmap(pixmap)
+        grid_layout.addWidget(label_imagem, 0, 0)
+
+        # Coluna 2: Campos de login
+        label_empresa = QLabel('Empresa')
+        self.combo_empresa = QComboBox()
+        self.combo_empresa.addItems(['Tem De Tudo ME'])
+
+        label_usuario = QLabel('Usuário')
+        self.combo_usuario = QComboBox()
+        self.combo_usuario.addItems(['Administrador', 'Operador do Turno 1', 'Operador do Turno 2'])
+
+        label_senha = QLabel('Senha')
+        self.input_senha = QLineEdit()
+        self.input_senha.setEchoMode(QLineEdit.Password)
+
+        label_data = QLabel('Data')
+        self.calendar = QCalendarWidget(self)
+        self.input_data = QLineEdit()
+        self.input_data.setText('2024-03-21 17:41:22')
+
+        grid_layout.addWidget(label_empresa, 0, 1)
+        grid_layout.addWidget(self.combo_empresa, 1, 1)
+        grid_layout.addWidget(label_usuario, 2, 1)
+        grid_layout.addWidget(self.combo_usuario, 3, 1)
+        grid_layout.addWidget(label_senha, 4, 1)
+        grid_layout.addWidget(self.input_senha, 5, 1)
+        grid_layout.addWidget(label_data, 6, 1)
+        grid_layout.addWidget(self.input_data, 7, 1)
+        grid_layout.addWidget(self.calendar, 8, 1)
+
+        # Botões
+        button_ok = QPushButton('OK')
+        button_ok.clicked.connect(self.verificar_login)
+
+        button_sair = QPushButton('SAIR')
+        button_sair.clicked.connect(self.close)
+
+        button_suporte = QPushButton('SUPORTE')
+        button_suporte.clicked.connect(self.mostrar_suporte)
+
+        button_layout = QHBoxLayout()
+        button_layout.addWidget(button_ok)
+        button_layout.addWidget(button_sair)
+        button_layout.addWidget(button_suporte)
+
+        layout.addLayout(grid_layout)
+        layout.addLayout(button_layout)
+        self.setLayout(layout)
+
+    def verificar_login(self):
+        usuario = self.combo_usuario.currentText()
+        senha = self.input_senha.text()
+        data = self.input_data.text()
+        empresa = self.combo_empresa.currentText()
+
+        if not usuario or not senha or not data or not empresa:
+            QMessageBox.warning(self, "Erro", "Usuário, Senha ou Data não devem ser nulos.")
+            return
+
+        autenticado = False
+        for user in self.dados_usuario:
+            if user['nome'] == usuario and user['senha'] == senha:
+                self.close()
+                vendas.sistema(usuario, data, empresa)
+                autenticado = True
+                break
+
+        if not autenticado:
+            QMessageBox.critical(self, "Erro", "Usuário ou Senha incorretos.")
+
+    def mostrar_suporte(self):
+        try:
+            with open('dados/usuarios.txt', 'r') as legenda:
+                arquivo = legenda.read()
+                QMessageBox.information(self, "Suporte", arquivo)
+        except FileNotFoundError:
+            QMessageBox.critical(self, "Erro", "O arquivo 'usuarios.txt' não foi encontrado. Verifique o caminho ou crie o arquivo.")
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    window = LoginWindow()
+    window.show()
+    sys.exit(app.exec_())
+

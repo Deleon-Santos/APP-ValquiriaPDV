@@ -226,5 +226,11 @@
         "ean": "7891024027370",
         "item": "Enxaguante Bucal Colgate Plax 1Lt",
         "preco": 21.3
+    },
+    {
+        "cod": "139",
+        "ean": "2342434324234",
+        "item": "Asdadasdasdsadasdasd",
+        "preco": 324.0
     }
 ]

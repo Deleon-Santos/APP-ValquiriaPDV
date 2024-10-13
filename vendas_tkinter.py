@@ -115,7 +115,7 @@ def sistema(usuario, data, empresa):
     label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
     entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500)
     
-    button_pesquisar = ctk.CTkButton(frame_inputs_entry1, text="P", command=lambda: adicionar_item(),width=30,height=35)
+    button_pesquisar = ctk.CTkButton(frame_inputs_entry1, text="P", command=lambda: nova_pesquisa(),width=30,height=35)
     
     #posicionamento de imputs
     label_cod.grid(row=0, column=0, padx=(0,100), pady=(10,0))
@@ -124,6 +124,7 @@ def sistema(usuario, data, empresa):
     entry_qtd.grid(row=1, column=2, padx=(0,0), pady=0)
     label_descricao.grid(row=2, column=0, padx=(0,0), pady=(30,0))
     entry_descricao.grid(row=3, column=0, padx=(0,0), pady=0)
+    
     button_pesquisar.grid(row=1, column=1, padx=(10,10), pady=0)
 
     # Botões
@@ -309,7 +310,9 @@ def sistema(usuario, data, empresa):
         #voltar()
 
     def nova_pesquisa():
-        pesquisar.pesquisar(dic)
+        ean,material=pesquisar.pesquisar(dic)
+        entry_cod.insert(0, ean)
+        entry_descricao.insert(0, material)
 
     def novo_item():
         if usuario == "Administrador":

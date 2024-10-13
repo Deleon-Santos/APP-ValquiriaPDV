@@ -85,8 +85,7 @@ image_baner = "tdt.png"
 image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(100, 100))
 
 # Criar um rótulo (Label) para exibir a imagem
-label = ctk.CTkLabel(frame_esquerdo, image=image, text="")  # Definir text como vazio para mostrar apenas a imagem
-label.pack(pady=20)
+#
 # Carregando a imagem
 imagem = Image.open("imagem_login.png")  # Caminho da imagem
 imagem = imagem.resize((392, 287))  # Redimensiona a imagem para caber na interface

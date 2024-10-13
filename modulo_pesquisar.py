@@ -71,7 +71,7 @@ def pesquisar(dic):
     return concluir()
 
 # Exemplo de uso com um dicionário de itens (simulação de um banco de dados)
-dicionario_itens = [
+"""dicionario_itens = [
     {'cod': '001', 'ean': '1234567890123', 'item': 'Produto A'},
     {'cod': '002', 'ean': '2345678901234', 'item': 'Produto B'},
     {'cod': '003', 'ean': '3456789012345', 'item': 'Produto C'},
@@ -82,4 +82,4 @@ ean_selecionado, descricao_selecionada = pesquisar(dicionario_itens)
 
 # Imprimir os valores no console
 print(f"EAN : {ean_selecionado}")
-print(f"Descricao : {descricao_selecionada}")
+print(f"Descricao : {descricao_selecionada}")"""

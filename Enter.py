@@ -66,7 +66,7 @@ except FileNotFoundError:
 
 # Criação da janela_login principal
 janela_login = ctk.CTk()  # Cria a instância da janela_login usando CustomTkinter
-janela_login.geometry("740x350")  # Define o tamanho da janela_login
+janela_login.geometry("740x400")  # Define o tamanho da janela_login
 janela_login.resizable(width=False, height=False) # janela_login pode ser flexivel ou nao
 janela_login.title("LOGIN VENDAS")  # Título da janela_login
 
@@ -97,7 +97,7 @@ imagem_label.grid(row=0, column=0, padx=10, pady=10)  # Posição da imagem no l
 
 # Coluna 2: Formulário de login
 form_frame = ctk.CTkFrame(master=frame)  # Frame que contém o formulário
-form_frame.grid(row=0, column=1, padx=50, pady=10)  # Posição do formulário no layout
+form_frame.grid(row=0, column=1, padx=50, pady=(20,20))  # Posição do formulário no layout
 
 # Campo para seleção da empresa
 empresa_label = ctk.CTkLabel(master=form_frame, text="Empresa", font=('any', 12))  # Rótulo
@@ -133,11 +133,11 @@ ok_button.grid(row=0, column=0, padx=10)  # Posição do botão OK
 
 # Botão SAIR para fechar a aplicação
 sair_button = ctk.CTkButton(master=button_frame, text="SAIR", command=janela_login.quit, font=('any', 10, 'bold'), fg_color="red", width=100)
-sair_button.grid(row=0, column=1, padx=10)  # Posição do botão SAIR
+sair_button.grid(row=0, column=1, padx=10,pady=20)  # Posição do botão SAIR
 
 # Botão SUPORTE para abrir a janela_login de suporte
 suporte_button = ctk.CTkButton(master=button_frame, text="SUPORTE", command=abrir_suporte, font=('any', 10, 'bold'), width=100)
-suporte_button.grid(row=0, column=2, padx=10)  # Posição do botão SUPORTE
+suporte_button.grid(row=0, column=2, padx=10 ,pady=20)  # Posição do botão SUPORTE
 
 # Executa o loop principal da janela_login
 janela_login.mainloop()  # Inicia a aplicação e mantém a janela_login aberta até que seja fechada

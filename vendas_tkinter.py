@@ -22,7 +22,6 @@ def sistema(usuario, data, empresa):
     cupom = int(1000)
     valor_pagar = 0
     num_item = 0
-    entado= "CAIXA FECHADO"
     cpf = "000.000.000-00"
     cnpj = '45.333.0001/45'
     lista_dados = []
@@ -47,7 +46,7 @@ def sistema(usuario, data, empresa):
     menu_bar.add_cascade(label="  Novo  ", menu=menu_novo)
 
     label_titulo = ctk.CTkLabel(janela_princupal, text="CAIXA FECHADO", font=("Arial",24,'bold'))
-    label_titulo.pack(pady=10,padx=10)
+    label_titulo.pack(pady=(10,0),padx=10)
      
     
     menu_totais = tk.Menu(menu_bar, tearoff=0)
@@ -106,9 +105,9 @@ def sistema(usuario, data, empresa):
     frame_inputs_entry2.grid(row=1, column=0, padx=(0,0), pady=0, sticky="e")
     
     # inputs
-    label_cod = ctk.CTkLabel(frame_inputs_label, text="Código do Produto",width=150)
+    label_cod = ctk.CTkLabel(frame_inputs_label, text="Código do Produto",width=100)
     entry_cod = ctk.CTkEntry(frame_inputs_entry1, font=("Arial", 25),width=200)
-    label_qtd = ctk.CTkLabel(frame_inputs_label, text="Qtd",width=60) 
+    label_qtd = ctk.CTkLabel(frame_inputs_label, text="Qtd",width=30) 
     entry_qtd = ctk.CTkEntry(frame_inputs_entry2, font=("Arial", 25),show="1", width=60)
     
     entry_qtd.insert(0, "1")  # Definindo o valor padrão como 1
@@ -118,11 +117,11 @@ def sistema(usuario, data, empresa):
     button_pesquisar = ctk.CTkButton(frame_inputs_entry1, text="P", command=lambda: nova_pesquisa(),width=30,height=35)
     
     #posicionamento de imputs
-    label_cod.grid(row=0, column=0, padx=(0,100), pady=(10,0))
+    label_cod.grid(row=0, column=0, padx=(0,200), pady=(10,0),sticky='w')
     entry_cod.grid(row=1, column=0, padx=(0,0), pady=0)
-    label_qtd.grid(row=0, column=1, padx=(160,0), pady=(10,0))
+    label_qtd.grid(row=0, column=1, padx=(165,0), pady=(10,0),sticky='e')
     entry_qtd.grid(row=1, column=2, padx=(0,0), pady=0)
-    label_descricao.grid(row=2, column=0, padx=(0,0), pady=(30,0))
+    label_descricao.grid(row=2, column=0, padx=(0,0), pady=(30,0),sticky='w')
     entry_descricao.grid(row=3, column=0, padx=(0,0), pady=0)
     
     button_pesquisar.grid(row=1, column=1, padx=(10,10), pady=0)
@@ -358,8 +357,8 @@ def sistema(usuario, data, empresa):
     janela_princupal.mainloop()
 
 # Teste da função
-"""usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
-sistema(usuario, data, empresa)"""
+usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
+sistema(usuario, data, empresa)
 
 
 

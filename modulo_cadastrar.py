@@ -73,34 +73,34 @@ def novo_item():
     frame_cadastro.pack()
 
     lbl_cod = ctk.CTkLabel(frame_cadastro, text="Codigo:", width=44)
-    lbl_cod.grid(row=0, column=0, padx=0, pady=0)
+    lbl_cod.grid(row=0, column=0, padx=(10,0),pady=(20,0),sticky='w')
     
     entry_cod = ctk.CTkEntry(frame_cadastro, width=70,font=('Ariel',16))
-    entry_cod.grid(row=1, column=0, padx=10, pady=10)
+    entry_cod.grid(row=1, column=0, padx=10,  sticky='w')
 
     # Descrição
     lbl_descricao = ctk.CTkLabel(frame_cadastro, text="Descrição:", width=44)
-    lbl_descricao.grid(row=0, column=1, padx=10, pady=10)
+    lbl_descricao.grid(row=0, column=1, padx=10, pady=(20,0),sticky='w')
     
     # Campo de entrada para o nome do produto
     entry_produto = ctk.CTkEntry(frame_cadastro, width=300,font=('Ariel',16))
-    entry_produto.grid(row=1, column=1, padx=10, pady=10)
+    entry_produto.grid(row=1, column=1, padx=10, sticky='w')
 
     # EAN
     lbl_ean = ctk.CTkLabel(frame_cadastro, text="EAN:", width=25)
-    lbl_ean.grid(row=0, column=2, padx=10, pady=10)
+    lbl_ean.grid(row=0, column=2, padx=10, pady=(20,0),sticky='w')
 
     # Campo de entrada para o EAN
     entry_ean = ctk.CTkEntry(frame_cadastro, width=130,font=('Ariel',16))
-    entry_ean.grid(row=1, column=2, padx=10, pady=10)
+    entry_ean.grid(row=1, column=2, padx=10, sticky='w')
 
     # Preço
     lbl_preco = ctk.CTkLabel(frame_cadastro, text="Preço R$:", width=10)
-    lbl_preco.grid(row=0, column=3, padx=10, pady=10)
+    lbl_preco.grid(row=0, column=3, padx=10, pady=(20,0),sticky='w')
 
     # Campo de entrada para o preço
     entry_preco = ctk.CTkEntry(frame_cadastro, width=100,font=('Ariel',16))
-    entry_preco.grid(row=1, column=3, padx=10, pady=10)
+    entry_preco.grid(row=1, column=3, padx=10,  sticky='w')
 
     # Botão para cadastrar o item
     btn_cadastrar = ctk.CTkButton(frame_cadastro, text="CADASTRAR", command=cadastrar_item,width=40)
@@ -108,7 +108,7 @@ def novo_item():
 
     # Botão para sair do programa
     btn_sair = ctk.CTkButton(frame_cadastro, text="SAIR", fg_color="red", command=janela_cadastrar.destroy,width=90)
-    btn_sair.grid(row=1, column=4, padx=10, pady=10)
+    btn_sair.grid(row=1, column=4, padx=10, )
 
     # Tabela para exibir os itens cadastrados
     style = ttk.Style()

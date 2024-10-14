@@ -232,5 +232,17 @@
         "ean": "2342434324234",
         "item": "Asdadasdasdsadasdasd",
         "preco": 324.0
+    },
+    {
+        "cod": "140",
+        "ean": "7898951147928",
+        "item": "Petiscos Bistequitos Dog Sabor Carne 400G",
+        "preco": 14.5
+    },
+    {
+        "cod": "141",
+        "ean": "7898280620314",
+        "item": "Coquitel Espumante De Maca D'Gent 660Ml",
+        "preco": 33.9
     }
 ]

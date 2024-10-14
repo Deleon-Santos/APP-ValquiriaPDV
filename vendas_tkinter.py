@@ -10,7 +10,7 @@ valor_pagar=0.0
 #import modulo_pagar as pagar
 #import modulo_remover as remover
 import modulo_pesquisar as pesquisar
-#import modulo_cadastro as cadastrar
+import modulo_cadastrar as cadastrar
 #import modulo_limpar as limpar
 import modulo_adicionar as adicionar
 #import modulo_visualisar as visualizar
@@ -29,16 +29,16 @@ def sistema(usuario, data, empresa):
 
     # ===================================== Inicio da Interface Grafica=========================================
     
-    janela = ctk.CTk()
-    janela.title("ENTRADA E PEDIDO")
-    janela.geometry("1280x700")
+    janela_princupal = ctk.CTk()
+    janela_princupal.title("ENTRADA E PEDIDO")
+    janela_princupal.geometry("1280x700")
 
     # Configuração inicial do tema visual da interface
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuru
 
     # Menu
-    menu_bar = tk.Menu(janela)
+    menu_bar = tk.Menu(janela_princupal)
     menu_novo = tk.Menu(menu_bar, tearoff=0)
     
     menu_novo.add_command(label="Nova Compra", command=lambda: nova_compra())
@@ -46,7 +46,7 @@ def sistema(usuario, data, empresa):
     menu_novo.add_command(label="Novo Item", command=lambda: novo_item())
     menu_bar.add_cascade(label="  Novo  ", menu=menu_novo)
 
-    label_titulo = ctk.CTkLabel(janela, text="CAIXA FECHADO", font=("Arial",24,'bold'))
+    label_titulo = ctk.CTkLabel(janela_princupal, text="CAIXA FECHADO", font=("Arial",24,'bold'))
     label_titulo.pack(pady=10,padx=10)
      
     
@@ -59,13 +59,13 @@ def sistema(usuario, data, empresa):
     menu_bar.add_cascade(label=" Suporte ", menu=menu_suporte)
 
     menu_fechar = tk.Menu(menu_bar, tearoff=0)
-    menu_fechar.add_command(label="Fechar", command=lambda: janela.quit())
+    menu_fechar.add_command(label="Fechar", command=lambda: sair(janela_princupal))
     menu_bar.add_cascade(label=" Fechar ", menu=menu_fechar)
 
-    janela.config(menu=menu_bar)
+    janela_princupal.config(menu=menu_bar)
 
     # Cupom
-    frame_cupon = ctk.CTkFrame(janela)
+    frame_cupon = ctk.CTkFrame(janela_princupal)
     frame_cupon.pack(pady= 0, padx=(1200,0))
     
     label_cupom = ctk.CTkLabel(frame_cupon, text="Cupom N°:",font=('Arial',20,'bold'))
@@ -75,7 +75,7 @@ def sistema(usuario, data, empresa):
     entry_cupom.grid(row=0, column=1, padx=0, pady=0)
     
     #frame principal
-    frame_master = ctk.CTkFrame(janela)
+    frame_master = ctk.CTkFrame(janela_princupal)
     frame_master.pack(padx=10, pady=10)
     
     #frame la esquerdo
@@ -181,7 +181,7 @@ def sistema(usuario, data, empresa):
     tree.heading("Preço R$", text="Preço R$")
     tree.column("Preço R$", anchor=tk.CENTER, width=150)  # Definindo largura para coluna "Preço R$"
 
-    #podicionamneto da janela
+    #podicionamneto da janela_princupal
     tree.pack(fill=ctk.BOTH, expand=True,padx=(20,0),pady=20)
 
     # Valore unitario e totais
@@ -204,7 +204,7 @@ def sistema(usuario, data, empresa):
     entry_pre_total.grid(row=3, column=1, padx=(225,0), pady=1)
 
     # labels de usuario s e datas
-    frame_userdates= ctk.CTkFrame(janela)
+    frame_userdates= ctk.CTkFrame(janela_princupal)
     frame_userdates.pack(pady=0, padx=1)
 
     usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14))
@@ -340,17 +340,26 @@ def sistema(usuario, data, empresa):
                 dic = json.load(adic)
         except FileNotFoundError:
             messagebox.showerror("Erro", "O arquivo 'bd.txt' não foi encontrado!")
-
+    
+    def sair(janela_principal):
+    # Exibe uma caixa de diálogo de "Sim" ou "Não"
+        resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
+        
+        # Se a resposta for "Sim", fecha a janela principal
+        if resposta:
+            janela_principal.destroy()  # Certifique-se de que está chamando a função corretamente com parênteses
+        else:
+            return  # Caso contrário, não faz nada
     # Inicializa o dicionário de produtos
     dic={}
 
     atualizar_dic()
 
-    janela.mainloop()
+    janela_princupal.mainloop()
 
 # Teste da função
-usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
-sistema(usuario, data, empresa)
+"""usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
+sistema(usuario, data, empresa)"""
 
 
 

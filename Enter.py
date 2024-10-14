@@ -1,6 +1,6 @@
 import customtkinter as ctk
 from PIL import Image, ImageTk  # Pillow para manipulação de imagens
-#import modulo_registrar as vendas
+import vendas_tkinter as vendas
 import json
 from tkinter import messagebox
 #from tkcalendar import Calendar  # Biblioteca para o calendário
@@ -27,10 +27,10 @@ def autenticar_usuario():
         # Percorre a lista de usuários cadastrados no arquivo JSON
         for user in dados_usuario:
             if user['nome'] == usuario and user['senha'] == senha:
-                # Se o usuário for autenticado, fecha a janela e inicia o sistema de vendas
-                janela.destroy()
-                messagebox.showerror("conectado")
-                #vendas.sistema(usuario, data, empresa)
+                # Se o usuário for autenticado, fecha a janela_login e inicia o sistema de vendas
+                janela_login.destroy()
+                #messagebox.showerror("conectado")
+                vendas.sistema(usuario, data, empresa)
                 autenticado = True  # Autenticação bem-sucedida
                 break
 
@@ -64,11 +64,11 @@ except FileNotFoundError:
     # Caso o arquivo não seja encontrado, exibe uma mensagem de erro
     messagebox.showerror("Erro", "O arquivo 'usuarios.txt' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
-# Criação da janela principal
-janela = ctk.CTk()  # Cria a instância da janela usando CustomTkinter
-janela.geometry("740x350")  # Define o tamanho da janela
-janela.resizable(width=False, height=False) # janela pode ser flexivel ou nao
-janela.title("LOGIN VENDAS")  # Título da janela
+# Criação da janela_login principal
+janela_login = ctk.CTk()  # Cria a instância da janela_login usando CustomTkinter
+janela_login.geometry("740x350")  # Define o tamanho da janela_login
+janela_login.resizable(width=False, height=False) # janela_login pode ser flexivel ou nao
+janela_login.title("LOGIN VENDAS")  # Título da janela_login
 
 # Variáveis que armazenam os dados dos campos de entrada
 usuario_var = ctk.StringVar(value="Administrador")  # Valor inicial: Administrador
@@ -77,7 +77,7 @@ data_var = ctk.StringVar(value="2024-03-21 17:41:22")  # Valor inicial de data
 empresa_var = ctk.StringVar(value="Tem De Tudo ME")  # Empresa padrão
 
 # Configuração do layout da interface
-frame = ctk.CTkFrame(master=janela)  # Frame principal que contém os elementos
+frame = ctk.CTkFrame(master=janela_login)  # Frame principal que contém os elementos
 frame.pack(pady=20, padx=20, fill="both", expand=True  )  # Posição e preenchimento do frame
 
 # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
@@ -124,7 +124,7 @@ data_entry = ctk.CTkEntry(master=form_frame, textvariable=data_var, font=('any',
 data_entry.grid(row=7, column=0)  # Posição do campo de data
 
 # Criação dos botões
-button_frame = ctk.CTkFrame(master=janela)  # Frame para os botões
+button_frame = ctk.CTkFrame(master=janela_login)  # Frame para os botões
 button_frame.pack(pady=1)  # Posição do frame de botões
 
 # Botão OK para confirmar o login
@@ -132,12 +132,12 @@ ok_button = ctk.CTkButton(master=button_frame, text="OK", command=autenticar_usu
 ok_button.grid(row=0, column=0, padx=10)  # Posição do botão OK
 
 # Botão SAIR para fechar a aplicação
-sair_button = ctk.CTkButton(master=button_frame, text="SAIR", command=janela.quit, font=('any', 10, 'bold'), fg_color="red", width=100)
+sair_button = ctk.CTkButton(master=button_frame, text="SAIR", command=janela_login.quit, font=('any', 10, 'bold'), fg_color="red", width=100)
 sair_button.grid(row=0, column=1, padx=10)  # Posição do botão SAIR
 
-# Botão SUPORTE para abrir a janela de suporte
+# Botão SUPORTE para abrir a janela_login de suporte
 suporte_button = ctk.CTkButton(master=button_frame, text="SUPORTE", command=abrir_suporte, font=('any', 10, 'bold'), width=100)
 suporte_button.grid(row=0, column=2, padx=10)  # Posição do botão SUPORTE
 
-# Executa o loop principal da janela
-janela.mainloop()  # Inicia a aplicação e mantém a janela aberta até que seja fechada
+# Executa o loop principal da janela_login
+janela_login.mainloop()  # Inicia a aplicação e mantém a janela_login aberta até que seja fechada

@@ -1,12 +1,9 @@
 #quero refatorar esse codigo para customtkinter aproveitando a aparencia e caracteristicas do codigo e comentando ao maximo as funcionalidades
 
-import customtkinter as ctk
-import json
 
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk , messagebox # Importa o Treeview do Tkinter padrão
-
 import json
 carrinho = []
 
@@ -63,12 +60,12 @@ def novo_item():
     ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuro
 
     # Janela principal
-    janela = ctk.CTk()
-    janela.title("CADASTRAR ITENS")
-    janela.geometry("800x400")  # Define o tamanho da janela
-    janela.resizable(width=False, height=False)
+    janela_cadastrar = ctk.CTk()
+    janela_cadastrar.title("CADASTRAR ITENS")
+    janela_cadastrar.geometry("800x400")  # Define o tamanho da janela_cadastrar
+    janela_cadastrar.resizable(width=False, height=False)
     #Frame master
-    frame_marte= ctk.CTkFrame(janela,width=600)
+    frame_marte= ctk.CTkFrame(janela_cadastrar,width=600)
     frame_marte.pack(pady=0,padx=0)
 
     #intens do cadastro
@@ -110,7 +107,7 @@ def novo_item():
     btn_cadastrar.grid(row=0, column=4, padx=10, pady=10)
 
     # Botão para sair do programa
-    btn_sair = ctk.CTkButton(frame_cadastro, text="SAIR", fg_color="red", command=janela.quit,width=90)
+    btn_sair = ctk.CTkButton(frame_cadastro, text="SAIR", fg_color="red", command=janela_cadastrar.destroy,width=90)
     btn_sair.grid(row=1, column=4, padx=10, pady=10)
 
     # Tabela para exibir os itens cadastrados
@@ -122,7 +119,7 @@ def novo_item():
     
     # Colunas da Tabela
     columns = ["Cod", "EAN", "Descrição", "PUni R$"]
-    tree = ttk.Treeview(janela, columns=columns, show="headings", height=15)
+    tree = ttk.Treeview(janela_cadastrar, columns=columns, show="headings", height=15)
     
     # Definindo os cabeçalhos e as larguras das colunas
    
@@ -139,10 +136,10 @@ def novo_item():
     tree.column("PUni R$", anchor=tk.CENTER, width=150)  # Definindo largura para coluna "PUni R$"
 
 
-    #posicionamneto da janela
+    #posicionamneto da janela_cadastrar
     tree.pack(fill=ctk.BOTH, expand=False,padx=20,pady=20)
 
-    """tree = ctk.CTkTreeview(janela, columns=("cod", "ean", "descricao", "preco"), show="headings", height=10)
+    """tree = ctk.CTkTreeview(janela_cadastrar, columns=("cod", "ean", "descricao", "preco"), show="headings", height=10)
     tree.pack( padx=10, pady=10)
 
     # Configurando cabeçalhos da tabela
@@ -159,8 +156,8 @@ def novo_item():
 
     
 
-    # Executar a janela
-    janela.mainloop()
+    # Executar a janela_cadastrar
+    janela_cadastrar.mainloop()
 
 # Chama a função para abrir a interface de cadastro
-novo_item()
+#novo_item()

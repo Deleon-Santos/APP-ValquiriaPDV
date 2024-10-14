@@ -15,7 +15,7 @@ import modulo_cadastrar as cadastrar
 import modulo_adicionar as adicionar
 #import modulo_visualisar as visualizar
 import modulo_arquivar as arquivar
-#import modulo_cpf
+import testando_cpf
 
 def sistema(usuario, data, empresa):
     carrinho = []
@@ -214,6 +214,17 @@ def sistema(usuario, data, empresa):
 
    
     #                                                                                     ***INICIO DA FUNÇOES ***
+    def nova_compra():
+        nonlocal cupom
+        count = 1
+        cupom += count
+        # Limpa os campos e reseta o carrinho
+        label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 25, 'bold')) 
+        #usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14))
+        entry_cupom.insert(0, cupom)  # Atualiza com a descrição correta
+        cpf= testando_cpf.cpf()
+        return cpf
+        #voltar()
 
     def adicionar_item():
        
@@ -297,16 +308,7 @@ def sistema(usuario, data, empresa):
         valor_pagar = 0
         num_item = 0
 
-    def nova_compra():
-        nonlocal cupom
-        count = 1
-        cupom += count
-        # Limpa os campos e reseta o carrinho
-        label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 25, 'bold')) 
-        #usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14))
-        entry_cupom.insert(0, cupom)  # Atualiza com a descrição correta
-
-        #voltar()
+    
 
     def nova_pesquisa():
         ean,material=pesquisar.pesquisar(dic)

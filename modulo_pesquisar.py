@@ -13,11 +13,11 @@ def pesquisar(dic):
             # Pega a linha selecionada
             linha_selecionada = tree.selection()[0]  # Pega a primeira linha selecionada
             escolha = tree.item(linha_selecionada, 'values')  # Valores da linha selecionada
-            janela.destroy()  # Fecha a janela após concluir
+            
             return escolha[1], escolha[2]  # Retorna EAN e descrição do item
         except IndexError:
             messagebox.showwarning("Aviso", "Nenhum item selecionado!")
-            janela.destroy()
+            janela.quit()
             return defaut[0], defaut[1]  # Retorna os valores padrão
 
     # Janela principal
@@ -66,10 +66,10 @@ def pesquisar(dic):
 
     # Iniciar a janela e aguardar o comando
     janela.mainloop()
-
+    
     # Após a janela ser fechada, retorna a escolha feita ou valores padrão
     return concluir()
-
+    
 # Exemplo de uso com um dicionário de itens (simulação de um banco de dados)
 """dicionario_itens = [
     {'cod': '001', 'ean': '1234567890123', 'item': 'Produto A'},

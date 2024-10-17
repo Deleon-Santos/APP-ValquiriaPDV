@@ -14,6 +14,7 @@ def gerar_cupom():
         conexao, cursor = conectar_bd()
         cursor.execute("SELECT COUNT(*) FROM vendas WHERE EXISTS (SELECT 1 FROM vendas)") #testa se existe algum registro e conta o numero de vendas
         count = cursor.fetchone()[0]
+        print(f'count dentro de gerar cupom {count}')
         return count
     
     except Exception as e:
@@ -84,7 +85,7 @@ def arquivo(cupom,data,usuario,cnpj,cpf,v_pago,empresa,carrinho):
                         n_cupom, data_venda, valor_venda, cpf_cliente, cnpj_empresa, razao_social, operador_vendedor)
                         values(?,?,?,?,?,?,?)""",(cupom, data, v_pago, cpf, cnpj, empresa, usuario) )
     conexao.commit()
-    
+    print('gravadoo em vendas')
     #inserindo itens na tabela carrinho
     for compra in carrinho:         
         cursor.execute("""
@@ -93,7 +94,7 @@ def arquivo(cupom,data,usuario,cnpj,cpf,v_pago,empresa,carrinho):
                     values(?,?,?,?,?,?,?,?)""",
                     (cupom, compra[0], compra[1], compra[2], compra[3], compra[4], compra[5], compra[6])) 
         conexao.commit()
-
+    print('gravado em carrinho' )
     cursor.close()
     conexao.close()
 

@@ -7,16 +7,19 @@ def cpf():
         cpf_value = cpf_entry.get()
         if not cpf_value or cpf_value is None:
             messagebox.showinfo("Aviso", "Nenhum CPF fornecido. Usando CPF padrão: 000.000.000-00")
-            #root.destroy()  # Fechar a janela
+            
             cpf_formatado="000.000.000-00"
+
             print(cpf_formatado)
+            root.destroy()  # Fechar a janela
             return cpf_formatado
+        
         elif len(cpf_value) == 11 and cpf_value.isdigit():
             cpf_formatado = f"{cpf_value[:3]}.{cpf_value[3:6]}.{cpf_value[6:9]}-{cpf_value[9:]}"
             messagebox.showinfo("CPF Válido", f"CPF: {cpf_formatado}")
-            root.destroy()  # Fechar a janela
+              # Fechar a janela
             print(cpf_formatado)
-
+            root.destroy()
             return cpf_formatado
            
         else:
@@ -44,6 +47,8 @@ def cpf():
     confirm_button.pack(pady=10)
     
     root.mainloop()
-    root.destroy()  # Fechar a janela
+
+    #return cpf_formatado
 # Chamar a função CPF
 #cpf()
+#print (cpf)

@@ -22,11 +22,11 @@ def pagar(valor_pagar):
             recebido_entry.insert(0, f"R$ {valor_pagar:.2f}")
             messagebox.showinfo("ORDEM DE PAGAMENTO", "Pagamento Autorizado")
             valor_pagar = 0.0  # Define valor_pagar para 0 após o pagamento
-            #
+            window_pagamento.destroy()
             return valor_pagar
         else:
             messagebox.showwarning("ORDEM DE PAGAMENTO", "Informe o Valor da Compra")
-            return valor_pagar  # Retorna o valor original se o pagamento não for concluído
+            return valor_pagar  # Retorna o valor original se o pagamento não for concluído"""
 
     # Função para pagamento em Dinheiro
     def pagar_dinheiro():
@@ -61,7 +61,7 @@ def pagar(valor_pagar):
 
                 valor_pagar = 0.0  # Define valor_pagar para 0 após o pagamento
                 messagebox.showinfo("ORDEM DE PAGAMENTO", f"Pagamento Autorizado! Troco: R$ {troco:.2f}")
-                window_pagamento.quit()  # Fecha a janela após o pagamento
+                window_pagamento.destroy()  # Fecha a janela após o pagamento
                 return valor_pagar
                
                
@@ -108,14 +108,16 @@ def pagar(valor_pagar):
     ctk.CTkLabel(frame_valores, text="Troco Devolvido R$:", font=("Any", 12)).grid(row=6, column=0, sticky="w")
     troco_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right')
     troco_entry.grid(row=7, column=0, sticky="w")
-    window_pagamento.mainloop()
+    
     troco_entry.insert(0, "0.00")
+    window_pagamento.mainloop()
+    #window_pagamento.destroy()  # Fecha a janela após o pagamento
     return valor_pagar
 
     
-    #window_pagamento.destroy()  # Fecha a janela após o pagamento
+    #
 
 # Exemplo de uso
-"""valor_pagar = 100.50
+'''valor_pagar = 100.50
 resposta = pagar(valor_pagar)
-print(f'A resposta é: {resposta}')"""
+print(f'A resposta é: {resposta}')'''

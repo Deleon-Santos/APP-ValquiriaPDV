@@ -71,10 +71,12 @@ def pagar(valor_pagar):
             return valor_pagar  # Retorna o valor original se houver erro
 
     # Janela principal de pagamento
-    window_pagamento = ctk.CTk()
+    window_pagamento = ctk.CTkToplevel()
     window_pagamento.title("PAGAMENTO")
     window_pagamento.geometry("400x350")
     window_pagamento.resizable(width=False, height=False)
+    window_pagamento.focus_force()
+    window_pagamento.grab_set()
     ctk.set_appearance_mode("light")
     ctk.set_default_color_theme("dark-blue")
 
@@ -110,8 +112,9 @@ def pagar(valor_pagar):
     troco_entry.grid(row=7, column=0, sticky="w")
     
     troco_entry.insert(0, "0.00")
-    window_pagamento.mainloop()
-    #window_pagamento.destroy()  # Fecha a janela após o pagamento
+    
+    window_pagamento.wait_window()
+   
     return valor_pagar
 
     

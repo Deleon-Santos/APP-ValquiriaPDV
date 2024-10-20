@@ -16,16 +16,202 @@ import modulo_adicionar as adicionar
 #import modulo_visualisar as visualizar
 import modulo_arquivar as arquivar
 import testando_cpf
-cpf= None
+
+
+
 def sistema(usuario, data, empresa):
     carrinho = []
-    cupom = int(1000)
+    cupom=1000
+    cpf= ''
+    num_item = 0
     valor_pagar = 0
     num_item = 0
-    valor_pagar=0.0
-    
+    valor_pagar=0.0 
     cnpj = '45.333.0001/45'
-    #lista_dados = []
+    
+    # ***INICIO DA FUNÇOES ***
+    def nova_compra():
+        nonlocal cupom, cpf
+        count = arquivar.gerar_cupom()  # Verifica e atualiza o número do cupom
+        count = int(count)
+        cupom += count  # Atualiza o cupom com o valor gerado
+        cpf = testando_cpf.cpf()
+        
+        # Atualiza a label e a entry
+        label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 25, 'bold'))  # Atualiza o texto da label 
+        entry_cupom.delete(0, ctk.END)  # Limpa o campo de entrada do cupom
+        entry_cupom.insert(0, str(cupom))  # Insere o valor atualizado do cupom
+
+        # Debug opcional para verificar o CPF
+        print(f"Cupom: {cupom}, CPF: {cpf}")
+
+        return cupom, cpf
+        
+    def adicionar_item():
+        nonlocal num_item, valor_pagar, cpf, cupom
+        material = entry_cod.get()
+        print( f'retorno de  cpf {cpf} e cupom{cupom}')
+        if not cpf:
+            messagebox.showerror("Erro", "Click em Novo, Nova Compra para inicia uma compra!")
+            return
+
+        if not material:
+            messagebox.showerror("Erro", "Erro no campo material ou descrição!")
+            return
+        
+        try:
+            qtd = int(entry_qtd.get())
+            if qtd < 1 or qtd > 99 or qtd is None:
+                messagebox.showerror("Erro", "Erro no campo Quantidade!")
+        except ValueError:
+            messagebox.showerror("Erro", "Erro no campo Quantidade!")
+            return
+                
+        plu_pro = adicionar.achar(material, dic)
+        if not plu_pro:
+            messagebox.showerror("Erro", "Erro no campo material")
+            return
+
+        for item in dic:
+            if item["cod"] == plu_pro:
+                num_item += 1
+                ean = item["ean"]
+                material = item["item"]
+                preco_unitario = item["preco"]
+                preco = item["preco"] * qtd
+                valor_pagar += preco
+                produto = [num_item, plu_pro, ean, material, qtd, preco_unitario, preco]
+                carrinho.append(produto)
+                tree.insert("", "end", values=produto)
+
+                # Atualizar os campos visuais (Entries)
+                entry_descricao.delete(0, ctk.END)  # Limpa a entrada de descrição
+                entry_descricao.insert(0, material)  # Atualiza com a descrição correta
+
+                entry_pre_unit.delete(0, ctk.END)  # Limpa o campo de preço unitário
+                entry_pre_unit.insert(0, f" {preco_unitario:.2f}")  # Atualiza o preço unitário
+
+                entry_pre_comb.delete(0, ctk.END)  # Limpa o campo de preço combinado
+                entry_pre_comb.insert(0, f" {preco:.2f}")  # Atualiza o preço combinado
+
+                entry_pre_total.delete(0, ctk.END)  # Limpa o campo de valor total
+                entry_pre_total.insert(0, f" {valor_pagar:.2f}")  # Atualiza o valor total
+
+            # Limpar os campos após a adição
+            entry_cod.delete(0, ctk.END)
+            #entry_descricao.delete(0, ctk.END)
+            entry_qtd.delete(0, ctk.END)
+            entry_qtd.insert(0, "1")  # Definir a quantidade como 1 por padrão
+                
+    def pagar_items():
+        try:
+            nonlocal valor_pagar, carrinho, num_item
+
+            if valor_pagar > 0:
+                v_pago = f"{valor_pagar:.2f}"  # Valor pago formatado
+                print(f'Retorno antes de pagar: {valor_pagar}')
+                
+                # Chama a função de pagamento e atualiza o valor
+                valor_pagar = pagar.pagar(valor_pagar)
+                print(f'Retorno da função pagar: {valor_pagar}')
+                
+                # Verifica se o pagamento foi concluído com sucesso
+                if valor_pagar == 0:
+                    # Arquiva os detalhes do pagamento
+                    arquivar.arquivo(cupom, data, usuario, cnpj, cpf, v_pago, empresa, carrinho)
+
+                    # Reseta o número de itens e limpa o carrinho
+                    voltar()
+
+                else:
+                    # Caso ainda haja valor a pagar (ex.: pagamento parcial ou erro)
+                    messagebox.showwarning("Pagamento Incompleto", f"Ainda resta um valor de R$ {valor_pagar:.2f} para ser pago.")
+            
+            else:
+                messagebox.showerror("Erro", "Clique em 'Novo' e depois 'Nova Compra' para iniciar uma compra!")
+                return
+
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao processar pagamento: {e}")
+
+    def voltar():
+        try:
+            nonlocal valor_pagar, num_item, cupom, cpf, carrinho
+
+            # Reseta os valores das variáveis
+            valor_pagar = 0
+            num_item = 0
+            cupom = 1000
+            cpf = ""
+            carrinho.clear()
+            # Limpa os campos de entrada e o carrinho
+            limpar_campos()
+
+            # Limpa a árvore de exibição dos itens do carrinho
+            tree.delete(*tree.get_children())  # Remove todos os itens da Treeview
+
+            # Atualiza a interface para indicar que a compra foi finalizada
+            label_titulo.configure(text="CAIXA FECHADO", font=("Arial", 25, 'bold'))
+
+            # Exibe uma mensagem de confirmação
+            messagebox.showinfo("Compra Finalizada", "Venda concluída com sucesso!")
+        
+        except Exception as e:
+            messagebox.showerror("Erro", f"Erro ao finalizar venda: {e}")
+
+    def limpar_campos():
+        
+        # Função para limpar os campos de entrada
+        entry_descricao.delete(0, ctk.END)
+        entry_pre_unit.delete(0, ctk.END)
+        entry_pre_comb.delete(0, ctk.END)
+        entry_pre_total.delete(0, ctk.END)
+        entry_cod.delete(0, ctk.END)
+        entry_cupom.delete(0, ctk.END)
+
+
+    def nova_pesquisa():
+        ean,material=pesquisar.pesquisar(dic)
+        entry_cod.insert(0, ean)
+        entry_descricao.insert(0, material)
+
+    def novo_item():
+        if usuario == "Administrador":
+            cadastrar.novo_item()
+            atualizar_dic()
+        else:
+            messagebox.showerror("Erro", "Seu usuário não tem permissão para cadastrar item!")
+
+    def venda_cupom():
+        lista_dados = arquivar.lista_de_vendas()
+        visualizar.venda_cupom(lista_dados)
+
+    def mostrar_ajuda():
+        try:
+            with open('ajuda.txt', 'r') as legenda:
+                arquivo = legenda.read()
+                messagebox.showinfo("Ajuda", arquivo)
+        except FileNotFoundError:
+            messagebox.showerror("Erro", "O arquivo 'SUPORTE' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
+
+    def atualizar_dic():
+        nonlocal dic
+        try:
+            with open('bd.txt', 'r') as adic:
+                dic = json.load(adic)
+        except FileNotFoundError:
+            messagebox.showerror("Erro", "O arquivo 'bd.txt' não foi encontrado!")
+    
+    def sair(janela_principal):
+    # Exibe uma caixa de diálogo de "Sim" ou "Não"
+        resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
+        
+        # Se a resposta for "Sim", fecha a janela principal
+        if resposta:
+            janela_principal.destroy()  # Certifique-se de que está chamando a função corretamente com parênteses
+        else:
+            return  # Caso contrário, não faz nada
+    # Inicializa o dicionário de produtos
 
     # ===================================== Inicio da Interface Grafica=========================================
     
@@ -46,10 +232,6 @@ def sistema(usuario, data, empresa):
     menu_novo.add_command(label="Novo Item", command=lambda: novo_item())
     menu_bar.add_cascade(label="  Novo  ", menu=menu_novo)
 
-    label_titulo = ctk.CTkLabel(janela_princupal, text="CAIXA FECHADO", font=("Arial",24,'bold'))
-    label_titulo.pack(pady=(10,0),padx=10)
-     
-    
     menu_totais = tk.Menu(menu_bar, tearoff=0)
     menu_totais.add_command(label="Venda Cupom", command=lambda: venda_cupom())
     menu_bar.add_cascade(label=" Totais ", menu=menu_totais)
@@ -63,16 +245,20 @@ def sistema(usuario, data, empresa):
     menu_bar.add_cascade(label=" Fechar ", menu=menu_fechar)
 
     janela_princupal.config(menu=menu_bar)
-
+    
     # Cupom
+    label_titulo = ctk.CTkLabel(janela_princupal, text="CAIXA FECHADO", font=("Arial",24,'bold'))
+    label_titulo.pack(pady=(10,0),padx=10)
     frame_cupon = ctk.CTkFrame(janela_princupal)
     frame_cupon.pack(pady= 0, padx=(1200,0))
     
     label_cupom = ctk.CTkLabel(frame_cupon, text="Cupom N°:",font=('Arial',20,'bold'))
-    entry_cupom = ctk.CTkEntry(frame_cupon, font=("Arial", 18),width=145,justify= "right")
-    
     label_cupom.grid(row=0, column=0, padx=30, pady=0)
+    entry_cupom = ctk.CTkEntry(frame_cupon, font=("Arial", 18),width=145,justify= "right")
     entry_cupom.grid(row=0, column=1, padx=0, pady=0)
+    
+    
+    
     
     #frame principal
     frame_master = ctk.CTkFrame(janela_princupal)
@@ -90,9 +276,6 @@ def sistema(usuario, data, empresa):
     imagem_p = Image.open("buscar.png")
     imagem_p_resized = imagem_p.resize((35, 35))  # Ajustar o tamanho da imagem conforme necessário
     imagem_p_ctk = ImageTk.PhotoImage(imagem_p_resized )
-
-  
-   
 
     # Criar um rótulo (Label) para exibir a imagem
     label = ctk.CTkLabel(frame_esquerda, image=image, text="")  # Definir text como vazio para mostrar apenas a imagem
@@ -149,8 +332,6 @@ def sistema(usuario, data, empresa):
     button_deletar.grid(row=0, column=1, padx=(108,0), pady=(15,15))
     button_pagar.grid(row=1, column=0, padx= (0,110), pady=(15,0))
     button_voltar.grid(row=1, column=1, padx=(108,0), pady=(15,0))
-
-
 
     # ***COMPONENTES DO FRAME DA DIREITA*** 
     frame_direita = ctk.CTkFrame(frame_master)
@@ -222,197 +403,7 @@ def sistema(usuario, data, empresa):
     data_label.grid(row=0, column=1, padx=100, pady=0)
 
    
-    #                                                                                     ***INICIO DA FUNÇOES ***
-    def nova_compra():
-        nonlocal cupom
-        count=arquivar.gerar_cupom()#verificar e atualizar o numero do cupom 
-        count=int(count)
-        #print(count)
-        cupom =int(cupom + count)
-        #
-        # Limpa os campos e reseta o carrinho
-        label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 25, 'bold')) 
-        #usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14))
-        entry_cupom.insert(0, cupom)  # Atualiza com a descrição correta
-        cpf= testando_cpf.cpf()
-        print( f'retorno de  cpf {cpf}')
-        #return cupom,cpf
-        #voltar()
-
-
-    
-        
-    def adicionar_item(cpf):
-    
-        nonlocal num_item, valor_pagar
-        material = entry_cod.get()
-        
-        if cpf is None:
-            messagebox.showerror("Erro", "Click em Novo, Nova Compra para inicia uma compra!")
-            return
-
-        if not material:
-            messagebox.showerror("Erro", "Erro no campo material ou descrição!")
-            return
-        
-        try:
-            qtd = int(entry_qtd.get())
-            if qtd < 1 or qtd > 99 or qtd is None:
-                messagebox.showerror("Erro", "Erro no campo Quantidade!")
-        except ValueError:
-            messagebox.showerror("Erro", "Erro no campo Quantidade!")
-            return
-                
-        plu_pro = adicionar.achar(material, dic)
-        if not plu_pro:
-            messagebox.showerror("Erro", "Erro no campo material")
-            return
-
-        for item in dic:
-            if item["cod"] == plu_pro:
-                num_item += 1
-                ean = item["ean"]
-                material = item["item"]
-                preco_unitario = item["preco"]
-                preco = item["preco"] * qtd
-                valor_pagar += preco
-                produto = [num_item, plu_pro, ean, material, qtd, preco_unitario, preco]
-                carrinho.append(produto)
-                tree.insert("", "end", values=produto)
-
-                # Atualizar os campos visuais (Entries)
-                entry_descricao.delete(0, ctk.END)  # Limpa a entrada de descrição
-                entry_descricao.insert(0, material)  # Atualiza com a descrição correta
-
-                entry_pre_unit.delete(0, ctk.END)  # Limpa o campo de preço unitário
-                entry_pre_unit.insert(0, f" {preco_unitario:.2f}")  # Atualiza o preço unitário
-
-                entry_pre_comb.delete(0, ctk.END)  # Limpa o campo de preço combinado
-                entry_pre_comb.insert(0, f" {preco:.2f}")  # Atualiza o preço combinado
-
-                entry_pre_total.delete(0, ctk.END)  # Limpa o campo de valor total
-                entry_pre_total.insert(0, f" {valor_pagar:.2f}")  # Atualiza o valor total
-
-            # Limpar os campos após a adição
-            entry_cod.delete(0, ctk.END)
-            #entry_descricao.delete(0, ctk.END)
-            entry_qtd.delete(0, ctk.END)
-            entry_qtd.insert(0, "1")  # Definir a quantidade como 1 por padrão
-
-        """def deletar_item():
-            nonlocal valor_pagar
-            selected_item = tree.selection()[0]
-            valor_pagar = remover.remover(valor_pagar, carrinho, selected_item)
-            tree.delete(selected_item)"""
-                
-    def pagar_items():
-        try:
-            nonlocal valor_pagar, carrinho, num_item, cupom
-
-            if valor_pagar > 0:
-                v_pago = f"{valor_pagar:.2f}"  # Valor pago formatado
-                print(f'Retorno antes de pagar: {valor_pagar}')
-                
-                # Chama a função de pagamento e atualiza o valor
-                valor_pagar = pagar.pagar(valor_pagar)
-                print(f'Retorno da função pagar: {valor_pagar}')
-                
-                # Verifica se o pagamento foi concluído com sucesso
-                if valor_pagar == 0:
-                    # Arquiva os detalhes do pagamento
-                    arquivar.arquivo(cupom, data, usuario, cnpj, cpf, v_pago, empresa, carrinho)
-
-                    # Reseta o número de itens e limpa o carrinho
-                    voltar()
-
-                else:
-                    # Caso ainda haja valor a pagar (ex.: pagamento parcial ou erro)
-                    messagebox.showwarning("Pagamento Incompleto", f"Ainda resta um valor de R$ {valor_pagar:.2f} para ser pago.")
-            
-            else:
-                messagebox.showerror("Erro", "Clique em 'Novo' e depois 'Nova Compra' para iniciar uma compra!")
-                return
-
-        except Exception as e:
-            messagebox.showerror("Erro", f"Erro ao processar pagamento: {e}")
-
-    def voltar():
-        try:
-            nonlocal valor_pagar, num_item, cupom
-
-            # Reseta os valores das variáveis
-            valor_pagar = 0
-            num_item = 0
-            cupom = 1000
-            cpf = ""
-
-            # Limpa os campos de entrada e o carrinho
-            limpar_campos()
-
-            # Limpa a árvore de exibição dos itens do carrinho
-            tree.delete(*tree.get_children())  # Remove todos os itens da Treeview
-
-            # Atualiza a interface para indicar que a compra foi finalizada
-            label_titulo.configure(text="CAIXA FECHADO", font=("Arial", 25, 'bold'))
-
-            # Exibe uma mensagem de confirmação
-            messagebox.showinfo("Compra Finalizada", "Venda concluída com sucesso!")
-        
-        except Exception as e:
-            messagebox.showerror("Erro", f"Erro ao finalizar venda: {e}")
-
-    def limpar_campos():
-        # Função para limpar os campos de entrada
-        entry_descricao.delete(0, ctk.END)
-        entry_pre_unit.delete(0, ctk.END)
-        entry_pre_comb.delete(0, ctk.END)
-        entry_pre_total.delete(0, ctk.END)
-        entry_cod.delete(0, ctk.END)
-        entry_cupom.delete(0, ctk.END)
-
-
-    def nova_pesquisa():
-        ean,material=pesquisar.pesquisar(dic)
-        entry_cod.insert(0, ean)
-        entry_descricao.insert(0, material)
-
-    def novo_item():
-        if usuario == "Administrador":
-            cadastrar.novo_item()
-            atualizar_dic()
-        else:
-            messagebox.showerror("Erro", "Seu usuário não tem permissão para cadastrar item!")
-
-    def venda_cupom():
-        lista_dados = arquivar.lista_de_vendas()
-        visualizar.venda_cupom(lista_dados)
-
-    def mostrar_ajuda():
-        try:
-            with open('ajuda.txt', 'r') as legenda:
-                arquivo = legenda.read()
-                messagebox.showinfo("Ajuda", arquivo)
-        except FileNotFoundError:
-            messagebox.showerror("Erro", "O arquivo 'SUPORTE' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
-
-    def atualizar_dic():
-        nonlocal dic
-        try:
-            with open('bd.txt', 'r') as adic:
-                dic = json.load(adic)
-        except FileNotFoundError:
-            messagebox.showerror("Erro", "O arquivo 'bd.txt' não foi encontrado!")
-    
-    def sair(janela_principal):
-    # Exibe uma caixa de diálogo de "Sim" ou "Não"
-        resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
-        
-        # Se a resposta for "Sim", fecha a janela principal
-        if resposta:
-            janela_principal.destroy()  # Certifique-se de que está chamando a função corretamente com parênteses
-        else:
-            return  # Caso contrário, não faz nada
-    # Inicializa o dicionário de produtos
+   
     dic={}
 
     atualizar_dic()

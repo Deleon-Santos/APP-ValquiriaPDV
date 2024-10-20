@@ -13,18 +13,24 @@ def pesquisar(dic):
             # Pega a linha selecionada
             linha_selecionada = tree.selection()[0]  # Pega a primeira linha selecionada
             escolha = tree.item(linha_selecionada, 'values')  # Valores da linha selecionada
-            janela.destroy()
+            janela_pesquisa.destroy()
             return escolha[1], escolha[2]  # Retorna EAN e descrição do item
         except IndexError:
             messagebox.showwarning("Aviso", "Nenhum item selecionado!")
-            janela.destroy()
+            janela_pesquisa.destroy()
             return defaut[0], defaut[1]  # Retorna os valores padrão
 
     # Janela principal
-    janela = ctk.CTk()
-    janela.title("PESQUISA POR ITEM")
-    janela.geometry("600x400")  # Definindo o tamanho da janela
-    
+    janela_pesquisa = ctk.CTkToplevel()
+    janela_pesquisa.title("PESQUISA POR ITEM")
+    janela_pesquisa.geometry("600x400")  # Definindo o tamanho da janela_pesquisa
+    janela_pesquisa.focus_force()
+    janela_pesquisa.grab_set()
+    janela_pesquisa.focus_force()
+    janela_pesquisa.grab_set()
+    ctk.set_appearance_mode("light")  # Modo de aparência escura
+    ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuru
+
      # Estilo para personalizar a Treeview
     style = ttk.Style()
     style.configure("Treeview.Heading", font=("Arial", 12, "bold"))  # Configura a fonte dos cabeçalhos
@@ -33,7 +39,7 @@ def pesquisar(dic):
    
 
     # Frame para a tabela e botões
-    frame = ctk.CTkFrame(janela)
+    frame = ctk.CTkFrame(janela_pesquisa)
     frame.pack(pady=(20,10), padx=10, fill="both", expand=True)
 
     # Títulos das colunas
@@ -61,16 +67,16 @@ def pesquisar(dic):
         tree.insert("", "end", values=linha)
 
     # Botão "CONCLUIR" para finalizar a pesquisa
-    btn_concluir = ctk.CTkButton(janela, text="CONCLUIR", command=janela.quit)  # Fecha a janela ao clicar
+    btn_concluir = ctk.CTkButton(janela_pesquisa, text="CONCLUIR", command=janela_pesquisa.quit)  # Fecha a janela_pesquisa ao clicar
     btn_concluir.pack(pady=10)
 
-    # Iniciar a janela e aguardar o comando
+    # Iniciar a janela_pesquisa e aguardar o comando
 
-    janela.mainloop()
+    janela_pesquisa.mainloop()
     
     return concluir()
     
-    # Após a janela ser fechada, retorna a escolha feita ou valores padrão
+    # Após a janela_pesquisa ser fechada, retorna a escolha feita ou valores padrão
     
     
 # Exemplo de uso com um dicionário de itens (simulação de um banco de dados)

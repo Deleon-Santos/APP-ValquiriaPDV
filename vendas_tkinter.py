@@ -13,7 +13,7 @@ import modulo_pesquisar as pesquisar
 import modulo_cadastrar as cadastrar
 #import modulo_limpar as limpar
 import modulo_adicionar as adicionar
-#import modulo_visualisar as visualizar
+import modulo_visualizar_cupom as visualizar
 import modulo_arquivar as arquivar
 import testando_cpf
 
@@ -184,7 +184,8 @@ def sistema(usuario, data, empresa):
 
     def venda_cupom():
         lista_dados = arquivar.lista_de_vendas()
-        visualizar.venda_cupom(lista_dados)
+        print(lista_dados)
+        visualizar.venda_por_cupom(lista_dados)
 
     def mostrar_ajuda():
         try:

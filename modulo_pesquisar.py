@@ -72,7 +72,7 @@ def pesquisar(dic):
 
     # Iniciar a janela_pesquisa e aguardar o comando
 
-    janela_pesquisa.mainloop()
+    janela_pesquisa.wait_window()
     
     return concluir()
     

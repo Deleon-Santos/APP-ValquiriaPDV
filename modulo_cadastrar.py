@@ -60,10 +60,12 @@ def novo_item():
     ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuro
 
     # Janela principal
-    janela_cadastrar = ctk.CTk()
+    janela_cadastrar = ctk.CTkToplevel()
     janela_cadastrar.title("CADASTRAR ITENS")
     janela_cadastrar.geometry("800x400")  # Define o tamanho da janela_cadastrar
     janela_cadastrar.resizable(width=False, height=False)
+    janela_cadastrar.focus_force()
+    janela_cadastrar.grab_set()
     #Frame master
     frame_marte= ctk.CTkFrame(janela_cadastrar,width=600)
     frame_marte.pack(pady=0,padx=0)
@@ -157,7 +159,7 @@ def novo_item():
     
 
     # Executar a janela_cadastrar
-    janela_cadastrar.mainloop()
+    janela_cadastrar.wait_window()
 
 # Chama a função para abrir a interface de cadastro
 #novo_item()

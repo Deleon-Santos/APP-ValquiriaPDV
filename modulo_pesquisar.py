@@ -21,13 +21,10 @@ def pesquisar(dic):
             return defaut[0], defaut[1]  # Retorna os valores padrão
 
     # Janela principal
-    janela_pesquisa = ctk.CTkToplevel()
+    janela_pesquisa = ctk.CTk()
     janela_pesquisa.title("PESQUISA POR ITEM")
     janela_pesquisa.geometry("600x400")  # Definindo o tamanho da janela_pesquisa
     janela_pesquisa.focus_force()
-    janela_pesquisa.grab_set()
-    janela_pesquisa.focus_force()
-    janela_pesquisa.grab_set()
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuru
 
@@ -72,23 +69,10 @@ def pesquisar(dic):
 
     # Iniciar a janela_pesquisa e aguardar o comando
 
-    janela_pesquisa.wait_window()
+    janela_pesquisa.mainloop()
     
     return concluir()
     
-    # Após a janela_pesquisa ser fechada, retorna a escolha feita ou valores padrão
     
     
-# Exemplo de uso com um dicionário de itens (simulação de um banco de dados)
-"""dicionario_itens = [
-    {'cod': '001', 'ean': '1234567890123', 'item': 'Produto A'},
-    {'cod': '002', 'ean': '2345678901234', 'item': 'Produto B'},
-    {'cod': '003', 'ean': '3456789012345', 'item': 'Produto C'},
-]
-
-# Chamar a função de pesquisa e capturar os dois valores retornados
-ean_selecionado, descricao_selecionada = pesquisar(dicionario_itens)
-
-# Imprimir os valores no console
-print(f"EAN : {ean_selecionado}")
-print(f"Descricao : {descricao_selecionada}")"""
+    

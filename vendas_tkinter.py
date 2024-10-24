@@ -412,8 +412,8 @@ def sistema(usuario, data, empresa):
     janela_princupal.mainloop()
 
 # Teste da função
-usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
-sistema(usuario, data, empresa)
+#usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
+#sistema(usuario, data, empresa)
 
 
 

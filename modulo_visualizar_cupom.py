@@ -12,8 +12,8 @@ cupom_disponivel = []
 
 # Lista de dados (exemplo)
 lista_info = ''
-cupom_select=''   
-cupom_var='1001'
+#cupom_select=''   
+#cupom_var='1001'
 # Preencher cupom_disponivel com os números de cupom (índice 0 da lista_dados)
 
 def venda_por_cupom(lista_dados):
@@ -74,7 +74,7 @@ def venda_por_cupom(lista_dados):
     frame_botoes.grid(row=4, column=0)
 
     # Botões
-    ctk.CTkButton(frame_botoes, text="PESQUISAR", command=lambda: pesquisar_cupom(cupom_var,lista_dados, cnpj_entry, empresa_entry, cliente_entry, valor_entry, data_entry, usuario_entry)).grid(row=4, column=0, padx=20, pady=20)
+    ctk.CTkButton(frame_botoes, text="PESQUISAR", command=lambda: pesquisar_cupom(lista_dados,cupom_var, cnpj_entry, empresa_entry, cliente_entry, valor_entry, data_entry, usuario_entry)).grid(row=4, column=0, padx=20, pady=20)
     ctk.CTkButton(frame_botoes, text="IMPRIMIR", command=lambda: imprimir_cupom(cupom_combobox.get(), valor_entry.get(), data_entry.get(), usuario_entry.get(), cnpj_entry.get(), empresa_entry.get())).grid(row=4, column=1, padx=20, pady=20)
     ctk.CTkButton(frame_botoes, text="SAIR", command=janela.destroy, fg_color='red').grid(row=4, column=2, padx=20, pady=20)
 
@@ -109,40 +109,46 @@ def venda_por_cupom(lista_dados):
 
 def pesquisar_cupom(cupom_var, lista_dados, cnpj_entry, empresa_entry, cliente_entry, valor_entry, data_entry, usuario_entry):
     
-    cupom_select = cupom_var.get()
+    cupom_select = cupom_var.get()  # Obtém o valor selecionado no ComboBox
 
     # Printar o valor no console
     print(f"Cupom selecionado: {cupom_select}")
     
+    # Buscar informações do cupom nos dados
+    lista_info = None
     for dado in lista_dados:
         if dado[0] == cupom_select:
             lista_info = dado
-            print(lista_info)
-            
-            # Atualizar os campos de entrada com os valores de lista_info
-            # Supondo que lista_info contém os valores nesta ordem: [cupom, cnpj, empresa, cliente, valor, data, operador]
-            cnpj_entry.delete(0, 'end')
-            cnpj_entry.insert(0, lista_info[4])  # Atualizar com o valor de CNPJ
+            break  # Para o loop ao encontrar o cupom
 
-            empresa_entry.delete(0, 'end')
-            empresa_entry.insert(0, lista_info[5])  # Atualizar com o nome da Empresa
+    if lista_info:
+        # Atualizar os campos de entrada com os dados do cupom
+        cnpj_entry.delete(0, 'end')
+        cnpj_entry.insert(0, lista_info[4])
 
-            cliente_entry.delete(0, 'end')
-            cliente_entry.insert(0, lista_info[3])  # Atualizar com o nome do Cliente
+        empresa_entry.delete(0, 'end')
+        empresa_entry.insert(0, lista_info[5])
 
-            valor_entry.delete(0, 'end')
-            valor_entry.insert(0, lista_info[2])  # Atualizar com o valor do cupom
+        cliente_entry.delete(0, 'end')
+        cliente_entry.insert(0, lista_info[3])
 
-            data_entry.delete(0, 'end')
-            data_entry.insert(0, lista_info[1])  # Atualizar com a data da compra
+        valor_entry.delete(0, 'end')
+        valor_entry.insert(0, lista_info[2])
 
-            usuario_entry.delete(0, 'end')
-            usuario_entry.insert(0, lista_info[6])  # Atualizar com o nome do Operador
+        data_entry.delete(0, 'end')
+        data_entry.insert(0, lista_info[1])
 
-    # Obter itens associados ao cupom
-    lista_itens = arquivar.lista_item_por_carrinho(cupom_select)
-    
-    # Printar a lista de itens para o cupom
-    print(f"Itens do cupom {cupom_select}: {lista_itens}")
-  
+        usuario_entry.delete(0, 'end')
+        usuario_entry.insert(0, lista_info[6])
+
+       # Obter e atualizar itens na Treeview
+        lista_itens = arquivar.lista_item_por_carrinho(cupom_select)
+        tree.delete(*tree.get_children())  # Limpa os itens anteriores
+
+        for item in lista_itens:
+            tree.insert('', 'end', values=(item["ITEM"], item["EAN"], item["Descrição"], item["Qtd"], item["Valor"]))
+
+        print(f"Itens do cupom {cupom_select}: {lista_itens}")
+    else:
+        print(f"Cupom {cupom_select} não encontrado.")
     return 

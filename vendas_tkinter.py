@@ -79,8 +79,9 @@ def sistema(usuario, data, empresa):
                 material = item["item"]
                 preco_unitario = item["preco"]
                 preco = item["preco"] * qtd
+                str_preco = f"{preco:.2f}"
                 valor_pagar += preco
-                produto = [num_item, plu_pro, ean, material, qtd, preco_unitario, preco]
+                produto = [num_item, plu_pro, ean, material, qtd, preco_unitario, str_preco]
                 carrinho.append(produto)
                 tree.insert("", "end", values=produto)
 
@@ -102,7 +103,38 @@ def sistema(usuario, data, empresa):
             #entry_descricao.delete(0, ctk.END)
             entry_qtd.delete(0, ctk.END)
             entry_qtd.insert(0, "1")  # Definir a quantidade como 1 por padrão
-                
+
+    def deletar():
+        nonlocal valor_pagar, carrinho, num_item
+        try:
+            # Pega a linha selecionada
+            linha_selecionada = tree.selection()[0]  # Pega a primeira linha selecionada
+            escolha = tree.item(linha_selecionada, 'values')  # Valores da linha selecionada
+            print(escolha)
+            #num_item+=1
+             # Converte o valor em um número flutuante e o subtrai de valor_pagar
+            novo_valor_pagar = float(escolha[6])
+            valor_pagar -= novo_valor_pagar
+
+            # Incrementa o contador de itens
+            num_item += 1
+
+            # Atualiza o carrinho e a árvore de visualização
+            escolha = list(escolha)  # Transforma a tupla em lista para manipulação
+            escolha[0] = num_item  # Define o número do item
+            escolha[6] = f'-{novo_valor_pagar:.2f}'  # Atualiza o valor do item selecionado como negativo
+            carrinho.append(escolha)
+            
+            # Atualiza a árvore com o novo item
+            tree.insert("", "end", values=escolha)
+            entry_pre_total.delete(0, ctk.END)
+            entry_pre_total.insert(0,valor_pagar)
+
+            return valor_pagar , num_item  # Retorna EAN e descrição do item
+        except IndexError:
+            messagebox.showwarning("Aviso", "Nenhum item selecionado!")
+            return
+                       
     def pagar_items():
         try:
             nonlocal valor_pagar, carrinho, num_item
@@ -172,7 +204,10 @@ def sistema(usuario, data, empresa):
 
     def nova_pesquisa():
         ean,material=pesquisar.pesquisar(dic)
+        
+        entry_cod.delete(0, ctk.END)
         entry_cod.insert(0, ean)
+        entry_descricao.delete(0, ctk.END)
         entry_descricao.insert(0, material)
 
     def novo_item():
@@ -324,7 +359,7 @@ def sistema(usuario, data, empresa):
     frame_butons.pack(pady=(15,0), padx= 0)
 
     button_adicionar = ctk.CTkButton(frame_butons, text="ADICIONAR",font=('Ariel',16,'bold'),height=40, command=lambda: adicionar_item())
-    button_deletar = ctk.CTkButton(frame_butons, text="DELETE",font=('Ariel',16,'bold'), height=40, command=lambda: deletar_item())
+    button_deletar = ctk.CTkButton(frame_butons, text="DELETE",font=('Ariel',16,'bold'), height=40, command=lambda: deletar())
     button_pagar = ctk.CTkButton(frame_butons, text="PAGAR",font=('Ariel',16,'bold'), height=40, command=lambda: pagar_items())
     button_voltar = ctk.CTkButton(frame_butons, text="VOLTAR", font=('Ariel',16,'bold'),height=40, command=lambda: voltar())
     

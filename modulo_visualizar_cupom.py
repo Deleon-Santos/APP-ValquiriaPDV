@@ -13,7 +13,7 @@ cupom_disponivel = []
 
 # Lista de dados (exemplo)
 #lista_info = [(1000, '2024-03-21 17:41:22', 0.0, '000.000.000-00', '45.333.0001/45', 'Tem De Tudo ME', 'Administrador')]
-lista_info =[]
+#lista_info =[]
 cupom_select=''   
 
 # Preencher cupom_disponivel com os números de cupom (índice 0 da lista_dados)
@@ -118,15 +118,17 @@ def pesquisar_cupom(cupom_var,lista_dados, cnpj_entry, empresa_entry, cliente_en
     lista_info = []
     
     
-    cupom_select = cupom_var.get()
+    cupom_select = int(cupom_var.get())
 
     # Printar o valor no console
     print(f"Cupom selecionado: {cupom_select}")
+    
     for dado in lista_dados:
         
         if dado[0] == cupom_select:
-            lista_info.append(dado)
-            print(lista_info)
+            lista_info = dado
+            print(f"lista info {lista_info}")
+            
             cnpj_entry.delete(0, 'end')
             cnpj_entry.insert(0, lista_info[4])
             empresa_entry.delete(0, 'end')
@@ -139,8 +141,8 @@ def pesquisar_cupom(cupom_var,lista_dados, cnpj_entry, empresa_entry, cliente_en
             data_entry.insert(0, lista_info[1])
             usuario_entry.delete(0, 'end')
             usuario_entry.insert(0, lista_info[6])
-            
-            lista_info.clear()
+            break
+    #lista_info.clear()
             
 
     # Obter itens associados ao cupom
@@ -155,7 +157,7 @@ def pesquisar_cupom(cupom_var,lista_dados, cnpj_entry, empresa_entry, cliente_en
     
     lista_itens.clear()
     print(f"lista itens e info depois do clear {lista_itens}, {lista_info}")
-    return lista_info
+    return 
     
 
 #venda_por_cupom()

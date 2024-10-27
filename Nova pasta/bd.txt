@@ -250,5 +250,11 @@
         "ean": "1234567891234",
         "item": "Garrafa De Gin Rock'A De 600Ml",
         "preco": 45.9
+    },
+    {
+        "cod": "143",
+        "ean": "1234567894512",
+        "item": "Khdfjhfkjshjfhsjfhksdhfkjshfhsk",
+        "preco": 12.9
     }
 ]

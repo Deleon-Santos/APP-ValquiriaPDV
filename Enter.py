@@ -47,7 +47,7 @@ def autenticar_usuario():
 def abrir_suporte():
     try:
         # Tenta abrir o arquivo de suporte e exibe seu conteúdo em uma popup
-        with open('usuarios.txt', 'r') as legenda:
+        with open('dependencias/bd_usuarios.txt', 'r') as legenda:
             arquivo = legenda.read()
             messagebox.showinfo("Suporte", arquivo)
     except FileNotFoundError:
@@ -56,11 +56,11 @@ def abrir_suporte():
 
 # Carregamento dos dados de usuários a partir de um arquivo JSON
 try:
-    with open('usuarios.txt', 'r') as bd:
+    with open('dependencias/bd_usuarios.txt', 'r') as bd:
         # Carrega os dados dos usuários em um dicionário
         dados_usuario = json.load(bd)
 except FileNotFoundError:
-    print(bd)
+    
     # Caso o arquivo não seja encontrado, exibe uma mensagem de erro
     messagebox.showerror("Erro", "O arquivo 'usuarios.txt' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
@@ -73,7 +73,7 @@ janela_login.title("LOGIN VENDAS")  # Título da janela_login
 # Variáveis que armazenam os dados dos campos de entrada
 usuario_var = ctk.StringVar(value="Administrador")  # Valor inicial: Administrador
 senha_var = ctk.StringVar(value="1234")  # Valor inicial: 1234
-data_var = ctk.StringVar(value="2024-03-21 17:41:22")  # Valor inicial de data
+data_var = ctk.StringVar(value="27/10/2024 12:00")  # Valor inicial de data
 empresa_var = ctk.StringVar(value="Tem De Tudo ME")  # Empresa padrão
 
 # Configuração do layout da interface
@@ -81,13 +81,13 @@ frame = ctk.CTkFrame(master=janela_login)  # Frame principal que contém os elem
 frame.pack(pady=20, padx=20, fill="both", expand=True  )  # Posição e preenchimento do frame
 
 # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
-image_baner = "tdt.png"
+image_baner = "dependencias/imagem_login.png"
 image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(100, 100))
 
 # Criar um rótulo (Label) para exibir a imagem
 #
 # Carregando a imagem
-imagem = Image.open("imagem_login.png")  # Caminho da imagem
+imagem = Image.open("dependencias/imagem_login.png")  # Caminho da imagem
 imagem = imagem.resize((392, 287))  # Redimensiona a imagem para caber na interface
 imagem_tk = ImageTk.PhotoImage(imagem)  # Converte 
 

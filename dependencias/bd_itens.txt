@@ -1,0 +1,260 @@
+[
+    {
+        "cod": "101",
+        "ean": "7896894900013",
+        "item": "Acucar Refinado Caravela pt 1kg",
+        "preco": 2.9
+    },
+    {
+        "cod": "102",
+        "ean": "7891020106927",
+        "item": "Cafe Melita Extra Forte 1kg",
+        "preco": 16.9
+    },
+    {
+        "cod": "103",
+        "ean": "7896034610017",
+        "item": "Leite Integral Parmalate 1lt",
+        "preco": 5.9
+    },
+    {
+        "cod": "104",
+        "ean": "7896062699848",
+        "item": "Arroz Solito Premio Polido 5kg",
+        "preco": 15.9
+    },
+    {
+        "cod": "105",
+        "ean": "7897136400155",
+        "item": "Feijao Carioca Kicaldo pt 1kg",
+        "preco": 6.9
+    },
+    {
+        "cod": "106",
+        "ean": "7896205788040",
+        "item": "Macarrao Spaguete Adria 500g",
+        "preco": 3.9
+    },
+    {
+        "cod": "107",
+        "ean": "7891095003389",
+        "item": "Farinha de mandioca Yoki 500g",
+        "preco": 4.9
+    },
+    {
+        "cod": "108",
+        "ean": "7896005205860",
+        "item": "Farinha de Trigo Dona Benta 1kg",
+        "preco": 3.9
+    },
+    {
+        "cod": "109",
+        "ean": "7894321711317",
+        "item": "Achocolatado Toddy Mais 500g",
+        "preco": 5.9
+    },
+    {
+        "cod": "110",
+        "ean": "7896036090244",
+        "item": "Oleo de Soja Liza Garrafa 900ml",
+        "preco": 5.9
+    },
+    {
+        "cod": "111",
+        "ean": "7891000376843",
+        "item": "Biscoito Recheado Bono 350g",
+        "preco": 3.9
+    },
+    {
+        "cod": "112",
+        "ean": "7890000000115",
+        "item": "Chocolate barra Garoto 100g",
+        "preco": 5.9
+    },
+    {
+        "cod": "113",
+        "ean": "7890000000113",
+        "item": "Coco ralado Ducodo adocaado 100g",
+        "preco": 3.9
+    },
+    {
+        "cod": "114",
+        "ean": "7890000000114",
+        "item": "Molho de tomate Quero 340g",
+        "preco": 2.9
+    },
+    {
+        "cod": "115",
+        "ean": "7890000000115",
+        "item": "Carne seca dianteiro Vilieto pct 1kg",
+        "preco": 28.9
+    },
+    {
+        "cod": "116",
+        "ean": "7890000000116",
+        "item": "Fiba de milho Milharina 500g",
+        "preco": 2.9
+    },
+    {
+        "cod": "117",
+        "ean": "7890000000117",
+        "item": "Refrigerante Coca-Cola 2+250lt",
+        "preco": 8.9
+    },
+    {
+        "cod": "118",
+        "ean": "7890000000118",
+        "item": "Refresco Tang de sabores 35g",
+        "preco": 1.28
+    },
+    {
+        "cod": "119",
+        "ean": "7890000000119",
+        "item": "Azeite de oliva Andorinha 500ml",
+        "preco": 31.9
+    },
+    {
+        "cod": "120",
+        "ean": "7890000000120",
+        "item": "Carne moida congelada Berna 500g",
+        "preco": 2.9
+    },
+    {
+        "cod": "121",
+        "ean": "7890000000121",
+        "item": "Gelatina dr'otquer sabores 35g",
+        "preco": 1.9
+    },
+    {
+        "cod": "122",
+        "ean": "7890000000122",
+        "item": "Feijao de corda Carioquinha 1 kg",
+        "preco": 12.7
+    },
+    {
+        "cod": "123",
+        "ean": "7890000000123",
+        "item": "Farinha de mandioca Yoki 500g",
+        "preco": 7.3
+    },
+    {
+        "cod": "124",
+        "ean": "7890000000124",
+        "item": "Sabao em po Omo multiacao 500g",
+        "preco": 12.9
+    },
+    {
+        "cod": "125",
+        "ean": "7890000000125",
+        "item": "Mortadela defumada Sadia 100g",
+        "preco": 3.9
+    },
+    {
+        "cod": "126",
+        "ean": "7890000000126",
+        "item": "Margarina Qualy 500g",
+        "preco": 12.9
+    },
+    {
+        "cod": "127",
+        "ean": "7890000000127",
+        "item": "Farofa de milho Kitano 250g",
+        "preco": 6.9
+    },
+    {
+        "cod": "128",
+        "ean": "7890000000128",
+        "item": "Tempero caldo knor 60g",
+        "preco": 3.9
+    },
+    {
+        "cod": "129",
+        "ean": "7890000000129",
+        "item": "batata palha tradicional Yoki 90 g",
+        "preco": 3.9
+    },
+    {
+        "cod": "130",
+        "ean": "7890000000130",
+        "item": "queijo mussarela boafala 100g",
+        "preco": 5.6
+    },
+    {
+        "cod": "131",
+        "ean": "7892320006122",
+        "item": "Moargarina Doriana com sal 500g",
+        "preco": 12.95
+    },
+    {
+        "cod": "132",
+        "ean": "7894545010102",
+        "item": "Feijao carioca BoaSafra 1kg",
+        "preco": 13.9
+    },
+    {
+        "cod": "133",
+        "ean": "7891515232126",
+        "item": "Margarina Doriana com sal 500G",
+        "preco": 12.95
+    },
+    {
+        "cod": "134",
+        "ean": "7894546202021",
+        "item": "Pao de hamburgue Panco 6 uni",
+        "preco": 10.9
+    },
+    {
+        "cod": "135",
+        "ean": "7894561230123",
+        "item": "Detergente em po Omo Multi 2kg",
+        "preco": 10.45
+    },
+    {
+        "cod": "136",
+        "ean": "7891000325131",
+        "item": "Bombom Nestle 251g com 12 uni",
+        "preco": 12.95
+    },
+    {
+        "cod": "137",
+        "ean": "7891035618543",
+        "item": "Multi Inseticida Sbp Emb Eco 380Ml",
+        "preco": 19.2
+    },
+    {
+        "cod": "138",
+        "ean": "7891024027370",
+        "item": "Enxaguante Bucal Colgate Plax 1Lt",
+        "preco": 21.3
+    },
+    {
+        "cod": "139",
+        "ean": "2342434324234",
+        "item": "Asdadasdasdsadasdasd",
+        "preco": 324.0
+    },
+    {
+        "cod": "140",
+        "ean": "7898951147928",
+        "item": "Petiscos Bistequitos Dog Sabor Carne 400G",
+        "preco": 14.5
+    },
+    {
+        "cod": "141",
+        "ean": "7898280620314",
+        "item": "Coquitel Espumante De Maca D'Gent 660Ml",
+        "preco": 33.9
+    },
+    {
+        "cod": "142",
+        "ean": "1234567891234",
+        "item": "Garrafa De Gin Rock'A De 600Ml",
+        "preco": 45.9
+    },
+    {
+        "cod": "143",
+        "ean": "1234567894512",
+        "item": "Khdfjhfkjshjfhsjfhksdhfkjshfhsk",
+        "preco": 12.9
+    }
+]

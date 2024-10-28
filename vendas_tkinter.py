@@ -24,38 +24,35 @@ def sistema(usuario, data, empresa):
     def nova_compra():
         nonlocal cupom, cpf
         count = arquivar.gerar_cupom()  # Verifica e atualiza o número do cupom
-        count = int(count)
-        cupom += count  
+        cupom += cupom + int(count) 
         cpf = testando_cpf.cpf()
         
-        # Atualiza a label e a entry
         label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 25, 'bold'))  # Atualiza o texto da label 
         entry_cupom.delete(0, ctk.END)  
         entry_cupom.insert(0, str(cupom))  # Insere o valor atualizado do cupom
-
         return cupom, cpf
         
     def adicionar_item():
-        nonlocal num_item, valor_pagar, cpf, cupom
+        nonlocal num_item, valor_pagar, cpf, cupom, dic
+       
+        # Validação e tratamento dos erros
         material = entry_cod.get()
-
-        if not cpf:
-            messagebox.showerror("Erro", "Click em Novo, Nova Compra para inicia uma compra!")
-            return
-
-        if not material:
-            messagebox.showerror("Erro", "Erro no campo material ou descrição!")
-            return
-        
         try:
             qtd = int(entry_qtd.get())
             if qtd < 1 or qtd > 99 or qtd is None:
                 messagebox.showerror("Erro", "Erro no campo Quantidade!")
+                return
         except ValueError:
             messagebox.showerror("Erro", "Erro no campo Quantidade!")
+            return   
+        if not cpf:
+            messagebox.showerror("Erro", "Click em Novo, Nova Compra para inicia uma compra!")
             return
-                
+        if not material:
+            messagebox.showerror("Erro", "Erro no campo material ou descrição!")
+            return   
         plu_pro = adicionar.achar(material, dic)
+
         if not plu_pro:
             messagebox.showerror("Erro", "Erro no campo material")
             return
@@ -76,13 +73,10 @@ def sistema(usuario, data, empresa):
                 # Atualizar os campos visuais (Entries)
                 entry_descricao.delete(0, ctk.END)  
                 entry_descricao.insert(0, material)  
-
                 entry_pre_unit.delete(0, ctk.END)  
                 entry_pre_unit.insert(0, f" {preco_unitario:.2f}") 
-
                 entry_pre_comb.delete(0, ctk.END)  
                 entry_pre_comb.insert(0, f" {preco:.2f}") 
-
                 entry_pre_total.delete(0, ctk.END) 
                 entry_pre_total.insert(0, f" {valor_pagar:.2f}")  
 
@@ -124,13 +118,11 @@ def sistema(usuario, data, empresa):
             if valor_pagar > 0:
                 v_pago = f"{valor_pagar:.2f}"  # Valor pago formatado
                 print(f'Retorno antes de pagar: {valor_pagar}')
-                
-                # Chama a função de pagamento e atualiza o valor
-                valor_pagar = pagar.pagar(valor_pagar)
+                               
+                valor_pagar = pagar.pagar(valor_pagar)# Chama a função de pagamento e atualiza o valor
                 print(f'Retorno da função pagar: {valor_pagar}')
                 
-                # Verifica se o pagamento foi concluído com sucesso
-                if valor_pagar == 0:
+                if valor_pagar == 0:# Verifica se o pagamento foi concluído com sucesso
                     arquivar.arquivo(cupom, data, usuario, cnpj, cpf, v_pago, empresa, carrinho)
 
                     voltar() # limpa os campos com valores residuais
@@ -216,7 +208,7 @@ def sistema(usuario, data, empresa):
             return  # Caso contrário, não faz nada
     
 
-    # ===================================== Inicio da Interface Grafica=========================================
+    ############################################ Inicio da Interface Grafica ##########################################
     
     janela_princupal = ctk.CTk()
     janela_princupal.title("ENTRADA E PEDIDO")
@@ -281,7 +273,7 @@ def sistema(usuario, data, empresa):
     frame_inputs = ctk.CTkFrame(frame_esquerda) 
     frame_inputs.pack(pady=0, padx=0)
     
-    # declaração de labels de imputs
+    # Declaração de labels de imputs
     frame_inputs_label = ctk.CTkFrame(frame_inputs,width=200,fg_color="transparent")
     frame_inputs_label.grid(row=0, column=0, padx=(0,0), pady=0, sticky="e")
     frame_inputs_entry1 = ctk.CTkFrame(frame_inputs,fg_color="transparent")
@@ -289,16 +281,18 @@ def sistema(usuario, data, empresa):
     frame_inputs_entry2 = ctk.CTkFrame(frame_inputs,fg_color="transparent")
     frame_inputs_entry2.grid(row=1, column=0, padx=(0,0), pady=0, sticky="e")
     
-    # inputs
+    # Inputs e Label's
     label_cod = ctk.CTkLabel(frame_inputs_label, text="Código do Produto",width=100)
     entry_cod = ctk.CTkEntry(frame_inputs_entry1, font=("Arial", 25),width=200)
     label_qtd = ctk.CTkLabel(frame_inputs_label, text="Qtd",width=30) 
     entry_qtd = ctk.CTkEntry(frame_inputs_entry2, font=("Arial", 25), width=60) 
+    
     entry_qtd.insert(0, "1")  # Definindo o valor padrão como 1
+    
     label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
     entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500)
      
-    #posicionamento de imputs
+    # Posicionamento de imputs
     label_cod.grid(row=0, column=0, padx=(0,200), pady=(10,0),sticky='w')
     entry_cod.grid(row=1, column=0, padx=(0,0), pady=0)
     label_qtd.grid(row=0, column=1, padx=(165,0), pady=(10,0),sticky='e')
@@ -318,7 +312,7 @@ def sistema(usuario, data, empresa):
     button_pagar = ctk.CTkButton(frame_butons, text="PAGAR",font=('Ariel',16,'bold'), height=40, command=lambda: pagar_items())
     button_voltar = ctk.CTkButton(frame_butons, text="VOLTAR", font=('Ariel',16,'bold'),height=40, command=lambda: voltar())
     
-    # posicionamento de 4 botões
+    # Posicionamento de 4 botões
     button_adicionar.grid(row=0, column=0, padx=(0,110), pady=(15,15))
     button_deletar.grid(row=0, column=1, padx=(108,0), pady=(15,15))
     button_pagar.grid(row=1, column=0, padx= (0,110), pady=(15,0))
@@ -352,7 +346,7 @@ def sistema(usuario, data, empresa):
     tree.heading("Preço R$", text="Preço R$")
     tree.column("Preço R$", anchor=tk.CENTER, width=150)  
 
-    #podicionamneto da janela_princupal
+    # Podicionamneto da janela_princupal
     tree.pack(fill=ctk.BOTH, expand=True,padx=(20,0),pady=20)
 
     # Valore unitario e totais
@@ -391,7 +385,3 @@ def sistema(usuario, data, empresa):
 
 #usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
 #sistema(usuario, data, empresa)
-
-
-
-

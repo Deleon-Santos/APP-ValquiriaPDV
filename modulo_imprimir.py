@@ -3,20 +3,6 @@ from reportlab.lib import colors
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 
-'''pesquisa_cupom = [
-    ['Fabiana', 18, "cea@modaas.com.br"],
-    ['Fabiana', 18, "cea@modaas.com.br"],
-    ['Fabiana', 18, "cea@modaas.com.br"],
-    ['Fabiana', 18, "cea@modaas.com.br"]
-]
-
-informacao = """Razão Social: Empresa Exemplo Ltda
-Número de Cupom: 123456
-CNPJ: 12.345.678/0001-90
-CPF: 123.456.789-10
-Inscrição Municipal: 987654321
-Valor: 1500.75zsddfsdfsdfsdfdsf"""'''
-
 def create_pdf(content, table_data, filename):
     pdf_filename = filename
     c = canvas.Canvas(pdf_filename, pagesize=letter)
@@ -57,4 +43,4 @@ def get_table_style():
         ('BOTTOMMARGIN', (0, 0), (-1, -1), 5),
     ])
 
-#create_pdf(informacao, pesquisa_cupom, "impressora.pdf")
+

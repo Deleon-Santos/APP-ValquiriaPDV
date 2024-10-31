@@ -65,7 +65,7 @@ data_var = ctk.StringVar(value="27/10/2024 12:00")  # Valor inicial de data
 empresa_var = ctk.StringVar(value="Tem De Tudo ME")  # Empresa padrão
 
 # Configuração do layout da interface
-frame = ctk.CTkFrame(master=janela_login)  # Frame principal que contém os elementos
+frame = ctk.CTkFrame(master=janela_login)  
 frame.pack(pady=20, padx=20, fill="both", expand=True  )  # Posição e preenchimento do frame
 
 # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
@@ -73,7 +73,7 @@ image_baner = "dependencias/imagem_login.png"
 image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(100, 100))
 
 # Carregando a imagem
-imagem = Image.open("dependencias/imagem_login.png")  # Caminho da imagem
+imagem = Image.open("dependencias/imagem_login.png")  
 imagem = imagem.resize((392, 270))  # Redimensiona a imagem para caber na interface
 imagem_tk = ImageTk.PhotoImage(imagem)  # Converte 
 
@@ -125,5 +125,4 @@ sair_button.grid(row=0, column=1, padx=10,pady=20)
 suporte_button = ctk.CTkButton(master=button_frame, text="SUPORTE", command=abrir_suporte, font=('any', 10, 'bold'), width=100)
 suporte_button.grid(row=0, column=2, padx=10 ,pady=20)  # Posição do botão SUPORTE
 
-# Executa o loop principal da janela_login
 janela_login.mainloop()  # Inicia a aplicação e mantém a janela_login aberta até que seja fechada

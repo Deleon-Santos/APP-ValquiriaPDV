@@ -10,7 +10,7 @@ carrinho = []
 # Função para adicionar novo item ao carrinho
 def novo_item():
     # Carregar os dados existentes do arquivo JSON
-    with open("bd.txt", 'r') as arquivo:
+    with open("dependencias/bd_itens.txt", 'r') as arquivo:
         dic = json.load(arquivo)
 
     # Função que será chamada ao clicar no botão "Cadastrar"
@@ -35,7 +35,7 @@ def novo_item():
             dic.append(cadastro_item)
 
             # Salvar o novo dicionário no arquivo JSON
-            with open("bd.txt", 'w') as arquivo:
+            with open("dependencias/bd_itens.txt", 'w') as arquivo:
                 json.dump(dic, arquivo, indent=4)
 
             # Atualizar a tabela visualmente

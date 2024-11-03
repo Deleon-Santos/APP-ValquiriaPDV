@@ -7,7 +7,7 @@ from tkinter import messagebox
 
 # Configuração inicial do tema visual da interface
 ctk.set_appearance_mode("light")  # Modo de aparência escura
-ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuro
+ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuro
 
 # Função para autenticação do usuário ao sistema
 def autenticar_usuario():

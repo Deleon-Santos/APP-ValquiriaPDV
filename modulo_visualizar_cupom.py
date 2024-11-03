@@ -95,7 +95,7 @@ def venda_por_cupom(lista_dados):
         informacao = '\n'  # Composição da string formatada de dados de venda
         
         if lista_info:
-            informacao += f"Razão Social: {lista_info[0]}\n" 
+            informacao += f"Razão Social: {lista_info[5]}\n" 
             informacao += f"End: AV. Boa Vista n-1012 Santa Rosa/SP\nCNPJ: {lista_info[4]}  IE : 07.112.888/000-00\n\n"    
             informacao += f"Data: {lista_info[1]}\nCliente: {lista_info[3]}\nOperador: {lista_info[6]}\nCupom: {lista_info[0]}\nValor RS: {lista_info[2]}" 
            

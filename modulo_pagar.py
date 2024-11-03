@@ -63,8 +63,6 @@ def pagar(valor_pagar):
                 messagebox.showinfo("ORDEM DE PAGAMENTO", f"Pagamento Autorizado! Troco: R$ {troco:.2f}")
                 window_pagamento.destroy()  # Fecha a janela após o pagamento
                 return valor_pagar
-               
-               
 
         except ValueError:
             messagebox.showerror("ERRO", "Informe um valor válido")

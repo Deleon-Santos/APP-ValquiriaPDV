@@ -1,15 +1,12 @@
 import sqlite3 as bd
 
-
 def conectar_bd():
     conn=bd.connect("valquiria_bd")#cria o bd com nome valquiria
     curs=conn.cursor()
     return conn, curs
 
-
 def gerar_cupom():
     n = 0
-
     try:
         conexao, cursor = conectar_bd()
         cursor.execute("SELECT COUNT(*) FROM vendas WHERE EXISTS (SELECT 1 FROM vendas)") #testa se existe algum registro e conta o numero de vendas
@@ -21,7 +18,6 @@ def gerar_cupom():
         print(f'erro{e}')
         return n #retorna '0' se não hover um registro no banco
     
-
 def lista_de_vendas():
     conexao, cursor = conectar_bd()
     
@@ -34,7 +30,6 @@ def lista_de_vendas():
     cursor.close()
     conexao.close()
     return lista_vendas
-
 
 def lista_item_por_carrinho(cupom):
     conexao, cursor = conectar_bd()
@@ -51,7 +46,6 @@ def lista_item_por_carrinho(cupom):
     finally:
         cursor.close()
         conexao.close()
-
 
 def arquivo(cupom,data,usuario,cnpj,cpf,v_pago,empresa,carrinho):
     #criação da s tabela vendas e carrinho

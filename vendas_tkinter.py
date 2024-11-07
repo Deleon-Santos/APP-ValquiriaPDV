@@ -215,8 +215,8 @@ def sistema(usuario, data, empresa):
     janela_principal.geometry("1280x700")
 
     # Configuração inicial do tema visual da interface
-    ctk.set_appearance_mode("darck")  # Modo de aparência escura
-    ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuru
+    ctk.set_appearance_mode("light")  # Modo de aparência escura
+    ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru
 
     # opções de menu
     menu_bar = tk.Menu(janela_principal)
@@ -241,12 +241,12 @@ def sistema(usuario, data, empresa):
     janela_principal.config(menu=menu_bar)# posicionamento do menu
     
     # Cupom
-    frame_topo = ctk.CTkFrame(janela_principal,fg_color='LightGrey')
-    frame_topo.pack(fill="x",padx=40)  # Expande o frame para toda a largura da janela
+    frame_topo = ctk.CTkFrame(janela_principal)
+    frame_topo.pack(fill="x",padx=40,pady=(10,0))  # Expande o frame para toda a largura da janela
 
     # Label do título centralizado
     label_titulo = ctk.CTkLabel(frame_topo, text="CAIXA FECHADO", font=("Arial", 30, 'bold'))
-    label_titulo.grid(row=0, column=0, padx=(10,500), pady=10)
+    label_titulo.grid(row=0, column=0, padx=(10,500), pady=5)
     frame_topo.grid_columnconfigure(0, weight=1)  # Centraliza o título ao expandir a coluna
 
     # Frame do cupom alinhado à direita
@@ -260,7 +260,7 @@ def sistema(usuario, data, empresa):
     entry_cupom = ctk.CTkEntry(frame_cupon, font=("Arial", 20), width=145, height=30, justify="right")
     entry_cupom.grid(row=0, column=1, padx=(0,20), pady=0)
     # Frame principal
-    frame_master = ctk.CTkFrame(janela_principal,fg_color='LightGrey')
+    frame_master = ctk.CTkFrame(janela_principal)
     frame_master.pack(fill="x",padx=40, pady=(10,5))
     
     # Frame la esquerdo
@@ -277,7 +277,7 @@ def sistema(usuario, data, empresa):
     imagem_p_ctk = ImageTk.PhotoImage(imagem_p_resized )
      
     # Informações do Produto
-    frame_inputs = ctk.CTkFrame(frame_esquerda,fg_color='LightGrey') 
+    frame_inputs = ctk.CTkFrame(frame_esquerda) 
     frame_inputs.pack(pady=0, padx=0)
     
     # Declaração de labels de imputs
@@ -297,7 +297,7 @@ def sistema(usuario, data, empresa):
     entry_qtd.insert(0, "1")  # Definindo o valor padrão como 1
     
     label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
-    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50)
+    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50,state="readonly")
      
     # Posicionamento de imputs
     label_cod.grid(row=0, column=0, padx=(0,200), pady=(10,0),sticky='w')
@@ -311,7 +311,7 @@ def sistema(usuario, data, empresa):
     button_pesquisar.grid(row=1, column=1, padx=(10,10), pady=0)
 
     # Botões
-    frame_butons = ctk.CTkFrame(frame_esquerda,fg_color='LightGrey' )
+    frame_butons = ctk.CTkFrame(frame_esquerda )
     frame_butons.pack(pady=(15,0), padx= 0)
 
     button_adicionar = ctk.CTkButton(frame_butons, text="ADICIONAR",font=('Ariel',16,'bold'),height=50, command=lambda: adicionar_item())
@@ -326,7 +326,7 @@ def sistema(usuario, data, empresa):
     button_voltar.grid(row=1, column=1, padx=(108,0), pady=(15,0))
 
     # Componentes do frame direito
-    frame_direita = ctk.CTkFrame(frame_master,fg_color='LightGrey')
+    frame_direita = ctk.CTkFrame(frame_master,fg_color="transparent")
     frame_direita.grid(row=0, column=1, padx=(15,30), pady=(0,20))
     
     style = ttk.Style()# Estilo da tabela Treeview
@@ -357,7 +357,7 @@ def sistema(usuario, data, empresa):
     tree.pack(fill=ctk.BOTH, expand=True,padx=(20,20),pady=20)
 
     # Valore unitario e totais
-    frame_valores= ctk.CTkFrame(frame_direita,fg_color='LightGrey')
+    frame_valores= ctk.CTkFrame(frame_direita)
     frame_valores.pack(fill="x", expand=True)
 
     label_pre_unit = ctk.CTkLabel(frame_valores, text="Preço Unitario R$: ")

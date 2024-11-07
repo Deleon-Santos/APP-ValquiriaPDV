@@ -74,10 +74,10 @@ def novo_item():
     frame_cadastro= ctk.CTkFrame(frame_marte)
     frame_cadastro.pack()
 
-    lbl_cod = ctk.CTkLabel(frame_cadastro, text="Codigo:", width=44)
+    lbl_cod = ctk.CTkLabel(frame_cadastro, text="Codigo:", width=44 )
     lbl_cod.grid(row=0, column=0, padx=(10,0),pady=(20,0),sticky='w')
     
-    entry_cod = ctk.CTkEntry(frame_cadastro, width=70,font=('Ariel',16))
+    entry_cod = ctk.CTkEntry(frame_cadastro, width=70,font=('Ariel',16),state="readonly", fg_color='#FFFAFA')
     entry_cod.grid(row=1, column=0, padx=10,  sticky='w')
 
     # Descrição
@@ -141,22 +141,7 @@ def novo_item():
     #posicionamneto da janela_cadastrar
     tree.pack(fill=ctk.BOTH, expand=False,padx=20,pady=20)
 
-    """tree = ctk.CTkTreeview(janela_cadastrar, columns=("cod", "ean", "descricao", "preco"), show="headings", height=10)
-    tree.pack( padx=10, pady=10)
 
-    # Configurando cabeçalhos da tabela
-    tree.heading("cod", text="Cod")
-    tree.heading("ean", text="EAN")
-    tree.heading("descricao", text="Descrição")
-    tree.heading("preco", text="Preço R$")
-
-    # Ajuste de largura das colunas
-    tree.column("cod", width=50)
-    tree.column("ean", width=100)
-    tree.column("descricao", width=200)
-    tree.column("preco", width=70)"""
-
-    
 
     # Executar a janela_cadastrar
     janela_cadastrar.wait_window()

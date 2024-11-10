@@ -297,7 +297,7 @@ def sistema(usuario, data, empresa):
     entry_qtd.insert(0, "1")  # Definindo o valor padrão como 1
     
     label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
-    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50,state="readonly")
+    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50)
      
     # Posicionamento de imputs
     label_cod.grid(row=0, column=0, padx=(0,200), pady=(10,0),sticky='w')
@@ -392,3 +392,8 @@ def sistema(usuario, data, empresa):
 
 #usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
 #sistema(usuario, data, empresa)
+    """entry_cod.configure(state="normal")  # Habilita a entrada temporariamente
+    entry_cod.delete(0, "end")           # Limpa o conteúdo atual
+    entry_cod.insert(0, novo_texto)      # Insere o novo conteúdo
+    entry_cod.configure(state="readonly")  # Define novamente como somente leitura
+"""

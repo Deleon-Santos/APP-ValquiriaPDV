@@ -256,5 +256,17 @@
         "ean": "1234567894512",
         "item": "Khdfjhfkjshjfhsjfhksdhfkjshfhsk",
         "preco": 12.9
+    },
+    {
+        "cod": "144",
+        "ean": "7894578124578",
+        "item": "Agua Sanitaria Supercandida 2Lt C Perfume",
+        "preco": 12.9
+    },
+    {
+        "cod": "145",
+        "ean": "7894545101012",
+        "item": "Racao Para Dog Snowdog15Kg Carne",
+        "preco": 54.9
     }
 ]

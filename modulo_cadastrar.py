@@ -57,28 +57,28 @@ def novo_item():
             tree.insert("", "end", values=item)  # Inserir novos valores na tabela
 
     ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuro
+    ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuro
 
     # Janela principal
     janela_cadastrar = ctk.CTkToplevel()
     janela_cadastrar.title("CADASTRAR ITENS")
-    janela_cadastrar.geometry("800x400")  # Define o tamanho da janela_cadastrar
+    janela_cadastrar.geometry("820x400")  # Define o tamanho da janela_cadastrar
     janela_cadastrar.resizable(width=False, height=False)
     janela_cadastrar.focus_force()
     janela_cadastrar.grab_set()
     #Frame master
-    frame_marte= ctk.CTkFrame(janela_cadastrar,width=600)
-    frame_marte.pack(pady=0,padx=0)
+    frame_marte= ctk.CTkFrame(janela_cadastrar)
+    frame_marte.pack(pady=(20,10),padx=0)
 
     #intens do cadastro
-    frame_cadastro= ctk.CTkFrame(frame_marte)
-    frame_cadastro.pack()
+    frame_cadastro= ctk.CTkFrame(frame_marte,fg_color='transparent')
+    frame_cadastro.pack(padx=10,pady=10)
 
     lbl_cod = ctk.CTkLabel(frame_cadastro, text="Codigo:", width=44 )
-    lbl_cod.grid(row=0, column=0, padx=(10,0),pady=(20,0),sticky='w')
+    lbl_cod.grid(row=0, column=0, padx=(0,0),pady=(20,0),sticky='w')
     
     entry_cod = ctk.CTkEntry(frame_cadastro, width=70,font=('Ariel',16),state="readonly", fg_color='#FFFAFA')
-    entry_cod.grid(row=1, column=0, padx=10,  sticky='w')
+    entry_cod.grid(row=1, column=0, padx=(0,0),  sticky='w')
 
     # Descrição
     lbl_descricao = ctk.CTkLabel(frame_cadastro, text="Descrição:", width=44)
@@ -106,22 +106,22 @@ def novo_item():
 
     # Botão para cadastrar o item
     btn_cadastrar = ctk.CTkButton(frame_cadastro, text="CADASTRAR", command=cadastrar_item,width=40)
-    btn_cadastrar.grid(row=0, column=4, padx=10, pady=10)
+    btn_cadastrar.grid(row=0, column=4, padx=(10,0), pady=10)
 
     # Botão para sair do programa
     btn_sair = ctk.CTkButton(frame_cadastro, text="SAIR", fg_color="red", command=janela_cadastrar.destroy,width=90)
-    btn_sair.grid(row=1, column=4, padx=10, )
+    btn_sair.grid(row=1, column=4, padx=(10,0), )
 
     # Tabela para exibir os itens cadastrados
     style = ttk.Style()
 
     # Configurando o estilo do heading da Treeview
-    style.configure("Treeview.Heading", font=("Arial", 13,))  # Aumenta o tamanho da fonte do cabeçalho
+    style.configure("Treeview.Heading", font=("Arial", 13))  # Aumenta o tamanho da fonte do cabeçalho
     style.configure("Treeview", font=("Arial", 11))  # Configura a fonte dos valores
     
     # Colunas da Tabela
     columns = ["Cod", "EAN", "Descrição", "PUni R$"]
-    tree = ttk.Treeview(janela_cadastrar, columns=columns, show="headings", height=15)
+    tree = ttk.Treeview(janela_cadastrar, columns=columns, show="headings", height=16)
     
     # Definindo os cabeçalhos e as larguras das colunas
    

@@ -71,20 +71,20 @@ def pagar(valor_pagar):
     # Janela principal de pagamento
     window_pagamento = ctk.CTkToplevel()
     window_pagamento.title("PAGAMENTO")
-    window_pagamento.geometry("400x350")
+    window_pagamento.geometry("420x350")
     window_pagamento.resizable(width=False, height=False)
     window_pagamento.focus_force()
     window_pagamento.grab_set()
     ctk.set_appearance_mode("light")
-    ctk.set_default_color_theme("dark-blue")
+    ctk.set_default_color_theme("themas.txt")
 
     frame_master = ctk.CTkFrame(window_pagamento)
     frame_master.grid(row=0, column=0, padx=20, pady=20)
 
     frame_valores = ctk.CTkFrame(frame_master)
-    frame_valores.grid()
+    frame_valores.grid(padx=10,pady=10)
     frame_botoes = ctk.CTkFrame(frame_master)
-    frame_botoes.grid(row=0, column=1, sticky='n', pady=(0, 20), padx=10)
+    frame_botoes.grid(row=0, column=1, sticky='n', pady=(10, 20), padx=10)
 
     # Elementos da interface gráfica
     ctk.CTkLabel(frame_valores, text="Forma de pagamento", font=("Any", 12)).grid(row=0, column=0, sticky="w")

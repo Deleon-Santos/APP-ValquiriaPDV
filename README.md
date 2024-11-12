@@ -17,7 +17,7 @@ O VALQUIRA esta conectado a um banco de dados integrado SQLite que permite o aqu
 
 ## Funcionalidades
 
-### Gestão de permisões
+### Gestão de permissões
 ![App Vendas](dependencias/tela-de-login.png)
 - **Abertura e Fechamento do Caixa**: possui tela de loguin que permite logar com permissões diferenter para cada usuario com validadção de usuario senha e razão socialControle do estado do caixa, abertura de novos cupons e fechamento ao final das operações.
 

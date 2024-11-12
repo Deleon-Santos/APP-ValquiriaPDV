@@ -71,7 +71,7 @@ def pagar(valor_pagar):
     # Janela principal de pagamento
     window_pagamento = ctk.CTkToplevel()
     window_pagamento.title("PAGAMENTO")
-    window_pagamento.geometry("420x350")
+    window_pagamento.geometry("420x330")
     window_pagamento.resizable(width=False, height=False)
     window_pagamento.focus_force()
     window_pagamento.grab_set()

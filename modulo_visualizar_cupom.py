@@ -26,7 +26,7 @@ def venda_por_cupom(lista_dados):
 
     # Configuração dos frames
     frame_master = ctk.CTkFrame(janela)
-    frame_master.pack(padx=10, pady=10)
+    frame_master.pack(padx=10, pady=20)
     frame1 = ctk.CTkFrame(frame_master)
     frame1.grid(row=0, column=0)
 

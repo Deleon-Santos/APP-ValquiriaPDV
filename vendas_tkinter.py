@@ -3,7 +3,7 @@ from tkinter import ttk, messagebox, simpledialog
 import json
 import customtkinter as ctk
 from PIL import Image ,ImageTk
-
+from datetime import datetime
 import modulo_pagar as pagar
 import modulo_pesquisar as pesquisar
 import modulo_cadastrar as cadastrar
@@ -13,7 +13,8 @@ import modulo_arquivar as arquivar
 import testando_cpf
 
 # Entrada no sistema
-def sistema(usuario, data, empresa):
+def sistema(usuario, empresa):
+    data=""
     carrinho = []
     cupom=1000 
     num_item = 0
@@ -113,7 +114,7 @@ def sistema(usuario, data, empresa):
                        
     def pagar_items():
         try:
-            nonlocal valor_pagar, carrinho, num_item
+            nonlocal valor_pagar, carrinho, data
 
             if valor_pagar > 0:
                 v_pago = f"{valor_pagar:.2f}"  # Valor pago formatado
@@ -199,6 +200,11 @@ def sistema(usuario, data, empresa):
         except FileNotFoundError:
             messagebox.showerror("Erro", "O arquivo 'bd.txt' não foi encontrado!")
     
+    def atualizar_data():
+        data_atual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        data_label.configure(text=f"Data: {data_atual}")
+        janela_principal.after(1000, atualizar_data)
+
     def sair(janela_principal):
         resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
         
@@ -213,7 +219,7 @@ def sistema(usuario, data, empresa):
     janela_principal = ctk.CTk()
     janela_principal.title("ENTRADA E PEDIDO")
     janela_principal.geometry("1280x700")
-
+    janela_principal.iconbitmap("dependencias/img5.ico")
     # Configuração inicial do tema visual da interface
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru
@@ -324,7 +330,17 @@ def sistema(usuario, data, empresa):
     button_deletar.grid(row=0, column=1, padx=(108,0), pady=(15,15))
     button_pagar.grid(row=1, column=0, padx= (0,110), pady=(15,0))
     button_voltar.grid(row=1, column=1, padx=(108,0), pady=(15,0))
-
+    janela_principal.bind_all("<Control-a>", lambda event: adicionar_item())
+    janela_principal.bind_all("<Control-d>", lambda event: deletar())
+    janela_principal.bind_all("<Control-p>", lambda event: pagar_items())
+    janela_principal.bind_all("<Control-v>", lambda event: voltar())
+    janela_principal.bind_all("<Control-b>",lambda event: nova_pesquisa())
+    janela_principal.bind_all("<F1>", lambda event: nova_compra())
+    janela_principal.bind_all("<F2>",lambda event: nova_pesquisa())
+    janela_principal.bind_all("<F3>",lambda event: novo_item())
+    janela_principal.bind_all("<F4>",lambda event: sair(janela_principal))
+    janela_principal.bind_all("<F5>",lambda event: venda_cupom())
+    
     # Componentes do frame direito
     frame_direita = ctk.CTkFrame(frame_master,fg_color="transparent")
     frame_direita.grid(row=0, column=1, padx=(15,30), pady=(0,20))
@@ -376,16 +392,16 @@ def sistema(usuario, data, empresa):
     entry_pre_total.grid(row=3, column=1, pady=1,sticky="e")
 
     # Labels de usuarios e datas
-    frame_userdates= ctk.CTkFrame(janela_principal)
-    frame_userdates.pack(pady=0, padx=1)
+    frame_userdates= ctk.CTkFrame(frame_valores,fg_color='transparent')
+    frame_userdates.grid(row=3, column=0,pady=0, padx=15,sticky="w")
 
-    usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 12))
-    data_label = ctk.CTkLabel(frame_userdates, text=f"Data: {data}", font=("Any", 12))
-    usuario_label.grid(row=0, column=0, padx=100, pady=0)
-    data_label.grid(row=0, column=1, padx=100, pady=0)
+    usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14,"bold"))
+    data_label = ctk.CTkLabel(frame_userdates, text=f"Data: {data}", font=("Any", 14,"bold"))
+    usuario_label.grid(row=0, column=0, padx=(0,100), pady=(20,0))
+    data_label.grid(row=0, column=1, padx=(0,50), pady=(20,0))
 
     dic={}
-
+    data=atualizar_data()
     atualizar_dic()
 
     janela_principal.mainloop()

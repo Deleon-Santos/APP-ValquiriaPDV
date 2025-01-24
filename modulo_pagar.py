@@ -73,6 +73,7 @@ def pagar(valor_pagar):
     window_pagamento.title("PAGAMENTO")
     window_pagamento.geometry("420x330")
     window_pagamento.resizable(width=False, height=False)
+    window_pagamento.iconbitmap("dependencias/img5.ico")
     window_pagamento.focus_force()
     window_pagamento.grab_set()
     ctk.set_appearance_mode("light")

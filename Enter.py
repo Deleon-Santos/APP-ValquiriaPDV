@@ -13,11 +13,10 @@ ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuro
 def autenticar_usuario():
     usuario = usuario_var.get()
     senha = senha_var.get()
-    data = data_var.get()
     empresa = empresa_var.get()
 
     # Verifica se todos os campos estão preenchidos
-    if not usuario or not senha or not data or not empresa:
+    if not usuario or not senha or not empresa:
         messagebox.showerror("Erro", "Usuário, Senha ou Data\nnão devem ser nulos")
         return
 
@@ -27,7 +26,7 @@ def autenticar_usuario():
         for user in dados_usuario:
             if user['nome'] == usuario and user['senha'] == senha:
                 janela_login.destroy()
-                vendas.sistema(usuario, data, empresa)
+                vendas.sistema(usuario, empresa)
                 autenticado = True  # Autenticação bem-sucedida
                 break
 
@@ -57,11 +56,12 @@ janela_login = ctk.CTk()
 janela_login.geometry("740x400")  # Define o tamanho da janela_login
 janela_login.resizable(width=False, height=False) 
 janela_login.title("LOGIN VENDAS")  
+janela_login.iconbitmap("dependencias/img5.ico")
 
 # Variáveis que armazenam os dados dos campos de entrada
 usuario_var = ctk.StringVar(value="Administrador")  # Valor inicial: Administrador
 senha_var = ctk.StringVar(value="1234")  # Valor inicial: 1234
-data_var = ctk.StringVar(value="27/10/2024 12:00")  # Valor inicial de data
+
 empresa_var = ctk.StringVar(value="Tem De Tudo ME")  # Empresa padrão
 
 # Configuração do layout da interface
@@ -103,11 +103,9 @@ senha_label.grid(row=4, column=0, sticky="w")
 senha_entry = ctk.CTkEntry(master=form_frame, show="*", textvariable=senha_var, font=('any', 18), width=300)  # Campo de entrada de senha (oculta os caracteres)
 senha_entry.grid(row=5, column=0)  
 
-# Campo para entrada da data
-data_label = ctk.CTkLabel(master=form_frame, text="Data", font=('any', 12))  
-data_label.grid(row=6, column=0, sticky="w")  
-data_entry = ctk.CTkEntry(master=form_frame, textvariable=data_var, font=('any', 16), width=300)  
-data_entry.grid(row=7, column=0)  
+ 
+  
+ 
 
 # Criação dos botões
 button_frame = ctk.CTkFrame(master=janela_login, fg_color='transparent')  

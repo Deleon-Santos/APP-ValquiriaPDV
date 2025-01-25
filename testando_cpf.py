@@ -8,7 +8,7 @@ def cpf():
     
     def on_confirm():
         nonlocal cpf_formatado
-        cpf_value = cpf_entry.get()
+        cpf_value = cpf_entry.get().replace(' ','')
         
         if not cpf_value or cpf_value is None:
             messagebox.showinfo("Aviso", "Nenhum CPF fornecido. Usando CPF padrão: 000.000.000-00")

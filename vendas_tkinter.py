@@ -97,6 +97,9 @@ def sistema(usuario, empresa):
                 entry_pre_total.configure(state='readonly')   
 
             # Limpar os campos após a adição
+            entry_descricao.configure(state='normal')
+            entry_descricao.delete(0, ctk.END)  
+            entry_descricao.configure(state='readonly')
             entry_cod.delete(0, ctk.END)
             entry_qtd.delete(0, ctk.END)
             entry_qtd.insert(0, "1")  
@@ -119,8 +122,10 @@ def sistema(usuario, empresa):
             
             # Atualiza a árvore com o novo item
             tree.insert("", "end", values=escolha)
+            entry_pre_total.configure(state='normal')
             entry_pre_total.delete(0, ctk.END)
             entry_pre_total.insert(0,f" {valor_pagar:.2f}")
+            entry_pre_total.configure(state='readonly')
 
             return valor_pagar , num_item  # Retorna EAN e item
         except IndexError:
@@ -201,8 +206,11 @@ def sistema(usuario, empresa):
         
             entry_cod.delete(0, ctk.END)
             entry_cod.insert(0, ean)
-            entry_descricao.delete(0, ctk.END)
+            entry_descricao.configure(state='normal')
+            entry_descricao.delete(0, ctk.END)  
             entry_descricao.insert(0, material)
+            entry_descricao.configure(state='readonly')
+            
 
     def novo_item():
         if usuario == "Administrador":
@@ -276,34 +284,34 @@ def sistema(usuario, empresa):
     #janela_principal.config(menu=menu_bar)# posicionamento do menu
     
     # Cupom
-    frame_topo = ctk.CTkFrame(janela_principal)
-    frame_topo.pack(fill="x",padx=40,pady=(10,0))  # Expande o frame para toda a largura da janela
+    frame_topo = ctk.CTkFrame(janela_principal,fg_color='transparent')
+    frame_topo.pack(fill="x",padx=80,pady=(10,0))  # Expande o frame para toda a largura da janela
 
     # Label do título centralizado
-    label_titulo = ctk.CTkLabel(frame_topo, text="CAIXA FECHADO", font=("Arial", 30, 'bold'))
-    label_titulo.grid(row=0, column=0, padx=(10,500), pady=5)
+    label_titulo = ctk.CTkLabel(frame_topo, text="CAIXA FECHADO", width= 200,text_color='#fff',font=("Arial", 30, 'bold'))
+    label_titulo.grid(row=0, column=0, padx=(0,550), pady=5)
     frame_topo.grid_columnconfigure(0, weight=1)  # Centraliza o título ao expandir a coluna
 
     # Frame do cupom alinhado à direita
     frame_cupon = ctk.CTkFrame(frame_topo,fg_color='transparent')
-    frame_cupon.grid(row=0, column=1, padx=(0,30), sticky="e")  # 'sticky="e"' alinha à direita
+    frame_cupon.grid(row=0, column=1, padx=(0,0), sticky="e")  # 'sticky="e"' alinha à direita
 
     # Label e Entry do cupom
-    label_cupom = ctk.CTkLabel(frame_cupon, text="Cupom N°:", font=('Arial', 30, 'bold'))
+    label_cupom = ctk.CTkLabel(frame_cupon, text="Cupom N°:", text_color='#fff', font=('Arial', 30, 'bold'))
     label_cupom.grid(row=0, column=0, padx=(0,20), pady=0)
 
     entry_cupom = ctk.CTkEntry(frame_cupon, font=("Arial", 20), width=145, height=30, justify="right",state='readonly')
-    entry_cupom.grid(row=0, column=1, padx=(0,20), pady=0)
+    entry_cupom.grid(row=0, column=1, padx=(0,0), pady=0)
     # Frame principal
     frame_master = ctk.CTkFrame(janela_principal)
-    frame_master.pack(fill="x",padx=40, pady=(10,5))
+    frame_master.pack(fill="x",padx=80, pady=(10,5))
     
     # Frame la esquerdo
     frame_esquerda = ctk.CTkFrame(frame_master,fg_color='transparent')
     frame_esquerda.grid(row=0, column=0, padx=(30,15), pady=(0,20) )
 
     image_baner = "dependencias/banner.png" # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
-    image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(500, 225))
+    image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(400, 225))
     label = ctk.CTkLabel(frame_esquerda, image=image, text="")  # Definir text como vazio para mostrar apenas a imagem
     label.pack(pady=(18,20))
 
@@ -316,29 +324,29 @@ def sistema(usuario, empresa):
     frame_inputs.pack(pady=0, padx=0)
     
     # Declaração de labels de imputs
-    frame_inputs_label = ctk.CTkFrame(frame_inputs,width=200,fg_color="transparent")
+    frame_inputs_label = ctk.CTkFrame(frame_inputs,width=100,fg_color="transparent")
     frame_inputs_label.grid(row=0, column=0, padx=(0,0), pady=0, sticky="e")
     frame_inputs_entry1 = ctk.CTkFrame(frame_inputs,fg_color="transparent")
-    frame_inputs_entry1.grid(row=1, column=0, padx=(0,100), pady=0, sticky="w")
+    frame_inputs_entry1.grid(row=1, column=0, padx=(0,50), pady=0, sticky="w")
     frame_inputs_entry2 = ctk.CTkFrame(frame_inputs,fg_color="transparent")
     frame_inputs_entry2.grid(row=1, column=0, padx=(0,0), pady=0, sticky="e")
     
     # Inputs e Label's
     label_cod = ctk.CTkLabel(frame_inputs_label, text="Código do Produto",width=100)
-    entry_cod = ctk.CTkEntry(frame_inputs_entry1, font=("Arial", 25),width=200,height=50)
+    entry_cod = ctk.CTkEntry(frame_inputs_entry1,placeholder_text='0000000000000', font=("Arial", 25),width=200,height=50, fg_color='#fff')
     label_qtd = ctk.CTkLabel(frame_inputs_label, text="Qtd",width=30) 
     entry_qtd = ctk.CTkEntry(frame_inputs_entry2, font=("Arial", 25), width=60,height=50) 
     
     entry_qtd.insert(0, "1")  # Definindo o valor padrão como 1
     
     label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
-    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50,fg_color='#FFFFE0',state='readonly') 
+    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=400,height=50,fg_color='#FFFFE0',state='readonly') 
 
     # Posicionamento de imputs
-    label_cod.grid(row=0, column=0, padx=(0,200), pady=(10,0),sticky='w')
+    label_cod.grid(row=0, column=0, padx=(0,260), pady=(10,0),sticky='e')
     entry_cod.grid(row=1, column=0, padx=(0,0), pady=0)
     
-    label_qtd.grid(row=0, column=1, padx=(165,0), pady=(10,0),sticky='e')
+    label_qtd.grid(row=0, column=1, padx=(5,0), pady=(10,0),sticky='e')
     entry_qtd.grid(row=1, column=2, padx=(0,0), pady=0)
     label_descricao.grid(row=2, column=0, padx=(0,0), pady=(30,0),sticky='w')
     entry_descricao.grid(row=3, column=0, padx=(0,0), pady=0)
@@ -356,10 +364,11 @@ def sistema(usuario, empresa):
     button_voltar = ctk.CTkButton(frame_butons, text="VOLTAR", font=('Ariel',16,'bold'),height=50, command=lambda: voltar())
     
     # Posicionamento de 4 botões
-    button_adicionar.grid(row=0, column=0, padx=(0,110), pady=(15,15))
-    button_deletar.grid(row=0, column=1, padx=(108,0), pady=(15,15))
-    button_pagar.grid(row=1, column=0, padx= (0,110), pady=(15,0))
-    button_voltar.grid(row=1, column=1, padx=(108,0), pady=(15,0))
+    button_adicionar.grid(row=0, column=0, padx=(0,60), pady=(15,15),sticky='w')
+    button_deletar.grid(row=0, column=1, padx=(60,0), pady=(15,15),sticky='e')
+    button_pagar.grid(row=1, column=0, padx= (0,60), pady=(15,0),sticky='w')
+    
+    button_voltar.grid(row=1, column=1, padx=(60,0), pady=(15,0),sticky='e')
     
     janela_principal.bind_all("<Control-a>", lambda event: adicionar_item())
     janela_principal.bind_all("<Control-d>", lambda event: deletar())
@@ -401,12 +410,12 @@ def sistema(usuario, empresa):
     tree.column("Preço R$", anchor=tk.CENTER, width=100)  
 
     # Podicionamneto da janela_principal
-    tree.pack(fill=ctk.BOTH, expand=True,padx=(20,20),pady=20)
+    tree.pack(fill=ctk.BOTH, expand=True,padx=(15,15),pady=20)
 
    
     # Valore unitario e totais
     frame_valores= ctk.CTkFrame(frame_direita)
-    frame_valores.pack(fill="x", expand=True)
+    frame_valores.pack(fill="x", expand=True,padx=(0,15),pady=0)
 
     label_pre_unit = ctk.CTkLabel(frame_valores, text="Preço Unitario R$: ")
     entry_pre_unit = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=270,justify='right',fg_color='#FFFFE0',state='readonly')
@@ -432,8 +441,8 @@ def sistema(usuario, empresa):
     usuario_label.grid(row=0, column=0, padx=(0,100), pady=(33,0))
     data_label.grid(row=0, column=1, padx=(0,50), pady=(33,0))
 
-    label_info_botoes = ctk.CTkLabel(frame_esquerda,text=' Control+a     -     Control+d     -     Control+p     -     Control+v', font=("Any", 14,"bold")).pack(fill= 'x', expand=True,pady=(10,0))
-    label_info = ctk.CTkLabel(janela_principal, text= 'F1 = Nova Compra     -     F2 = Nova Pesquisa     -     F3 = Novo Item     -     F4 = Fechar     -     F5 = Venda Cupom     -      F6 = Suporte', font=("Any", 14,"bold")).pack(fill='x',expand=True)
+    label_info_botoes = ctk.CTkLabel(frame_esquerda,text=' Control+a     -     Control+d     -     Control+p     -    Control+v', font=("Any", 14,"bold")).pack(fill= 'x', expand=True,pady=(10,0),padx=(5,5))
+    label_info = ctk.CTkLabel(janela_principal,text_color='#fff', text= 'F1 = Nova Compra     -     F2 = Nova Pesquisa     -     F3 = Novo Item     -     F4 = Fechar     -     F5 = Venda Cupom     -      F6 = Suporte', font=("Any", 14,"bold")).pack(fill='x',expand=True)
     
 
     def atualizar_data():
@@ -447,8 +456,8 @@ def sistema(usuario, empresa):
 
     janela_principal.mainloop()
 
-usuario,  empresa = "Administrador",  "Tem De Tudo ME"
-sistema(usuario, empresa)
+#usuario,  empresa = "Administrador",  "Tem De Tudo ME"
+#sistema(usuario, empresa)
 """entry_cod.configure(state="normal")  # Habilita a entrada temporariamente
     entry_cod.delete(0, "end")           # Limpa o conteúdo atual
     entry_cod.insert(0, novo_texto)      # Insere o novo conteúdo

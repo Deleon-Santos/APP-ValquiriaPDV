@@ -13,6 +13,7 @@ import modulo_arquivar as arquivar
 import testando_cpf
 
 # Entrada no sistema
+
 def sistema(usuario, empresa):
     data=""
     carrinho = []
@@ -22,22 +23,25 @@ def sistema(usuario, empresa):
     cnpj = '45.333.0001/45'
     cpf= ''
 
+
     def nova_compra():
         nonlocal cupom, cpf
         count = arquivar.gerar_cupom()  # Verifica e atualiza o número do cupom
         cupom += cupom + int(count) 
         cpf = testando_cpf.cpf()
         
-        label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 30, 'bold'))  # Atualiza o texto da label 
+        label_titulo.configure(text="CAIXA ABERTO", font=("Arial", 30, 'bold'))  # Atualiza o texto da label
+        entry_cupom.configure(state='normal')
         entry_cupom.delete(0, ctk.END)  
         entry_cupom.insert(0, str(cupom))  # Insere o valor atualizado do cupom
+        entry_cupom.configure(state='readonly')
         return cupom, cpf
         
     def adicionar_item():
         nonlocal num_item, valor_pagar, cpf, cupom, dic
        
         # Validação e tratamento dos erros
-        material = entry_cod.get()
+        material = entry_cod.get().replace(' ', '')
         try:
             qtd = int(entry_qtd.get())
             if qtd < 1 or qtd > 99 or qtd is None:
@@ -72,14 +76,25 @@ def sistema(usuario, empresa):
                 tree.insert("", "end", values=produto)
 
                 # Atualizar os campos visuais (Entries)
+                entry_descricao.configure(state='normal')
                 entry_descricao.delete(0, ctk.END)  
-                entry_descricao.insert(0, material)  
+                entry_descricao.insert(0, material)
+                entry_descricao.configure(state='readonly')
+                
+                entry_pre_unit.configure(state='normal')              
                 entry_pre_unit.delete(0, ctk.END)  
                 entry_pre_unit.insert(0, f" {preco_unitario:.2f}") 
+                entry_pre_unit.configure(state='readonly')
+                
+                entry_pre_comb.configure(state='normal')               
                 entry_pre_comb.delete(0, ctk.END)  
                 entry_pre_comb.insert(0, f" {preco:.2f}") 
+                entry_pre_comb.configure(state='readonly')
+                
+                entry_pre_total.configure(state='normal')
                 entry_pre_total.delete(0, ctk.END) 
                 entry_pre_total.insert(0, f" {valor_pagar:.2f}")  
+                entry_pre_total.configure(state='readonly')   
 
             # Limpar os campos após a adição
             entry_cod.delete(0, ctk.END)
@@ -114,8 +129,9 @@ def sistema(usuario, empresa):
                        
     def pagar_items():
         try:
-            nonlocal valor_pagar, carrinho, data
-
+            nonlocal valor_pagar, carrinho, usuario
+            data = atualizar_data()
+            print(data, usuario)
             if valor_pagar > 0:
                 v_pago = f"{valor_pagar:.2f}"  # Valor pago formatado
                 print(f'Retorno antes de pagar: {valor_pagar}')
@@ -156,12 +172,28 @@ def sistema(usuario, empresa):
 
     def limpar_campos():    
         # Função para limpar os campos de entrada
+        entry_descricao.configure(state='normal')
         entry_descricao.delete(0, ctk.END)
+        entry_descricao.configure(state='readonly')
+
+        entry_pre_unit.configure(state='normal')
         entry_pre_unit.delete(0, ctk.END)
+        entry_pre_unit.configure(state='readonly')
+
+        entry_pre_comb.configure(state='normal')
         entry_pre_comb.delete(0, ctk.END)
+        entry_pre_comb.configure(state='readonly')
+
+        entry_pre_total.configure(state='normal')
         entry_pre_total.delete(0, ctk.END)
+        entry_pre_total.configure(state='readonly')
+
         entry_cod.delete(0, ctk.END)
+        
+        entry_cupom.configure(state='normal')
         entry_cupom.delete(0, ctk.END)
+        entry_cupom.configure(state='readonly')
+
 
     def nova_pesquisa():
         ean, material=pesquisar.pesquisar(dic)
@@ -200,11 +232,7 @@ def sistema(usuario, empresa):
         except FileNotFoundError:
             messagebox.showerror("Erro", "O arquivo 'bd.txt' não foi encontrado!")
     
-    def atualizar_data():
-        data_atual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
-        data_label.configure(text=f"Data: {data_atual}")
-        janela_principal.after(1000, atualizar_data)
-
+    
     def sair(janela_principal):
         resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
         
@@ -220,6 +248,7 @@ def sistema(usuario, empresa):
     janela_principal.title("ENTRADA E PEDIDO")
     janela_principal.geometry("1280x700")
     janela_principal.iconbitmap("dependencias/img5.ico")
+    janela_principal.maxsize
     # Configuração inicial do tema visual da interface
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru
@@ -228,13 +257,13 @@ def sistema(usuario, empresa):
     menu_bar = tk.Menu(janela_principal)
 
     menu_novo = tk.Menu(menu_bar, tearoff=0)
-    menu_novo.add_command(label="Nova Compra", command=lambda: nova_compra())
-    menu_novo.add_command(label="Nova Pesquisa", command=lambda: nova_pesquisa())
-    menu_novo.add_command(label="Novo Item", command=lambda: novo_item())
+    menu_novo.add_command(label="Nova Compra (F1)", command=lambda: nova_compra())
+    menu_novo.add_command(label="Nova Pesquisa (F2)", command=lambda: nova_pesquisa())
+    menu_novo.add_command(label="Novo Item (F3)", command=lambda: novo_item())
     menu_bar.add_cascade(label="  Novo  ", menu=menu_novo)
 
     menu_totais = tk.Menu(menu_bar, tearoff=0)
-    menu_totais.add_command(label="Venda Cupom", command=lambda: venda_cupom())
+    menu_totais.add_command(label="Venda Cupom (F5)", command=lambda: venda_cupom())
     menu_bar.add_cascade(label=" Totais ", menu=menu_totais)
 
     menu_suporte = tk.Menu(menu_bar, tearoff=0)
@@ -242,9 +271,9 @@ def sistema(usuario, empresa):
     menu_bar.add_cascade(label=" Suporte ", menu=menu_suporte)
 
     menu_fechar = tk.Menu(menu_bar, tearoff=0)
-    menu_fechar.add_command(label="Fechar", command=lambda: sair(janela_principal))
+    menu_fechar.add_command(label="Fechar (F4)", command=lambda: sair(janela_principal))
     menu_bar.add_cascade(label=" Fechar ", menu=menu_fechar) 
-    janela_principal.config(menu=menu_bar)# posicionamento do menu
+    #janela_principal.config(menu=menu_bar)# posicionamento do menu
     
     # Cupom
     frame_topo = ctk.CTkFrame(janela_principal)
@@ -263,7 +292,7 @@ def sistema(usuario, empresa):
     label_cupom = ctk.CTkLabel(frame_cupon, text="Cupom N°:", font=('Arial', 30, 'bold'))
     label_cupom.grid(row=0, column=0, padx=(0,20), pady=0)
 
-    entry_cupom = ctk.CTkEntry(frame_cupon, font=("Arial", 20), width=145, height=30, justify="right")
+    entry_cupom = ctk.CTkEntry(frame_cupon, font=("Arial", 20), width=145, height=30, justify="right",state='readonly')
     entry_cupom.grid(row=0, column=1, padx=(0,20), pady=0)
     # Frame principal
     frame_master = ctk.CTkFrame(janela_principal)
@@ -274,7 +303,7 @@ def sistema(usuario, empresa):
     frame_esquerda.grid(row=0, column=0, padx=(30,15), pady=(0,20) )
 
     image_baner = "dependencias/banner.png" # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
-    image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(500, 255))
+    image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(500, 225))
     label = ctk.CTkLabel(frame_esquerda, image=image, text="")  # Definir text como vazio para mostrar apenas a imagem
     label.pack(pady=(18,20))
 
@@ -303,11 +332,12 @@ def sistema(usuario, empresa):
     entry_qtd.insert(0, "1")  # Definindo o valor padrão como 1
     
     label_descricao = ctk.CTkLabel(frame_inputs, text="Descrição do Produto")  
-    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50)
-     
+    entry_descricao = ctk.CTkEntry(frame_inputs, font=("Arial", 25),width=500,height=50,fg_color='#FFFFE0',state='readonly') 
+
     # Posicionamento de imputs
     label_cod.grid(row=0, column=0, padx=(0,200), pady=(10,0),sticky='w')
     entry_cod.grid(row=1, column=0, padx=(0,0), pady=0)
+    
     label_qtd.grid(row=0, column=1, padx=(165,0), pady=(10,0),sticky='e')
     entry_qtd.grid(row=1, column=2, padx=(0,0), pady=0)
     label_descricao.grid(row=2, column=0, padx=(0,0), pady=(30,0),sticky='w')
@@ -319,7 +349,7 @@ def sistema(usuario, empresa):
     # Botões
     frame_butons = ctk.CTkFrame(frame_esquerda )
     frame_butons.pack(pady=(15,0), padx= 0)
-
+    
     button_adicionar = ctk.CTkButton(frame_butons, text="ADICIONAR",font=('Ariel',16,'bold'),height=50, command=lambda: adicionar_item())
     button_deletar = ctk.CTkButton(frame_butons, text="DELETE",font=('Ariel',16,'bold'), height=50, command=lambda: deletar())
     button_pagar = ctk.CTkButton(frame_butons, text="PAGAR",font=('Ariel',16,'bold'), height=50, command=lambda: pagar_items())
@@ -330,6 +360,7 @@ def sistema(usuario, empresa):
     button_deletar.grid(row=0, column=1, padx=(108,0), pady=(15,15))
     button_pagar.grid(row=1, column=0, padx= (0,110), pady=(15,0))
     button_voltar.grid(row=1, column=1, padx=(108,0), pady=(15,0))
+    
     janela_principal.bind_all("<Control-a>", lambda event: adicionar_item())
     janela_principal.bind_all("<Control-d>", lambda event: deletar())
     janela_principal.bind_all("<Control-p>", lambda event: pagar_items())
@@ -340,7 +371,7 @@ def sistema(usuario, empresa):
     janela_principal.bind_all("<F3>",lambda event: novo_item())
     janela_principal.bind_all("<F4>",lambda event: sair(janela_principal))
     janela_principal.bind_all("<F5>",lambda event: venda_cupom())
-    
+    janela_principal.bind_all("<F6>",lambda event: mostrar_ajuda())
     # Componentes do frame direito
     frame_direita = ctk.CTkFrame(frame_master,fg_color="transparent")
     frame_direita.grid(row=0, column=1, padx=(15,30), pady=(0,20))
@@ -372,16 +403,17 @@ def sistema(usuario, empresa):
     # Podicionamneto da janela_principal
     tree.pack(fill=ctk.BOTH, expand=True,padx=(20,20),pady=20)
 
+   
     # Valore unitario e totais
     frame_valores= ctk.CTkFrame(frame_direita)
     frame_valores.pack(fill="x", expand=True)
 
     label_pre_unit = ctk.CTkLabel(frame_valores, text="Preço Unitario R$: ")
-    entry_pre_unit = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=270,justify='right',fg_color='#FFFFE0')
+    entry_pre_unit = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=270,justify='right',fg_color='#FFFFE0',state='readonly')
     label_pre_comb = ctk.CTkLabel(frame_valores, text="Preço Combinado R$:")
-    entry_pre_comb = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300,justify='right',fg_color='#FFFFE0')
+    entry_pre_comb = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300,justify='right',fg_color='#FFFFE0',state='readonly')
     label_pre_total = ctk.CTkLabel(frame_valores, text="Valor Total R$:")
-    entry_pre_total = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300,justify='right',fg_color='#FFFFE0')
+    entry_pre_total = ctk.CTkEntry(frame_valores, font=("Arial", 40),width=300,justify='right',fg_color='#FFFFE0',state='readonly')
     
     # Posicionamento
     label_pre_unit.grid(row=0, column=0,  pady=1,padx=(15,420),sticky="w")
@@ -397,19 +429,28 @@ def sistema(usuario, empresa):
 
     usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14,"bold"))
     data_label = ctk.CTkLabel(frame_userdates, text=f"Data: {data}", font=("Any", 14,"bold"))
-    usuario_label.grid(row=0, column=0, padx=(0,100), pady=(20,0))
-    data_label.grid(row=0, column=1, padx=(0,50), pady=(20,0))
+    usuario_label.grid(row=0, column=0, padx=(0,100), pady=(33,0))
+    data_label.grid(row=0, column=1, padx=(0,50), pady=(33,0))
 
+    label_info_botoes = ctk.CTkLabel(frame_esquerda,text=' Control+a     -     Control+d     -     Control+p     -     Control+v', font=("Any", 14,"bold")).pack(fill= 'x', expand=True,pady=(10,0))
+    label_info = ctk.CTkLabel(janela_principal, text= 'F1 = Nova Compra     -     F2 = Nova Pesquisa     -     F3 = Novo Item     -     F4 = Fechar     -     F5 = Venda Cupom     -      F6 = Suporte', font=("Any", 14,"bold")).pack(fill='x',expand=True)
+    
+
+    def atualizar_data():
+        data_atual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        data_label.configure(text=f"Data: {data_atual}")
+        janela_principal.after(1000, atualizar_data)
+        return data_atual
     dic={}
     data=atualizar_data()
     atualizar_dic()
 
     janela_principal.mainloop()
 
-#usuario, data, empresa = "Administrador", '2024-03-21 17:00', "Tem De Tudo ME"
-#sistema(usuario, data, empresa)
-    """entry_cod.configure(state="normal")  # Habilita a entrada temporariamente
+usuario,  empresa = "Administrador",  "Tem De Tudo ME"
+sistema(usuario, empresa)
+"""entry_cod.configure(state="normal")  # Habilita a entrada temporariamente
     entry_cod.delete(0, "end")           # Limpa o conteúdo atual
     entry_cod.insert(0, novo_texto)      # Insere o novo conteúdo
     entry_cod.configure(state="readonly")  # Define novamente como somente leitura
-"""
+    """

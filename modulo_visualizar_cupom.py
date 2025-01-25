@@ -63,7 +63,7 @@ def venda_por_cupom(lista_dados):
     
     # ComboBox para selecionar o número do cupom
     cupom_var = ctk.StringVar(value="1001")
-    cupom_combobox = ctk.CTkComboBox(frame_2, values=cupom_disponivel, variable=cupom_var, width=100, font=('Ariel', 16))
+    cupom_combobox = ctk.CTkComboBox(frame_2, values=cupom_disponivel, variable=cupom_var, width=100, font=('Ariel', 16),)
     cupom_combobox.grid(row=3, column=3, padx=20)
 
     frame_botoes = ctk.CTkFrame(frame_master)

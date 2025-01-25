@@ -42,7 +42,7 @@ def cpf():
     janela_cpf.grab_set()
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("dark-blue")  # Tema de cores azul-escuru
-
+    
 
     # Label para instrução
     cpf_label = ctk.CTkLabel(janela_cpf, text="Adicione um CPF:", font=('Arial', 10))
@@ -51,6 +51,8 @@ def cpf():
     # Caixa de entrada para o CPF
     cpf_entry = ctk.CTkEntry(janela_cpf, placeholder_text="Somente numeros", width=200, font=('Arial', 12))
     cpf_entry.pack(pady=10)
+    cpf_entry.focus_set()
+    
 
     # Botão para confirmar o CPF
     confirm_button = ctk.CTkButton(janela_cpf, text="Confirmar", command=on_confirm)
@@ -58,8 +60,6 @@ def cpf():
     janela_cpf.bind_all("<space>",lambda event: on_confirm())
     janela_cpf.wait_window()
     
-    
-    print(cpf_formatado)
     return cpf_formatado
 
 # Chamar a função CPF

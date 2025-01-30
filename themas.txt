@@ -1,6 +1,6 @@
 {
   "CTk": {
-    "fg_color": ["#2F4F4F", "#E0FFFF"]
+    "fg_color": ["#7B68EE", "#E0FFFF"]
   },
   "CTkToplevel": {
     "fg_color": ["#2F4F4F", "#2F4F4F"]

@@ -268,5 +268,11 @@
         "ean": "7894545101012",
         "item": "Racao Para Dog Snowdog15Kg Carne",
         "preco": 54.9
+    },
+    {
+        "cod": "146",
+        "ean": "123456",
+        "item": "Ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhj",
+        "preco": 45.12
     }
 ]

@@ -199,7 +199,6 @@ def sistema(usuario, empresa):
         entry_cupom.delete(0, ctk.END)
         entry_cupom.configure(state='readonly')
 
-
     def nova_pesquisa():
         ean, material=pesquisar.pesquisar(dic)
         if ean !='0' and material !='0':
@@ -211,7 +210,6 @@ def sistema(usuario, empresa):
             entry_descricao.insert(0, material)
             entry_descricao.configure(state='readonly')
             
-
     def novo_item():
         if usuario == "Administrador":
             cadastrar.novo_item()
@@ -240,7 +238,6 @@ def sistema(usuario, empresa):
         except FileNotFoundError:
             messagebox.showerror("Erro", "O arquivo 'bd.txt' não foi encontrado!")
     
-    
     def sair(janela_principal):
         resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
         
@@ -254,9 +251,10 @@ def sistema(usuario, empresa):
     
     janela_principal = ctk.CTk()
     janela_principal.title("ENTRADA E PEDIDO")
-    janela_principal.geometry("1280x700")
+    janela_principal.geometry("1920x1000")
     janela_principal.iconbitmap("dependencias/img5.ico")
-    janela_principal.maxsize
+    
+    #janela_principal.state('zoomed')
     # Configuração inicial do tema visual da interface
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru
@@ -333,7 +331,7 @@ def sistema(usuario, empresa):
     
     # Inputs e Label's
     label_cod = ctk.CTkLabel(frame_inputs_label, text="Código do Produto",width=100)
-    entry_cod = ctk.CTkEntry(frame_inputs_entry1,placeholder_text='0000000000000', font=("Arial", 25),width=200,height=50, fg_color='#fff')
+    entry_cod = ctk.CTkEntry(frame_inputs_entry1,placeholder_text='0000000000000', placeholder_text_color='#ccc' ,font=("Arial", 25),width=200,height=50, fg_color='#fff')
     label_qtd = ctk.CTkLabel(frame_inputs_label, text="Qtd",width=30) 
     entry_qtd = ctk.CTkEntry(frame_inputs_entry2, font=("Arial", 25), width=60,height=50) 
     
@@ -412,7 +410,6 @@ def sistema(usuario, empresa):
     # Podicionamneto da janela_principal
     tree.pack(fill=ctk.BOTH, expand=True,padx=(15,15),pady=20)
 
-   
     # Valore unitario e totais
     frame_valores= ctk.CTkFrame(frame_direita)
     frame_valores.pack(fill="x", expand=True,padx=(0,15),pady=0)
@@ -444,7 +441,6 @@ def sistema(usuario, empresa):
     label_info_botoes = ctk.CTkLabel(frame_esquerda,text=' Control+a     -     Control+d     -     Control+p     -    Control+v', font=("Any", 14,"bold")).pack(fill= 'x', expand=True,pady=(10,0),padx=(5,5))
     label_info = ctk.CTkLabel(janela_principal,text_color='#fff', text= 'F1 = Nova Compra     -     F2 = Nova Pesquisa     -     F3 = Novo Item     -     F4 = Fechar     -     F5 = Venda Cupom     -      F6 = Suporte', font=("Any", 14,"bold")).pack(fill='x',expand=True)
     
-
     def atualizar_data():
         data_atual = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         data_label.configure(text=f"Data: {data_atual}")
@@ -458,8 +454,5 @@ def sistema(usuario, empresa):
 
 #usuario,  empresa = "Administrador",  "Tem De Tudo ME"
 #sistema(usuario, empresa)
-"""entry_cod.configure(state="normal")  # Habilita a entrada temporariamente
-    entry_cod.delete(0, "end")           # Limpa o conteúdo atual
-    entry_cod.insert(0, novo_texto)      # Insere o novo conteúdo
-    entry_cod.configure(state="readonly")  # Define novamente como somente leitura
-    """
+
+    

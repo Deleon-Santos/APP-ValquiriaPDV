@@ -58,6 +58,7 @@ janela_login.resizable(width=False, height=False)
 janela_login.title("LOGIN VENDAS")  
 janela_login.iconbitmap("dependencias/img5.ico")
 
+
 # Variáveis que armazenam os dados dos campos de entrada
 usuario_var = ctk.StringVar(value="Administrador")  # Valor inicial: Administrador
 senha_var = ctk.StringVar(value="1234")  # Valor inicial: 1234
@@ -102,10 +103,6 @@ senha_label = ctk.CTkLabel(master=form_frame, text="Senha", font=('any', 12))
 senha_label.grid(row=4, column=0, sticky="w")  
 senha_entry = ctk.CTkEntry(master=form_frame, show="*", textvariable=senha_var, font=('any', 18), width=300)  # Campo de entrada de senha (oculta os caracteres)
 senha_entry.grid(row=5, column=0)  
-
- 
-  
- 
 
 # Criação dos botões
 button_frame = ctk.CTkFrame(master=janela_login, fg_color='transparent')  

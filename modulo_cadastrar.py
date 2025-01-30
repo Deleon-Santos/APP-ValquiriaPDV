@@ -66,6 +66,8 @@ def novo_item():
     janela_cadastrar.resizable(width=False, height=False)
     janela_cadastrar.focus_force()
     janela_cadastrar.grab_set()
+    
+
     #Frame master
     frame_marte= ctk.CTkFrame(janela_cadastrar)
     frame_marte.pack(pady=(20,10),padx=0)
@@ -73,12 +75,6 @@ def novo_item():
     #intens do cadastro
     frame_cadastro= ctk.CTkFrame(frame_marte,fg_color='transparent')
     frame_cadastro.pack(padx=10,pady=10)
-
-    lbl_cod = ctk.CTkLabel(frame_cadastro, text="Codigo:", width=44 )
-    lbl_cod.grid(row=0, column=0, padx=(0,0),pady=(20,0),sticky='w')
-    
-    entry_cod = ctk.CTkEntry(frame_cadastro, width=70,font=('Ariel',16),state="readonly", fg_color='#FFFAFA')
-    entry_cod.grid(row=1, column=0, padx=(0,0),  sticky='w')
 
     # Descrição
     lbl_descricao = ctk.CTkLabel(frame_cadastro, text="Descrição:", width=44)
@@ -116,26 +112,26 @@ def novo_item():
     style = ttk.Style()
 
     # Configurando o estilo do heading da Treeview
-    style.configure("Treeview.Heading", font=("Arial", 13))  # Aumenta o tamanho da fonte do cabeçalho
-    style.configure("Treeview", font=("Arial", 11))  # Configura a fonte dos valores
+    style.configure("Treeview.Heading", font=("Arial", 14))  # Aumenta o tamanho da fonte do cabeçalho
+    style.configure("Treeview", font=("Arial", 14))  # Configura a fonte dos valores
     
     # Colunas da Tabela
     columns = ["Cod", "EAN", "Descrição", "PUni R$"]
-    tree = ttk.Treeview(janela_cadastrar, columns=columns, show="headings", height=16)
+    tree = ttk.Treeview(janela_cadastrar, columns=columns, show="headings", height=14)
     
     # Definindo os cabeçalhos e as larguras das colunas
    
     tree.heading("Cod", text="Cod")
-    tree.column("Cod", anchor=tk.CENTER, width=50)  # Definindo largura para coluna "Cod"
+    tree.column("Cod", anchor=tk.CENTER, width=20)  # Definindo largura para coluna "Cod"
 
     tree.heading("EAN", text="EAN")
-    tree.column("EAN", anchor=tk.CENTER, width=150)  # Definindo largura para coluna "EAN"
+    tree.column("EAN", anchor=tk.CENTER, width=50)  # Definindo largura para coluna "EAN"
 
     tree.heading("Descrição", text="Descrição")
-    tree.column("Descrição", anchor=tk.CENTER, width=400)  # Definindo largura para coluna "Descrição"
+    tree.column("Descrição", anchor=tk.CENTER, width=100)  # Definindo largura para coluna "Descrição"
 
     tree.heading("PUni R$", text="PUni R$")
-    tree.column("PUni R$", anchor=tk.CENTER, width=150)  # Definindo largura para coluna "PUni R$"
+    tree.column("PUni R$", anchor=tk.CENTER, width=40)  # Definindo largura para coluna "PUni R$"
 
 
     #posicionamneto da janela_cadastrar

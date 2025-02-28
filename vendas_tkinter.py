@@ -4,6 +4,7 @@ import json
 import customtkinter as ctk
 from PIL import Image ,ImageTk
 from datetime import datetime
+
 import modulo_pagar as pagar
 import modulo_pesquisar as pesquisar
 import modulo_cadastrar as cadastrar
@@ -56,11 +57,10 @@ def sistema(usuario, empresa):
         if not material:
             messagebox.showerror("Erro", "Erro no campo material ou descrição!")
             return   
-        plu_pro = adicionar.achar(material, dic)
-
-        if not plu_pro:
+        if adicionar.achar(material, dic) in (False, None):
             messagebox.showerror("Erro", "Erro no campo material")
             return
+        plu_pro = adicionar.achar(material, dic)
 
         for item in dic:
             if item["cod"] == plu_pro:

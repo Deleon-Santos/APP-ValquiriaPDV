@@ -5,13 +5,13 @@ import customtkinter as ctk
 from PIL import Image, ImageTk
 from datetime import datetime
 
-import modulo_pagar as pagar
-import modulo_pesquisar as pesquisar
-import modulo_cadastrar as cadastrar
-import modulo_adicionar as adicionar
-import modulo_visualizar_cupom as visualizar
-import modulo_arquivar as arquivar
-import testando_cpf
+import model.modulo_pagar as pagar
+import model.modulo_pesquisar as pesquisar
+import model.modulo_cadastrar as cadastrar
+import model.modulo_adicionar as adicionar
+import model.modulo_visualizar_cupom as visualizar
+import model.modulo_arquivar as arquivar
+import model.testando_cpf
 
 # Entrada no sistema
 

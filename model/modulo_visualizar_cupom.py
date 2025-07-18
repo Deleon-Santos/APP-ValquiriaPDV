@@ -2,8 +2,9 @@ import customtkinter as ctk
 from tkinter import ttk
 from tkinter import messagebox
 import tkinter
-import modulo_arquivar as arquivar
-import modulo_imprimir as imprimir
+
+import model.modulo_arquivar as arquivar
+import model.modulo_imprimir as imprimir
 
 # Lista de cupons disponíveis (será preenchida pelo loop)
 cupom_disponivel = []

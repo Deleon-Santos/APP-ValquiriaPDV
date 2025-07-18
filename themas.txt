@@ -1,16 +1,16 @@
 {
   "CTk": {
-    "fg_color": ["#7B68EE", "#E0FFFF"]
+    "fg_color": ["#2F4F4F", "#99ccff"]
   },
   "CTkToplevel": {
-    "fg_color": ["#2F4F4F", "#2F4F4F"]
+    "fg_color": ["#5b9c9c", "#99ccff"]
   },
   "CTkFrame": {
     "corner_radius": 10,
     "border_width": 0.2,
-    "fg_color": ["gray95", "gray10"],
-    "top_fg_color": ["gray85", "gray16"],
-    "border_color": ["gray65", "gray28"]
+    "fg_color": ["#416d6d", "gray10"],
+    "top_fg_color": ["#5b9c9c", "gray16"],
+    "border_color": ["#000000", "#000000"]
   },
   "CTkButton": {
     "corner_radius": 6,
@@ -142,7 +142,7 @@
       "weight": "normal"
     },
     "Windows": {
-      "family": "Roboto",
+      "family": "Helvetica",
       "size": 13,
       "weight": "normal"
     },

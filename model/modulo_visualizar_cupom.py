@@ -22,14 +22,14 @@ def venda_por_cupom(lista_dados):
     janela = ctk.CTkToplevel()
     janela.title("VENDA CUPOM")
     janela.geometry('800x600')
-    janela.iconbitmap("dependencias/img5.ico")
+    janela.iconbitmap("img/img5.ico")
     janela.focus_force()
     janela.grab_set()
 
     # Configuração dos frames
     frame_master = ctk.CTkFrame(janela)
     frame_master.pack(padx=10, pady=20)
-    frame1 = ctk.CTkFrame(frame_master)
+    frame1 = ctk.CTkFrame(frame_master,fg_color='transparent')
     frame1.grid(row=0, column=0)
 
     # Configuração da interface
@@ -46,7 +46,7 @@ def venda_por_cupom(lista_dados):
     cliente_entry = ctk.CTkEntry(frame1, width=160, font=('Ariel', 16))
     cliente_entry.grid(row=1, column=2, padx=20)
 
-    frame_2 = ctk.CTkFrame(frame_master)
+    frame_2 = ctk.CTkFrame(frame_master,fg_color='transparent')
     frame_2.grid(row=2, column=0)
 
     ctk.CTkLabel(frame_2, text="Valor Cupom R$").grid(row=2, column=0, padx=20, sticky="w")
@@ -67,7 +67,7 @@ def venda_por_cupom(lista_dados):
     cupom_combobox = ctk.CTkComboBox(frame_2, values=cupom_disponivel, variable=cupom_var, width=100, font=('Ariel', 16),)
     cupom_combobox.grid(row=3, column=3, padx=20)
 
-    frame_botoes = ctk.CTkFrame(frame_master)
+    frame_botoes = ctk.CTkFrame(frame_master,fg_color='transparent')
     frame_botoes.grid(row=4, column=0)
 
     # Botões
@@ -102,8 +102,8 @@ def venda_por_cupom(lista_dados):
             informacao += f"Data: {lista_info[1]}\nCliente: {lista_info[3]}\nOperador: {lista_info[6]}\nCupom: {lista_info[0]}\nValor RS: {lista_info[2]}" 
            
             lista_itens = arquivar.lista_item_por_carrinho(lista_info[0]) # Pegar os itens do carrinho             
-
-            gerar_pdf = imprimir.create_pdf(informacao, lista_itens,"impressora.pdf")# Chamda da funcao "PDF" com informacao da venda e dados do cupom
+            gerar_pdf = imprimir.create_pdf(lista_info, lista_itens)
+            # gerar_pdf = imprimir.create_pdf(informacao, lista_itens,"impressora.pdf")# Chamda da funcao "PDF" com informacao da venda e dados do cupom
             
             if gerar_pdf:
                 messagebox.showerror("PDF Salvo", "Seu PDF foi salvo com sucesso")

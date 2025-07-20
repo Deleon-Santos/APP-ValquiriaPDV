@@ -1,46 +1,131 @@
-from reportlab.lib.pagesizes import letter
-from reportlab.lib import colors
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, TableStyle
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import mm
+from PIL import Image
+import qrcode
 
-def create_pdf(content, table_data, filename):
-    pdf_filename = filename
-    c = canvas.Canvas(pdf_filename, pagesize=letter)
+def create_pdf(content, table_data):
+    largura_cupom = 80 * mm
+    altura_cupom = 250 * mm
+    nome_arquivo = "cupom_supermercado.pdf"
 
-    # Cabeçalho centralizado
-    c.setFont("Helvetica-Bold", 12)
-    title_text = "CUPOM FISCAL"
-    c.drawCentredString(letter[0] / 2, letter[1] - 30, title_text)
+    informacao = content
+    items = table_data
 
-    # Conteúdo centralizado
-    c.setFont("Helvetica", 10)
-    text_object = c.beginText(50, letter[1] - 50)
-    for line in content.split('\n'):
-        text_object.textLine(line)
-    c.drawText(text_object)
+    qr_data = "https://seusite.com/cupom?id=123456"
+    logo_path = "img/logo.png"
 
-    # Calculando a altura total do conteúdo e posicionando a tabela
-    content_height = len(content.split('\n')) * 14  # Altura aproximada do conteúdo (ajuste conforme necessário)
-    table_y = letter[1] - 100 - content_height
+    # Gerar QR code
+    qr = qrcode.make(qr_data)
+    qr_path = "qrcode_temp.png"
+    qr.save(qr_path)
 
-    # Tabela com ajuste de largura e quebra de página
-    available_width, available_height = letter[0] - 2 * 50, table_y - 50  # Margem de 50mm
-    table = Table(table_data)
-    table.wrapOn(c, available_width, available_height)
-    table.setStyle(get_table_style())
-    table.drawOn(c, 50, table_y - len(table_data) * 14)
-    print("ok, impresso")
+    # Iniciar o canvas
+    c = canvas.Canvas(nome_arquivo, pagesize=(largura_cupom, altura_cupom))
+    y = altura_cupom - 10 * mm
+
+    # LOGO ou Nome do Estabelecimento
+    try:
+        c.drawInlineImage(logo_path, x=15*mm, y=y-25*mm, width=50*mm, height=20*mm)
+        y -= 30 * mm
+    except:
+        c.setFont("Helvetica-Bold", 10)
+        c.drawCentredString(largura_cupom / 2, y, "CUPOM FISCAL")
+        y -= 6 * mm
+
+    # Cabeçalho
+    c.setFont("Courier", 6)
+    c.drawString(90, y, f"{informacao[5]}")
+    y -= 4 * mm
+    c.drawString(30, y, f"Cnpj:{informacao[4]} Data:{informacao[1]}")
+    y -= 4 * mm
+    c.drawString(10, y,f"AV. Boa Vista n:1012-Santa Rosa/SP  EI:07.112.888/000-00")
+    y -= 4 * mm
+    c.drawString(30, y, f'Client:{informacao[3]} Operador:{informacao[6]}') 
+    y -= 4 * mm
+    
+    c.setFont("Courier-Bold", 8)
+    c.drawRightString(largura_cupom -90, y, f'Cupom:{informacao[0]}')
+    y -= 4 * mm
+    c.line(5, y, largura_cupom - 5, y)
+    y -= 4 * mm
+
+    # Título da tabela
+    c.setFont("Courier-Bold", 6)
+    c.drawString(5, y, "ID")
+    c.drawString(15, y, "Descrição/AEN")
+    c.drawString(largura_cupom - 115, y, "R$Unit/QTD")
+    c.drawRightString(largura_cupom - 5, y, "R$SubTotal")
+    y -= 3 * mm
+    c.line(5, y, largura_cupom - 5, y)
+    y -= 3 * mm
+
+    # Listagem de Itens
+    c.setFont("Courier", 6)
+    total = 0
+    print(f"Total de itens: {items}")
+    for item in items:
+        id_item = str(item[1])
+        ean= str(item[3])
+        nome = item[4]
+        preco_unitario = float(item[6])
+        qtd = int(item[5])
+        
+        valor_item = qtd * preco_unitario
+        total += valor_item
+
+        c.drawString(5, y, id_item)
+        c.drawString(15, y, nome[:15])  # Descrição encurtada se necessário   
+        c.drawRightString(largura_cupom - 80, y, f"{preco_unitario:.2f}") 
+        c.drawRightString(largura_cupom - 5, y, f"{valor_item:.2f}")
+        y -= 4 * mm
+        c.drawString(15, y, ean[:15])
+        c.drawRightString(largura_cupom - 80, y, f"x{qtd:.0f}")
+        y -= 4 * mm
+        # Evita estourar a altura do cupom
+        if y < 45 * mm:
+            c.showPage()
+            y = altura_cupom - 10 * mm
+            c.setFont("Courier", 6)
+
+    # Total Geral
+    y -= 3 * mm
+    c.setFont("Courier-Bold", 7)
+    c.line(5, y, largura_cupom - 5, y)
+    y -= 4 * mm
+    c.drawString(10, y, "TOTAL GERAL:")
+    c.drawRightString(largura_cupom - 5, y, f"R$ {total:.2f}")
+    y -= 4 * mm
+
+    # Mensagem Final
+    c.setFont("Courier", 7)
+    c.drawCentredString(largura_cupom / 2, y, "Obrigado pela preferência!")
+    y -= 4 * mm
+    c.drawCentredString(largura_cupom / 2, y, "Volte sempre!")
+    y -= 4 * mm
+
+    # QR Code
+    c.drawInlineImage(qr_path, x=(largura_cupom / 2 - 25), y=y - 50, width=50, height=50)
+
     c.save()
-    return True
+    return nome_arquivo
 
-def get_table_style():
-    return TableStyle([
-        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),  # Centralizar todas as células
-        ('VALIGN', (0, 0), (-1, -1), 'MIDDLE'),
-        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-        ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
-        ('FONT', (0, 0), (-1, -1), 'Helvetica', 10),  # Try using Helvetica if available
-        ('BOTTOMMARGIN', (0, 0), (-1, -1), 5),
-    ])
+# Dados de teste
+# content = ["Supermercado Exemplo","45.789.456/0001-45","19/07/2025 20:00","445.455.478-78","10008","janette","jhdjhfjdjfj"]
+# table_data = [
+#     [1,"7894561251412", "Arroz 5kg", 2, 22.90, 45.12],
+#     [2, "7894561251412","Feijão 1kg", 1, 7.50, 7.45],
+#     [3, "7894561251412","Óleo 900ml", 3, 8.30, 20.00],
+#     [4, "7894561251412","Café 500g", 2, 10.00, 30.00],
+#     [5,"7894561251412", "Açúcar 1kg", 4, 5.25, 21.00],
+#     [6,"7894561251412", "Sabonete", 6, 2.50, 15.00],
+#     [7,"7894561251412", "Leite 1L", 3, 4.80, 14.40],
+#     [8,"7894561251412", "Macarrão", 2, 3.90, 7.80],
+#     [9, "7894561251412","Molho Tomate", 2, 2.20, 4.40],
+#     [10, "7894561251412","Farinha Trigo", 1, 7.00, 7.00],
+# ]
+
+# create_pdf(content, table_data)
+
 
 

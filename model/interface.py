@@ -11,11 +11,9 @@ import model.modulo_cadastrar as cadastrar
 import model.modulo_adicionar as adicionar
 import model.modulo_visualizar_cupom as visualizar
 import model.modulo_arquivar as arquivar
-import model.testando_cpf
+import model.validar_cpf as teste
 
 # Entrada no sistema
-
-
 def sistema(usuario, empresa):
     data = ""
     carrinho = []
@@ -29,14 +27,15 @@ def sistema(usuario, empresa):
         nonlocal cupom, cpf
         count = arquivar.gerar_cupom()  # Verifica e atualiza o número do cupom
         cupom += cupom + int(count)
-        cpf = testando_cpf.cpf()
-
+        cpf = teste.cpf()
+        
         label_titulo.configure(text="CAIXA ABERTO", font=(
             "Arial", 30, 'bold'))  # Atualiza o texto da label
         entry_cupom.configure(state='normal')
         entry_cupom.delete(0, ctk.END)
         entry_cupom.insert(0, str(cupom))  # Insere o valor atualizado do cupom
         entry_cupom.configure(state='readonly')
+        
         return cupom, cpf
 
     def adicionar_item():
@@ -64,7 +63,7 @@ def sistema(usuario, empresa):
             messagebox.showerror("Erro", "Erro no campo material")
             return
         plu_pro = adicionar.achar(material, dic)
-
+    
         for item in dic:
             if item["cod"] == plu_pro:
                 num_item += 1
@@ -72,8 +71,9 @@ def sistema(usuario, empresa):
                 material = item["item"]
                 preco_unitario = item["preco"]
                 preco = item["preco"] * qtd
-                str_preco = f"{preco:.2f}"
                 valor_pagar += preco
+                str_preco = f"{preco:.2f}"
+                
                 produto = [num_item, plu_pro, ean, material,
                            qtd, preco_unitario, str_preco]
                 carrinho.append(produto)
@@ -100,10 +100,6 @@ def sistema(usuario, empresa):
                 entry_pre_total.insert(0, f" {valor_pagar:.2f}")
                 entry_pre_total.configure(state='readonly')
 
-            # Limpar os campos após a adição
-            entry_descricao.configure(state='normal')
-            entry_descricao.delete(0, ctk.END)
-            entry_descricao.configure(state='readonly')
             entry_cod.delete(0, ctk.END)
             entry_qtd.delete(0, ctk.END)
             entry_qtd.insert(0, "1")
@@ -111,19 +107,15 @@ def sistema(usuario, empresa):
     def deletar():
         nonlocal valor_pagar, carrinho, num_item
         try:
-            # Pega a linha selecionada
             linha_selecionada = tree.selection()[0]
-            # Valores da linha selecionada
             escolha = tree.item(linha_selecionada, 'values')
             novo_valor_pagar = float(escolha[6])
             valor_pagar -= novo_valor_pagar
 
-            # Incrementa o contador de itens
             num_item += 1
-            # Transforma a tupla em lista para manipulação
+
             escolha = list(escolha)
             escolha[0] = num_item  # Define o número do item
-            # Atualiza o valor do item selecionado como negativo
             escolha[6] = f'-{novo_valor_pagar:.2f}'
             carrinho.append(escolha)
 
@@ -155,7 +147,6 @@ def sistema(usuario, empresa):
                 if valor_pagar == 0:  # Verifica se o pagamento foi concluído com sucesso
                     arquivar.arquivo(cupom, data, usuario, cnpj,
                                      cpf, v_pago, empresa, carrinho)
-
                     voltar()  # limpa os campos com valores residuais
 
                 else:
@@ -163,7 +154,7 @@ def sistema(usuario, empresa):
                         "Pagamento Incompleto", f"Ainda resta um valor de R$ {valor_pagar:.2f} para ser pago.")
             else:
                 messagebox.showerror(
-                    "Erro", "Clique em 'Novo' e depois 'Nova Compra' para iniciar uma compra!")
+                    "Erro", " iniciar uma compra!")
                 return
 
         except Exception as e:
@@ -172,7 +163,7 @@ def sistema(usuario, empresa):
     def voltar():
         try:
             nonlocal valor_pagar, num_item, cupom, cpf, carrinho
-            valor_pagar = 0, 0
+            valor_pagar = 0
             num_item = 0
             cupom = 1000
             cpf = ""
@@ -216,7 +207,6 @@ def sistema(usuario, empresa):
     def nova_pesquisa():
         ean, material = pesquisar.pesquisar(dic)
         if ean != '0' and material != '0':
-
             entry_cod.delete(0, ctk.END)
             entry_cod.insert(0, ean)
             entry_descricao.configure(state='normal')
@@ -239,7 +229,7 @@ def sistema(usuario, empresa):
 
     def mostrar_ajuda():
         try:
-            with open('dependencias/ajuda.txt', 'r') as legenda:
+            with open('img/ajuda.txt', 'r') as legenda:
                 arquivo = legenda.read()
                 messagebox.showinfo("Ajuda", arquivo)
         except FileNotFoundError:
@@ -249,7 +239,7 @@ def sistema(usuario, empresa):
     def atualizar_dic():
         nonlocal dic
         try:
-            with open('dependencias/bd_itens.txt', 'r') as adic:
+            with open('img/bd_itens.txt', 'r') as adic:
                 dic = json.load(adic)
         except FileNotFoundError:
             messagebox.showerror(
@@ -260,20 +250,17 @@ def sistema(usuario, empresa):
             "Encerrar", "Deseja encerrar o programa?")
 
         if resposta:
-            # Certifique-se de que está chamando a função corretamente com parênteses
             janela_principal.destroy()
         else:
-            return  # Caso contrário, não faz nada
+            return  
 
     ############################################ Inicio da Interface Grafica ##########################################
 
     janela_principal = ctk.CTk()
     janela_principal.title("ENTRADA E PEDIDO")
     janela_principal.geometry("1920x1000")
-    janela_principal.iconbitmap("dependencias/img5.ico")
+    janela_principal.iconbitmap("img/img5.ico")
 
-    # janela_principal.state('zoomed')
-    # Configuração inicial do tema visual da interface
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru
 
@@ -287,7 +274,7 @@ def sistema(usuario, empresa):
                           command=lambda: nova_pesquisa())
     menu_novo.add_command(label="Novo Item (F3)", command=lambda: novo_item())
     menu_bar.add_cascade(label="  Novo  ", menu=menu_novo)
-
+    
     menu_totais = tk.Menu(menu_bar, tearoff=0)
     menu_totais.add_command(label="Venda Cupom (F5)",
                             command=lambda: venda_cupom())
@@ -301,23 +288,18 @@ def sistema(usuario, empresa):
     menu_fechar.add_command(label="Fechar (F4)",
                             command=lambda: sair(janela_principal))
     menu_bar.add_cascade(label=" Fechar ", menu=menu_fechar)
-    # janela_principal.config(menu=menu_bar)# posicionamento do menu
 
-    # Cupom
     frame_topo = ctk.CTkFrame(janela_principal, fg_color='transparent')
-    # Expande o frame para toda a largura da janela
     frame_topo.pack(fill="x", padx=80, pady=(10, 0))
 
     # Label do título centralizado
     label_titulo = ctk.CTkLabel(frame_topo, text="CAIXA FECHADO",
                                 width=200, text_color='#fff', font=("Arial", 30, 'bold'))
     label_titulo.grid(row=0, column=0, padx=(0, 550), pady=5)
-    # Centraliza o título ao expandir a coluna
     frame_topo.grid_columnconfigure(0, weight=1)
 
     # Frame do cupom alinhado à direita
     frame_cupon = ctk.CTkFrame(frame_topo, fg_color='transparent')
-    # 'sticky="e"' alinha à direita
     frame_cupon.grid(row=0, column=1, padx=(0, 0), sticky="e")
 
     # Label e Entry do cupom
@@ -337,15 +319,13 @@ def sistema(usuario, empresa):
     frame_esquerda.grid(row=0, column=0, padx=(30, 15), pady=(0, 20))
 
     # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
-    image_baner = "dependencias/banner.png"
+    image_baner = "img/banner.png"
     image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(400, 225))
-    # Definir text como vazio para mostrar apenas a imagem
     label = ctk.CTkLabel(frame_esquerda, image=image, text="")
     label.pack(pady=(18, 20))
 
     # Carregar a imagem do botão "P"
-    imagem_p = Image.open("dependencias/buscar.png")
-    # Ajustar o tamanho da imagem conforme necessário
+    imagem_p = Image.open("img/buscar.png")
     imagem_p_resized = imagem_p.resize((35, 35))
     imagem_p_ctk = ImageTk.PhotoImage(imagem_p_resized)
 
@@ -404,7 +384,6 @@ def sistema(usuario, empresa):
     button_voltar = ctk.CTkButton(frame_butons, text="VOLTAR(Ctrl+v)", font=(
         'Ariel', 16, 'bold'), height=50, width=190, command=lambda: voltar())
 
-    # Posicionamento de 4 botões
     button_adicionar.grid(row=0, column=0, padx=(0, 10),
                           pady=(15, 15), sticky='w')
     button_deletar.grid(row=0, column=1, padx=(10, 0),
@@ -413,6 +392,7 @@ def sistema(usuario, empresa):
 
     button_voltar.grid(row=1, column=1, padx=(10, 0), pady=(15, 0), sticky='e')
 
+    # comandos do teclado
     janela_principal.bind_all("<Control-a>", lambda event: adicionar_item())
     janela_principal.bind_all("<Control-d>", lambda event: deletar())
     janela_principal.bind_all("<Control-p>", lambda event: pagar_items())
@@ -454,7 +434,6 @@ def sistema(usuario, empresa):
     tree.heading("Preço R$", text="Preço R$")
     tree.column("Preço R$", anchor=tk.CENTER, width=100)
 
-    # Podicionamneto da janela_principal
     tree.pack(fill=ctk.BOTH, expand=True, padx=(15, 15), pady=20)
 
     # Valore unitario e totais
@@ -482,11 +461,8 @@ def sistema(usuario, empresa):
     # Labels de usuarios e datas
     frame_userdates = ctk.CTkFrame(frame_valores, fg_color='transparent')
     frame_userdates.grid(row=3, column=0, pady=0, padx=15, sticky="w")
-
-    # usuario_label = ctk.CTkLabel(frame_userdates, text=f"Operador: {usuario}", font=("Any", 14,"bold"))
     data_label = ctk.CTkLabel(
-        frame_userdates, text=f"Data: {data}", font=("Any", 14, "bold"))
-    # usuario_label.grid(row=0, column=0, padx=(0,100), pady=(33,0))
+        frame_userdates, text=f"Data: {data}", font=("Any", 14, "bold"))# usuario_label.grid(row=0, column=0, padx=(0,100), pady=(33,0))
     data_label.grid(row=0, column=1, padx=(0, 50), pady=(33, 0))
 
     label_info_botoes = ctk.CTkLabel(frame_esquerda, text=f"Operador: {usuario}", font=(
@@ -504,6 +480,7 @@ def sistema(usuario, empresa):
     atualizar_dic()
 
     janela_principal.mainloop()
+    #entry_cod.focus_set()
 
 # usuario,  empresa = "Administrador",  "Tem De Tudo ME"
 # sistema(usuario, empresa)

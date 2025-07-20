@@ -43,10 +43,8 @@ def pagar(valor_pagar):
                 messagebox.showwarning("ORDEM DE PAGAMENTO", "Valor Insuficiente")
                 return valor_pagar
             else:
-                # Calcula o troco
                 troco = round(dinheiro - valor_pagar, 2)
 
-                # Atualiza os campos com os valores formatados
                 valor_entry.configure(state="normal")
                 valor_entry.delete(0, ctk.END)
                 valor_entry.insert(0, f"{valor_pagar:.2f}")
@@ -73,7 +71,7 @@ def pagar(valor_pagar):
     window_pagamento.title("PAGAMENTO")
     window_pagamento.geometry("420x330")
     window_pagamento.resizable(width=False, height=False)
-    window_pagamento.iconbitmap("dependencias/img5.ico")
+    window_pagamento.iconbitmap("img/img5.ico")
     window_pagamento.focus_force()
     window_pagamento.grab_set()
     ctk.set_appearance_mode("light")
@@ -81,10 +79,9 @@ def pagar(valor_pagar):
 
     frame_master = ctk.CTkFrame(window_pagamento)
     frame_master.grid(row=0, column=0, padx=20, pady=20)
-
-    frame_valores = ctk.CTkFrame(frame_master)
+    frame_valores = ctk.CTkFrame(frame_master, fg_color="transparent")
     frame_valores.grid(padx=10,pady=10)
-    frame_botoes = ctk.CTkFrame(frame_master)
+    frame_botoes = ctk.CTkFrame(frame_master,fg_color="transparent")
     frame_botoes.grid(row=0, column=1, sticky='n', pady=(10, 20), padx=10)
 
     # Elementos da interface gráfica
@@ -108,10 +105,8 @@ def pagar(valor_pagar):
 
     ctk.CTkLabel(frame_valores, text="Troco Devolvido R$:", font=("Any", 12)).grid(row=6, column=0, sticky="w")
     troco_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right')
-    troco_entry.grid(row=7, column=0, sticky="w")
-    
+    troco_entry.grid(row=7, column=0, sticky="w")   
     troco_entry.insert(0, "0.00")
-    
     window_pagamento.wait_window()
    
     return valor_pagar

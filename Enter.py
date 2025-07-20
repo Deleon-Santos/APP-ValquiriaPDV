@@ -16,6 +16,7 @@ def autenticar_usuario():
 
     if not usuario or not senha or not empresa:
         messagebox.showerror(
+            
             "Erro", "Usuário, Senha ou Data\nnão devem ser nulos")
         return
     try:
@@ -34,7 +35,7 @@ def autenticar_usuario():
 
 def abrir_suporte():
     try:
-        with open('dependencias/bd_usuarios.txt', 'r') as legenda:
+        with open('img/bd_usuarios.txt', 'r') as legenda:
             arquivo = legenda.read()
             messagebox.showinfo("Suporte", arquivo)
     except FileNotFoundError:
@@ -42,7 +43,7 @@ def abrir_suporte():
             "Erro", "O arquivo 'usuarios.txt' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
 try:
-    with open('dependencias/bd_usuarios.txt', 'r') as bd:
+    with open('img/bd_usuarios.txt', 'r') as bd:
         dados_usuario = json.load(bd)
 except FileNotFoundError:
     messagebox.showerror(
@@ -53,7 +54,7 @@ janela_login = ctk.CTk()
 janela_login.geometry("740x400")  # Define o tamanho da janela_login
 janela_login.resizable(width=False, height=False)
 janela_login.title("LOGIN VENDAS")
-janela_login.iconbitmap("dependencias/img5.ico")
+janela_login.iconbitmap("img/img5.ico")
 
 usuario_var = ctk.StringVar(value="Administrador")
 senha_var = ctk.StringVar(value="1234")  
@@ -63,9 +64,9 @@ frame = ctk.CTkFrame(master=janela_login)
 frame.pack(pady=20, padx=20, fill="both", expand=True)
 
 # Carregar a imagem usando PIL (precisa da biblioteca Pillow)
-image_baner = "dependencias/imagem_login.png"
+image_baner = "img/imagem_login.png"
 image = ctk.CTkImage(dark_image=Image.open(image_baner), size=(100, 100))
-imagem = Image.open("dependencias/imagem_login.png")
+imagem = Image.open("img/imagem_login.png")
 imagem = imagem.resize((392, 270))
 imagem_tk = ImageTk.PhotoImage(imagem)  
 

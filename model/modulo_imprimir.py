@@ -12,7 +12,7 @@ def create_pdf(content, table_data):
     informacao = content
     items = table_data
 
-    qr_data = "https://seusite.com/cupom?id=123456"
+    qr_data = "https://github.com/Deleon-Santos/APP-ValquiriaPDV/tree/master"
     logo_path = "img/logo.png"
 
     # Gerar QR code

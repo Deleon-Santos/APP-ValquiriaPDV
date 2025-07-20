@@ -34,13 +34,18 @@
 
 
 ### Relatórios
-![App Vendas](img/impressão-de-doc.png)
+![App Vendas](img/impressãoDoc.png)
 - **Visualização de Vendas Realizadas**: Exibe o registro de todas as vendas salvas no bd SQLite a partir do numero do cupom. O botão combobox exibe todos os registros de vendas do banco de dados.
 
 ### Geração de PDFs
-![App Vendas](img/impressão-de-doc.png)
+![App Vendas](img/impressão.png)
 - **Impressão de aquivo pdf**: Exibe em formato pdf pronto para impressão para qualquer documento de compra.
 
-### Licensa de iso 
-- Esta sob a lisensa MIT 
+### Licença de iso 
+- **Esta sob a lisença MIT**
+```
+Copyright (c) 2025 Deleon Santos
+
+Por meio deste, é concedida permissão, gratuitamente, a qualquer pessoa que obtenha uma cópia deste software e dos arquivos de documentação associados (o 'Software'), para lidar com o Software sem restrições, incluindo, sem limitação, os direitos de usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do Software...
+```
 

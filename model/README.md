@@ -1,5 +1,5 @@
 # VALQUIRIA APP VENDAS
-![App Vendas](dependencias/banner.png)
+![App Vendas](img/banner.png)
 
 ## Sistema de Cobrança em Caixa de Supermercados
 

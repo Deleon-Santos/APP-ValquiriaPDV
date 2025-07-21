@@ -410,8 +410,8 @@ def sistema(usuario, empresa):
     frame_direita.grid(row=0, column=1, padx=(15, 30), pady=(0, 20))
 
     style = ttk.Style()  # Estilo da tabela Treeview
-    style.configure("Treeview.Heading", font=("Helvetica", 14,))
-    style.configure("Treeview", font=("Arial", 16))
+    style.configure("Treeview.Heading", font=("Helvetica", 14, "bold"))
+    style.configure("Treeview", font=("Courye", 18))
 
     # Colunas da Tabela
     columns = ["Item", "Cod", "EAN", "Descrição", "Qtd", "PUni R$", "Preço R$"]

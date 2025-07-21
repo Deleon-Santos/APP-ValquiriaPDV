@@ -6,7 +6,7 @@ import qrcode
 
 def create_pdf(content, table_data):
     largura_cupom = 80 * mm
-    altura_cupom = 250 * mm
+    altura_cupom = 300 * mm
     nome_arquivo = "cupom_supermercado.pdf"
 
     informacao = content
@@ -75,11 +75,11 @@ def create_pdf(content, table_data):
         total += valor_item
 
         c.drawString(5, y, id_item)
-        c.drawString(15, y, nome[:15])  # Descrição encurtada se necessário   
+        c.drawString(15, y, nome[:30])  # Descrição encurtada se necessário   
         c.drawRightString(largura_cupom - 80, y, f"{preco_unitario:.2f}") 
         c.drawRightString(largura_cupom - 5, y, f"{valor_item:.2f}")
         y -= 4 * mm
-        c.drawString(15, y, ean[:15])
+        c.drawString(15, y, ean[:20])
         c.drawRightString(largura_cupom - 80, y, f"x{qtd:.0f}")
         y -= 4 * mm
         # Evita estourar a altura do cupom

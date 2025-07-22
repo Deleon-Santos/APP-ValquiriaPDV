@@ -55,7 +55,7 @@ Copyright (c) 2025 Deleon Santos
 
 Por meio deste, é concedida permissão, gratuitamente, a qualquer pessoa que obtenha uma cópia deste software e dos arquivos de documentação associados (o 'Software'), para lidar com o Software sem restrições, incluindo, sem limitação, os direitos de usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do Software...
 ```
- 
+### Melhorias e andamento
 - **Refatorar para o formato WEB**: Esta aplicação deve receber uma nova versão para rodar no browser com hospedagem de front-end, beck-end, e banco de dados. esta atualização devera ser com Flask ou Django mantendo o Python como linguagem predominante.
 
 

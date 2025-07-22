@@ -274,5 +274,11 @@
         "ean": "123456",
         "item": "Ghhhhhhhhhhhhhhhhhhhhhhhhhhhhhj",
         "preco": 45.12
+    },
+    {
+        "cod": "147",
+        "ean": "7894561225645",
+        "item": "Chocolate Em Barra Nestla 480G",
+        "preco": 14.9
     }
 ]

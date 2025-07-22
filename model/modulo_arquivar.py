@@ -1,7 +1,7 @@
 import sqlite3 as bd
 
 def conectar_bd():
-    conn=bd.connect("valquiria_bd")#cria o bd com nome valquiria
+    conn=bd.connect("database/valquiria_bd")#cria o bd com nome valquiria
     curs=conn.cursor()
     return conn, curs
 

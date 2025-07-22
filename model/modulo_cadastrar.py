@@ -10,7 +10,7 @@ carrinho = []
 # Função para adicionar novo item ao carrinho
 def novo_item():
     # Carregar os dados existentes do arquivo JSON
-    with open("dependencias/bd_itens.txt", 'r') as arquivo:
+    with open("database/bd_itens.txt", 'r') as arquivo:
         dic = json.load(arquivo)
 
     # Função que será chamada ao clicar no botão "Cadastrar"
@@ -35,7 +35,7 @@ def novo_item():
             dic.append(cadastro_item)
 
             # Salvar o novo dicionário no arquivo JSON
-            with open("dependencias/bd_itens.txt", 'w') as arquivo:
+            with open("database/bd_itens.txt", 'w') as arquivo:
                 json.dump(dic, arquivo, indent=4)
 
             # Atualizar a tabela visualmente
@@ -57,12 +57,12 @@ def novo_item():
             tree.insert("", "end", values=item)  # Inserir novos valores na tabela
 
     ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuro
+    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
 
     # Janela principal
     janela_cadastrar = ctk.CTkToplevel()
     janela_cadastrar.title("CADASTRAR ITENS")
-    janela_cadastrar.geometry("820x400")  # Define o tamanho da janela_cadastrar
+    janela_cadastrar.geometry("826x420+696+144")  # Define o tamanho da janela_cadastrar
     janela_cadastrar.resizable(width=False, height=False)
     janela_cadastrar.focus_force()
     janela_cadastrar.grab_set()
@@ -78,7 +78,7 @@ def novo_item():
 
     # Descrição
     lbl_descricao = ctk.CTkLabel(frame_cadastro, text="Descrição:", width=44)
-    lbl_descricao.grid(row=0, column=1, padx=10, pady=(20,0),sticky='w')
+    lbl_descricao.grid(row=0, column=1, padx=30, pady=(20,0),sticky='w')
     
     # Campo de entrada para o nome do produto
     entry_produto = ctk.CTkEntry(frame_cadastro, width=300,font=('Ariel',16))

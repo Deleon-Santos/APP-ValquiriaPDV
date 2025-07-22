@@ -21,10 +21,14 @@ def venda_por_cupom(lista_dados):
     # Criando a janela principal
     janela = ctk.CTkToplevel()
     janela.title("VENDA CUPOM")
-    janela.geometry('800x600')
+    janela.geometry('826x420+696+144')
     janela.iconbitmap("img/img5.ico")
     janela.focus_force()
     janela.grab_set()
+    
+    ctk.set_appearance_mode("light")  # Modo de aparência escura
+    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru
+
 
     # Configuração dos frames
     frame_master = ctk.CTkFrame(janela)
@@ -76,7 +80,7 @@ def venda_por_cupom(lista_dados):
     ctk.CTkButton(frame_botoes, text="SAIR", command=janela.destroy, fg_color='red').grid(row=4, column=2, padx=20, pady=20)
 
     # Configuração da Treeview para exibir os itens
-    tree = ttk.Treeview(frame_master, columns=("ITEM", "EAN", "Descrição", "Qtd", "Valor"), show='headings', height=20)
+    tree = ttk.Treeview(frame_master, columns=("ITEM", "EAN", "Descrição", "Qtd", "Valor"), show='headings', height=10)
     
     tree.heading("ITEM", text="ITEM")
     tree.heading("EAN", text="EAN")

@@ -229,7 +229,7 @@ def sistema(usuario, empresa):
 
     def mostrar_ajuda():
         try:
-            with open('img/ajuda.txt', 'r') as legenda:
+            with open('database/ajuda.txt', 'r') as legenda:
                 arquivo = legenda.read()
                 messagebox.showinfo("Ajuda", arquivo)
         except FileNotFoundError:
@@ -239,7 +239,7 @@ def sistema(usuario, empresa):
     def atualizar_dic():
         nonlocal dic
         try:
-            with open('img/bd_itens.txt', 'r') as adic:
+            with open('database/bd_itens.txt', 'r') as adic:
                 dic = json.load(adic)
         except FileNotFoundError:
             messagebox.showerror(
@@ -258,11 +258,11 @@ def sistema(usuario, empresa):
 
     janela_principal = ctk.CTk()
     janela_principal.title("ENTRADA E PEDIDO")
-    janela_principal.geometry("1920x1000")
+    janela_principal.geometry("1920x1000+0+0")
     janela_principal.iconbitmap("img/img5.ico")
 
     ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru
+    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru
 
     # opções de menu
     menu_bar = tk.Menu(janela_principal)
@@ -411,7 +411,7 @@ def sistema(usuario, empresa):
 
     style = ttk.Style()  # Estilo da tabela Treeview
     style.configure("Treeview.Heading", font=("Helvetica", 14, "bold"))
-    style.configure("Treeview", font=("Courye", 18))
+    style.configure("Treeview", font=("Courye", 16))
 
     # Colunas da Tabela
     columns = ["Item", "Cod", "EAN", "Descrição", "Qtd", "PUni R$", "Preço R$"]

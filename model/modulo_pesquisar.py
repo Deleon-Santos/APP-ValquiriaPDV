@@ -23,10 +23,10 @@ def pesquisar(dic):
     # Janela principal
     janela_pesquisa = ctk.CTk()
     janela_pesquisa.title("PESQUISA POR ITEM")
-    janela_pesquisa.geometry("600x400")  # Definindo o tamanho da janela_pesquisa
+    janela_pesquisa.geometry("826x420+696+144")  # Definindo o tamanho da janela_pesquisa
     janela_pesquisa.focus_force()
     ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuru  
+    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru  
     
 
      # Estilo para personalizar a Treeview

@@ -17,7 +17,7 @@ def create_pdf(content, table_data):
 
     # Gerar QR code
     qr = qrcode.make(qr_data)
-    qr_path = "qrcode_temp.png"
+    qr_path = "img/qrcode_temp.png"
     qr.save(qr_path)
 
     # Iniciar o canvas

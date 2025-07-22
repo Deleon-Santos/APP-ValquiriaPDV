@@ -6,7 +6,7 @@ from tkinter import messagebox
 
 
 ctk.set_appearance_mode("light")  # Modo de aparência escura
-ctk.set_default_color_theme("themas.txt")  # Tema de cores azul-escuro
+ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
 
 
 def autenticar_usuario():
@@ -35,7 +35,7 @@ def autenticar_usuario():
 
 def abrir_suporte():
     try:
-        with open('img/bd_usuarios.txt', 'r') as legenda:
+        with open('database/bd_usuarios.txt', 'r') as legenda:
             arquivo = legenda.read()
             messagebox.showinfo("Suporte", arquivo)
     except FileNotFoundError:
@@ -43,7 +43,7 @@ def abrir_suporte():
             "Erro", "O arquivo 'usuarios.txt' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
 try:
-    with open('img/bd_usuarios.txt', 'r') as bd:
+    with open('database/bd_usuarios.txt', 'r') as bd:
         dados_usuario = json.load(bd)
 except FileNotFoundError:
     messagebox.showerror(
@@ -51,7 +51,7 @@ except FileNotFoundError:
 
 
 janela_login = ctk.CTk()
-janela_login.geometry("740x400")  # Define o tamanho da janela_login
+janela_login.geometry("740x400+500+250")  # Define o tamanho da janela_login
 janela_login.resizable(width=False, height=False)
 janela_login.title("LOGIN VENDAS")
 janela_login.iconbitmap("img/img5.ico")

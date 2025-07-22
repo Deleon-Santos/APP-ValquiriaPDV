@@ -3,20 +3,21 @@
 
 ## Sistema de Cobrança em Caixa de Supermercados
 
-@@ -18,33 +18,33 @@ O VALQUIRA esta conectado a um banco de dados integrado SQLite que permite o aqu
+- O VALQUIRA esta conectado a um banco de dados integrado SQLite que permite o aque todas as vendas seja armazenadas e gerenciadas.
+
 ## Funcionalidades
 
 ### Gestão de permisões
 ![App Vendas](img/tela-de-login.png)
-- **Abertura e Fechamento do Caixa**: possui tela de loguin que permite logar com permissões diferenter para cada usuario com validadção de usuario senha e razão socialControle do estado do caixa, abertura de novos cupons e fechamento ao final das operações.
+- **Abertura e Fechamento do Caixa**: Possui tela de loguin que permite logar com permissões diferentes para cada usuário.
 
 ### Registro de Vendas
 ![App Vendas](img/tela-de-vendas.png)
 - **Nova Compra**:Controle do estado do caixa, validação de CPF, abertura de novos cupons e fechamento ao final das operações.  
-- **Adicionar Itens ao Carrinho**: Permite adicionar produtos ao carrinho de compras com base no código e EAN ou retorno via pesquisa. Ecessa o banco de dados, valoda o a entrada via ean, e mostra os valore e quantidades nos campos determinados.
+- **Adicionar Itens ao Carrinho**: Permite adicionar produtos ao carrinho de compras com base no código e EAN ou retorno via pesquisa. Ecessa o banco de dados, valida a entrada via ean, e mostra os valore e quantidades nos campos determinados.
 - **Remover Itens do Carrinho**: Permite remover produtos já adicionados ao carrinho por meio do botão DELETE. Permite marcar um item na tabela itens e remover o valor correspondente na soma total de itens.
-- **Atualização de Preços e Totais**: Calcula automaticamente os preços unitários e totais dos itens no carrinho e retorna no campo especifico.
-- **Voltar**: cancela a operação e retorna ao estado inicial ao limpar os valores nos campos saidas.
+- **Atualização de Preços e Totais**: Calcula automaticamente os preços unitários e totais dos itens no carrinho e retorna no campo específico.
+- **Voltar**: Cancela a operação e retorna ao estado inicial limpando os valores nos campos outputs.
 
 ### Consulta de Produtos
 
@@ -29,8 +30,8 @@
 
 ### Pagamentos
 ![App Vendas](img/tela-de-pagamentos.png)
-- **Processamento de Pagamentos**: Calcula o valor total a pagar e registra a venda em dinheiro, cartão ou pix. O pagamento permite uma condição de informar o valor entregue se a opção 'dinheiro' for marcada, possibilitando o calculo de troco.
-- **Banco de dados SQLite**: coleta dados da empresa, cliente, Usuario logado, data, produtos selecionados e efetua o registro nas tabelas relacionadas a venda e a produtos. É validada e existencia ou a criação de tabelas e é efutuado o registro da compra.
+- **Processamento de Pagamentos**: Calcula o valor total a pagar e registra a venda em dinheiro, cartão ou pix. O pagamento permite uma condição de informar o valor recebido se a opção 'dinheiro' for marcada, possibilitando o calculo de troco.
+- **Banco de dados SQLite**: Coleta dados da empresa, cliente, Usuario logado, data, produtos selecionados e efetua o registro nas tabelas relacionadas a venda e a produtos. É validada e existencia ou a criação de tabelas e é efutuado o registro da compra.
 
 
 ### Relatórios
@@ -39,7 +40,13 @@
 
 ### Geração de PDFs
 ![App Vendas](img/impressão.png)
-- **Impressão de aquivo pdf**: Exibe em formato pdf pronto para impressão para qualquer documento de compra.
+- **Impressão de aquivo pdf**: Exibe a venda em um modelo de "Cupom Fiscal" em formato pdf pronto para impressão.
+
+### Clonar e trabalhar nesse projeto
+
+```
+git clone https://github.com/Deleon-Santos/APP-ValquiriaPDV.git
+```
 
 ### Licença de iso 
 - **Esta sob a lisença MIT**
@@ -48,4 +55,8 @@ Copyright (c) 2025 Deleon Santos
 
 Por meio deste, é concedida permissão, gratuitamente, a qualquer pessoa que obtenha uma cópia deste software e dos arquivos de documentação associados (o 'Software'), para lidar com o Software sem restrições, incluindo, sem limitação, os direitos de usar, copiar, modificar, mesclar, publicar, distribuir, sublicenciar e/ou vender cópias do Software...
 ```
+ 
+- **Refatorar para o formato WEB**: Esta aplicação deve receber uma nova versão para rodar no browser com hospedagem de front-end, beck-end, e banco de dados. esta atualização devera ser com Flask ou Django mantendo o Python como linguagem predominante.
+
+
 

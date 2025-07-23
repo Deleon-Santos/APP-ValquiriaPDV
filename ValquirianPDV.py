@@ -5,8 +5,8 @@ import json
 from tkinter import messagebox
 
 
-ctk.set_appearance_mode("light")  # Modo de aparência escura
-ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
+ctk.set_appearance_mode("light")  
+ctk.set_default_color_theme("database/themas.txt")  # carrega o esquema de aparencia Tema de cores 
 
 
 def autenticar_usuario():
@@ -20,7 +20,7 @@ def autenticar_usuario():
             "Erro", "Usuário, Senha ou Data\nnão devem ser nulos")
         return
     try:
-        autenticado = False  # Inicializa o status de autenticação como falso
+        autenticado = False  
         for user in dados_usuario:
             if user['nome'] == usuario and user['senha'] == senha:
                 janela_login.destroy()
@@ -51,7 +51,7 @@ except FileNotFoundError:
 
 
 janela_login = ctk.CTk()
-janela_login.geometry("740x400+500+250")  # Define o tamanho da janela_login
+janela_login.geometry("740x400+500+250")  # Define o tamanho da janela_login e as coodenadas da janela_login
 janela_login.resizable(width=False, height=False)
 janela_login.title("LOGIN VENDAS")
 janela_login.iconbitmap("img/img5.ico")

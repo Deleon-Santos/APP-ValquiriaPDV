@@ -1,2 +1,5 @@
-__pycache__
-lib/site-packages
+
+.venv
+*.pyc
+__pycache__/
+*.pyo

@@ -411,7 +411,7 @@ def sistema(usuario, empresa):
 
     style = ttk.Style()  # Estilo da tabela Treeview
     style.configure("Treeview.Heading", font=("Helvetica", 14, "bold"))
-    style.configure("Treeview", font=("Courye", 16))
+    style.configure("Treeview", font=("Courier", 18))
 
     # Colunas da Tabela
     columns = ["Item", "Cod", "EAN", "Descrição", "Qtd", "PUni R$", "Preço R$"]

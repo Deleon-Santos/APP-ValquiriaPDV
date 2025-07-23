@@ -21,7 +21,7 @@ def venda_por_cupom(lista_dados):
     # Criando a janela principal
     janela = ctk.CTkToplevel()
     janela.title("VENDA CUPOM")
-    janela.geometry('826x420+696+144')
+    janela.geometry('826x420+696+142')
     janela.iconbitmap("img/img5.ico")
     janela.focus_force()
     janela.grab_set()

@@ -69,16 +69,16 @@ def pagar(valor_pagar):
     # Janela principal de pagamento
     window_pagamento = ctk.CTkToplevel()
     window_pagamento.title("PAGAMENTO")
-    window_pagamento.geometry("420x330")
+    window_pagamento.geometry("826x420+696+142")
     window_pagamento.resizable(width=False, height=False)
     window_pagamento.iconbitmap("img/img5.ico")
     window_pagamento.focus_force()
     window_pagamento.grab_set()
     ctk.set_appearance_mode("light")
-    ctk.set_default_color_theme("themas.txt")
+    ctk.set_default_color_theme("database/themas.txt")
 
     frame_master = ctk.CTkFrame(window_pagamento)
-    frame_master.grid(row=0, column=0, padx=20, pady=20)
+    frame_master.grid(row=0, column=0, padx=200, pady=50)
     frame_valores = ctk.CTkFrame(frame_master, fg_color="transparent")
     frame_valores.grid(padx=10,pady=10)
     frame_botoes = ctk.CTkFrame(frame_master,fg_color="transparent")
@@ -115,6 +115,6 @@ def pagar(valor_pagar):
     #
 
 # Exemplo de uso
-'''valor_pagar = 100.50
-resposta = pagar(valor_pagar)
-print(f'A resposta é: {resposta}')'''
+# valor_pagar = 100.50
+# resposta = pagar(valor_pagar)
+# print(f'A resposta é: {resposta}')

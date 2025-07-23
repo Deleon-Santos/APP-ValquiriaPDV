@@ -62,7 +62,7 @@ def novo_item():
     # Janela principal
     janela_cadastrar = ctk.CTkToplevel()
     janela_cadastrar.title("CADASTRAR ITENS")
-    janela_cadastrar.geometry("826x420+696+144")  # Define o tamanho da janela_cadastrar
+    janela_cadastrar.geometry("826x420+696+142")  # Define o tamanho da janela_cadastrar
     janela_cadastrar.resizable(width=False, height=False)
     janela_cadastrar.focus_force()
     janela_cadastrar.grab_set()

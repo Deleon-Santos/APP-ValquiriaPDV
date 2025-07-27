@@ -31,8 +31,8 @@ def pesquisar(dic):
 
      # Estilo para personalizar a Treeview
     style = ttk.Style()
-    style.configure("Treeview.Heading", font=("Arial", 12, "bold"))  # Configura a fonte dos cabeçalhos
-    style.configure("Treeview", font=("Arial", 11))  # Configura a fonte dos valores
+    style.configure("Treeview.Heading", font=("Arial", 14, "bold"))  # Configura a fonte dos cabeçalhos
+    style.configure("Treeview", font=("Courier", 18))  # Configura a fonte dos valores
 
    
 

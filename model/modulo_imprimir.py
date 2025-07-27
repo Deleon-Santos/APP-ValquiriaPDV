@@ -35,17 +35,17 @@ def create_pdf(content, table_data):
 
     # Cabeçalho
     c.setFont("Courier", 6)
-    c.drawString(90, y, f"{informacao[5]}")
+    c.drawCentredString(largura_cupom/2, y, f"{informacao[5]}")
     y -= 4 * mm
-    c.drawString(30, y, f"Cnpj:{informacao[4]} Data:{informacao[1]}")
+    c.drawCentredString(largura_cupom / 2, y, f"Cnpj:{informacao[4]} Data: {informacao[1]}")
     y -= 4 * mm
-    c.drawString(10, y,f"AV. Boa Vista n:1012-Santa Rosa/SP  EI:07.112.888/000-00")
+    c.drawCentredString(largura_cupom /2, y,f"AV. Boa Vista n:1012-Santa Rosa/SP  EI:07.112.888/000-00")
     y -= 4 * mm
-    c.drawString(30, y, f'Client:{informacao[3]} Operador:{informacao[6]}') 
+    c.drawCentredString(largura_cupom /2, y, f'Client: {informacao[3]} Operador: {informacao[6]}') 
     y -= 4 * mm
     
     c.setFont("Courier-Bold", 8)
-    c.drawRightString(largura_cupom -90, y, f'Cupom:{informacao[0]}')
+    c.drawCentredString(largura_cupom /2, y, f'Cupom: 0000{informacao[0]}')
     y -= 4 * mm
     c.line(5, y, largura_cupom - 5, y)
     y -= 4 * mm
@@ -54,8 +54,8 @@ def create_pdf(content, table_data):
     c.setFont("Courier-Bold", 6)
     c.drawString(5, y, "ID")
     c.drawString(15, y, "Descrição/AEN")
-    c.drawString(largura_cupom - 115, y, "R$Unit/QTD")
-    c.drawRightString(largura_cupom - 5, y, "R$SubTotal")
+    c.drawString(largura_cupom - 100, y, "Unid.R$/QTD")
+    c.drawRightString(largura_cupom - 5, y, "SubTotalR$")
     y -= 3 * mm
     c.line(5, y, largura_cupom - 5, y)
     y -= 3 * mm
@@ -76,11 +76,11 @@ def create_pdf(content, table_data):
 
         c.drawString(5, y, id_item)
         c.drawString(15, y, nome[:30])  # Descrição encurtada se necessário   
-        c.drawRightString(largura_cupom - 80, y, f"{preco_unitario:.2f}") 
+        c.drawRightString(largura_cupom - 60, y, f"{preco_unitario:.2f}") 
         c.drawRightString(largura_cupom - 5, y, f"{valor_item:.2f}")
         y -= 4 * mm
         c.drawString(15, y, ean[:20])
-        c.drawRightString(largura_cupom - 80, y, f"x{qtd:.0f}")
+        c.drawRightString(largura_cupom - 60, y, f"x{qtd:.0f}")
         y -= 4 * mm
         # Evita estourar a altura do cupom
         if y < 45 * mm:

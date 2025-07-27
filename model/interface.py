@@ -77,8 +77,12 @@ def sistema(usuario, empresa):
                 produto = [num_item, plu_pro, ean, material,
                            qtd, preco_unitario, str_preco]
                 carrinho.append(produto)
-                tree.insert("", "end", values=produto)
+                linha1 = [f"{str(produto[0]).zfill(6)}  ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
+                linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
 
+                tree.insert("", "end", values=linha1)
+                tree.insert("", "end", values=linha2)
+ 
                 # Atualizar os campos visuais (Entries)
                 entry_descricao.configure(state='normal')
                 entry_descricao.delete(0, ctk.END)
@@ -261,34 +265,9 @@ def sistema(usuario, empresa):
     janela_principal.geometry("1920x1000+0+0")
     janela_principal.iconbitmap("img/img5.ico")
 
-    ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru
-
-    # opções de menu
-    menu_bar = tk.Menu(janela_principal)
-
-    menu_novo = tk.Menu(menu_bar, tearoff=0)
-    menu_novo.add_command(label="Nova Compra (F1)",
-                          command=lambda: nova_compra())
-    menu_novo.add_command(label="Nova Pesquisa (F2)",
-                          command=lambda: nova_pesquisa())
-    menu_novo.add_command(label="Novo Item (F3)", command=lambda: novo_item())
-    menu_bar.add_cascade(label="  Novo  ", menu=menu_novo)
+    ctk.set_appearance_mode("light")  
+    ctk.set_default_color_theme("database/themas.txt")  
     
-    menu_totais = tk.Menu(menu_bar, tearoff=0)
-    menu_totais.add_command(label="Venda Cupom (F5)",
-                            command=lambda: venda_cupom())
-    menu_bar.add_cascade(label=" Totais ", menu=menu_totais)
-
-    menu_suporte = tk.Menu(menu_bar, tearoff=0)
-    menu_suporte.add_command(label="Ajuda", command=lambda: mostrar_ajuda())
-    menu_bar.add_cascade(label=" Suporte ", menu=menu_suporte)
-
-    menu_fechar = tk.Menu(menu_bar, tearoff=0)
-    menu_fechar.add_command(label="Fechar (F4)",
-                            command=lambda: sair(janela_principal))
-    menu_bar.add_cascade(label=" Fechar ", menu=menu_fechar)
-
     frame_topo = ctk.CTkFrame(janela_principal, fg_color='transparent')
     frame_topo.pack(fill="x", padx=80, pady=(10, 0))
 
@@ -409,30 +388,25 @@ def sistema(usuario, empresa):
     frame_direita = ctk.CTkFrame(frame_master, fg_color="transparent")
     frame_direita.grid(row=0, column=1, padx=(15, 30), pady=(0, 20))
 
-    style = ttk.Style()  # Estilo da tabela Treeview
-    style.configure("Treeview.Heading", font=("Helvetica", 14, "bold"))
-    style.configure("Treeview", font=("Courier", 18))
+    style = ttk.Style()  
+    style.configure("Set.Treeview.Heading", font=("Helvetica", 14, "bold"))
+    style.configure("Set.Treeview", font=("Courier", 16, "normal"),justify='left')
 
     # Colunas da Tabela
-    columns = ["Item", "Cod", "EAN", "Descrição", "Qtd", "PUni R$", "Preço R$"]
+    columns = ["Item/Cod", "Descrição/EAN","PreUnitR$/Qtd", "Preço R$"]
     tree = ttk.Treeview(frame_direita, columns=columns,
-                        show="headings", height=27)
+                        show="headings", height=27,style="Set.Treeview")
 
     # Definindo os cabeçalhos e as larguras das colunas
-    tree.heading("Item", text="Item",)
-    tree.column("Item", anchor=tk.CENTER, width=50)
-    tree.heading("Cod", text="Cod")
-    tree.column("Cod", anchor=tk.CENTER, width=80)
-    tree.heading("EAN", text="EAN")
-    tree.column("EAN", anchor=tk.CENTER, width=200)
-    tree.heading("Descrição", text="Descrição")
-    tree.column("Descrição", anchor=tk.CENTER, width=450)
-    tree.heading("Qtd", text="Qtd")
-    tree.column("Qtd", anchor=tk.CENTER, width=50)
-    tree.heading("PUni R$", text="PUni R$")
-    tree.column("PUni R$", anchor=tk.CENTER, width=100)
-    tree.heading("Preço R$", text="Preço R$")
-    tree.column("Preço R$", anchor=tk.CENTER, width=100)
+    tree.heading("Item/Cod", text=" Item/Cod ")
+    tree.column("Item/Cod", anchor=tk.E, width=80)
+    tree.heading("Descrição/EAN", text="  Descrição/EAN  ")
+    tree.column("Descrição/EAN", anchor=tk.W, width=450)
+    tree.heading("PreUnitR$/Qtd", text=" Preço R$/Qtd ")
+    tree.column("PreUnitR$/Qtd", anchor=tk.E, width=100)
+    tree.heading("Preço R$", text=" Total Item R$ ")
+    tree.column("Preço R$", anchor=tk.E, width=100)
+    
 
     tree.pack(fill=ctk.BOTH, expand=True, padx=(15, 15), pady=20)
 
@@ -443,10 +417,10 @@ def sistema(usuario, empresa):
     label_pre_unit = ctk.CTkLabel(frame_valores, text="Preço Unitario R$: ")
     entry_pre_unit = ctk.CTkEntry(frame_valores, font=(
         "Arial", 40), width=270, justify='right', fg_color='#FFFFE0', state='readonly')
-    label_pre_comb = ctk.CTkLabel(frame_valores, text="Preço Combinado R$:")
+    label_pre_comb = ctk.CTkLabel(frame_valores, text="Sub Total R$:")
     entry_pre_comb = ctk.CTkEntry(frame_valores, font=(
         "Arial", 40), width=300, justify='right', fg_color='#FFFFE0', state='readonly')
-    label_pre_total = ctk.CTkLabel(frame_valores, text="Valor Total R$:")
+    label_pre_total = ctk.CTkLabel(frame_valores, text="Total a Pagar R$:")
     entry_pre_total = ctk.CTkEntry(frame_valores, font=(
         "Arial", 40), width=300, justify='right', fg_color='#FFFFE0', state='readonly')
 

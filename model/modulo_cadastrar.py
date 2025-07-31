@@ -1,22 +1,17 @@
-#quero refatorar esse codigo para customtkinter aproveitando a aparencia e caracteristicas do codigo e comentando ao maximo as funcionalidades
-
 
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import ttk , messagebox # Importa o Treeview do Tkinter padrão
 import json
-carrinho = []
+import model.modulo_arquivar as arquivar
 
-# Função para adicionar novo item ao carrinho
+
 def novo_item():
-    # Carregar os dados existentes do arquivo JSON
-    with open("database/bd_itens.txt", 'r') as arquivo:
-        dic = json.load(arquivo)
+    def atualizar_tabela(item_cadastrado):
+        tree.insert("", "end", values=item_cadastrado)  
 
-    # Função que será chamada ao clicar no botão "Cadastrar"
     def cadastrar_item():
         try:
-            # Validação: verificar se os campos estão preenchidos
             if not entry_produto.get() or not entry_preco.get() or not entry_ean.get():
                 messagebox.showerror(title="ERRO CADASTRO", message="Preencha os campos necessários!", icon="warning")
                 return
@@ -25,23 +20,10 @@ def novo_item():
             preco_material = str(entry_preco.get()).replace(",", ".").replace(" ", "0")
             descricao_material = entry_produto.get().title()
             ean_material = str(int(entry_ean.get()))  # Converte EAN para int e de volta para string
-            codigo_material = str(len(dic) + 101)  # Gera o código do material baseado no tamanho do dicionário
             
-            # Adicionar o item ao carrinho
-            carrinho.append([codigo_material, ean_material, descricao_material, float(preco_material)])
-
-            # Atualizar o dicionário com o novo item
-            cadastro_item = {"cod": codigo_material, "ean": ean_material, "item": descricao_material, "preco": float(preco_material)}
-            dic.append(cadastro_item)
-
-            # Salvar o novo dicionário no arquivo JSON
-            with open("database/bd_itens.txt", 'w') as arquivo:
-                json.dump(dic, arquivo, indent=4)
-
-            # Atualizar a tabela visualmente
-            atualizar_tabela()
-
-            # Limpar os campos de entrada após o cadastro
+            item_cadastrado=arquivar.salvar_novo_item(novo_item=( ean_material, descricao_material, float(preco_material)))                    
+            atualizar_tabela(item_cadastrado)
+            
             entry_produto.delete(0, ctk.END)
             entry_preco.delete(0, ctk.END)
             entry_ean.delete(0, ctk.END)
@@ -49,13 +31,8 @@ def novo_item():
         except ValueError:
             messagebox.showerror(title="ERRO CADASTRO", message="Informe Preço ou EAN\n em valor numérico", icon="warning")
 
-    # Função para atualizar a tabela visual
-    def atualizar_tabela():
-        for item in tree.get_children():
-            tree.delete(item)  # Limpar a tabela
-        for item in carrinho:
-            tree.insert("", "end", values=item)  # Inserir novos valores na tabela
-
+    
+    
     ctk.set_appearance_mode("light")  # Modo de aparência escura
     ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
 
@@ -67,6 +44,8 @@ def novo_item():
     janela_cadastrar.focus_force()
     janela_cadastrar.grab_set()
     
+    ctk.set_appearance_mode("light")  # Modo de aparência escura
+    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
 
     #Frame master
     frame_marte= ctk.CTkFrame(janela_cadastrar)
@@ -112,8 +91,8 @@ def novo_item():
     style = ttk.Style()
 
     # Configurando o estilo do heading da Treeview
-    style.configure("Treeview.Heading", font=("Arial", 14))  # Aumenta o tamanho da fonte do cabeçalho
-    style.configure("Treeview", font=("Arial", 14))  # Configura a fonte dos valores
+    style.configure("Treeview.Heading", font=("Arial", 14)) 
+    style.configure("Treeview", font=("Arial", 14))  
     
     # Colunas da Tabela
     columns = ["Cod", "EAN", "Descrição", "PUni R$"]
@@ -122,24 +101,19 @@ def novo_item():
     # Definindo os cabeçalhos e as larguras das colunas
    
     tree.heading("Cod", text="Cod")
-    tree.column("Cod", anchor=tk.CENTER, width=20)  # Definindo largura para coluna "Cod"
+    tree.column("Cod", anchor=tk.CENTER, width=20)  
 
     tree.heading("EAN", text="EAN")
-    tree.column("EAN", anchor=tk.CENTER, width=50)  # Definindo largura para coluna "EAN"
+    tree.column("EAN", anchor=tk.CENTER, width=50)
 
     tree.heading("Descrição", text="Descrição")
-    tree.column("Descrição", anchor=tk.CENTER, width=100)  # Definindo largura para coluna "Descrição"
+    tree.column("Descrição", anchor=tk.CENTER, width=100)  
 
     tree.heading("PUni R$", text="PUni R$")
-    tree.column("PUni R$", anchor=tk.CENTER, width=40)  # Definindo largura para coluna "PUni R$"
+    tree.column("PUni R$", anchor=tk.CENTER, width=40)  #
 
-
-    #posicionamneto da janela_cadastrar
     tree.pack(fill=ctk.BOTH, expand=False,padx=20,pady=20)
 
-
-
-    # Executar a janela_cadastrar
     janela_cadastrar.wait_window()
 
 # Chama a função para abrir a interface de cadastro

@@ -91,6 +91,7 @@ def arquivo(cupom,data,usuario,cnpj,cpf,v_pago,empresa,carrinho):
     
     cursor.close()
     conexao.close()
+  
     
 def salvar_novo_item(novo_item):
     conexao, cursor = conectar_bd()
@@ -106,45 +107,14 @@ def salvar_novo_item(novo_item):
     INSERT INTO cadastro (ean_produto, descricao_produto, preco_unitario)
     VALUES ( ?, ?, ?)
     """, novo_item)
+    id_inserido = cursor.lastrowid
+
+    # Busca o item inserido
+    cursor.execute("SELECT id_item, ean_produto, descricao_produto, preco_unitario FROM cadastro WHERE id_item = ?", (id_inserido,))
+    cadastro = cursor.fetchone()
+
     conexao.commit()
     cursor.close()
     conexao.close()
-
-novo_item = [
-    {"ean": "7896894900013", "item": "Acucar Refinado Caravela pt 1kg", "preco": 2.9},
-    {"ean": "7891020106927", "item": "Cafe Melita Extra Forte 1kg", "preco": 16.9},
-    {"ean": "7896034610017", "item": "Leite Integral Parmalate 1lt", "preco": 5.9},
-    {"ean": "7896062699848", "item": "Arroz Solito Premio Polido 5kg", "preco": 15.9},
-    {"ean": "7897136400155", "item": "Feijao Carioca Kicaldo pt 1kg", "preco": 6.9},
-    {"ean": "7896205788040", "item": "Macarrao Spaguete Adria 500g", "preco": 3.9},
-    {"ean": "7891095003389", "item": "Farinha de mandioca Yoki 500g", "preco": 4.9},
-    {"ean": "7896005205860", "item": "Farinha de Trigo Dona Benta 1kg", "preco": 3.9},
-    {"ean": "7894321711317", "item": "Achocolatado Toddy Mais 500g", "preco": 5.9},
-    {"ean": "7896036090244", "item": "Oleo de Soja Liza Garrafa 900ml", "preco": 5.9},
-    {"ean": "7891000376843", "item": "Biscoito Recheado Bono 350g", "preco": 3.9},
-    {"ean": "7892320006122", "item": "Moargarina Doriana com sal 500g", "preco": 12.95},
-    {"ean": "7894545010102", "item": "Feijao carioca BoaSafra 1kg", "preco": 13.9},
-    {"ean": "7891515232126", "item": "Margarina Doriana com sal 500G", "preco": 12.95},
-    {"ean": "7894546202021", "item": "Pao de hamburgue Panco 6 uni", "preco": 10.9},
-    {"ean": "7894561230123", "item": "Detergente em po Omo Multi 2kg", "preco": 10.45},
-    {"ean": "7891000325131", "item": "Bombom Nestle 251g com 12 uni", "preco": 12.95},
-    {"ean": "7891035618543", "item": "Multi Inseticida Sbp Emb Eco 380Ml", "preco": 19.2},
-    {"ean": "7891024027370", "item": "Enxaguante Bucal Colgate Plax 1Lt", "preco": 21.3},
-    {"ean": "7898951147928", "item": "Petiscos Bistequitos Dog Sabor Carne 400G", "preco": 14.5},
-    {"ean": "7898280620314", "item": "Coquitel Espumante De Maca D'Gent 660Ml", "preco": 33.9},
-    {"ean": "1234567891234", "item": "Garrafa De Gin Rock'A De 600Ml", "preco": 45.9},
-
-    {"ean": "7894578124578", "item": "Agua Sanitaria Supercandida 2Lt C Perfume", "preco": 12.9},
-    {"ean": "7894545101012", "item": "Racao Para Dog Snowdog15Kg Carne", "preco": 54.9},
-    {"ean": "7894561225645", "item": "Chocolate Em Barra Nestla 480G", "preco": 14.9},
-    {"ean": "7895345353455", "item": "Carne Seca Defumeda Paineira", "preco": 25.9}
-]
-
-for item in novo_item:
-    dados = (item['ean'], item['item'], item['preco'])
-    try:
-        salvar_novo_item(dados)
-    except Exception as e:
-        print(f"Erro ao salvar {item['item']}: {e}")
-
-print('Itens salvos com sucesso!')
+    
+    return cadastro

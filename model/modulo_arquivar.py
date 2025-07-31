@@ -118,3 +118,25 @@ def salvar_novo_item(novo_item):
     conexao.close()
     
     return cadastro
+
+
+def validar_plu(plu_pro):
+    try:
+        conexao, cursor = conectar_bd()
+        cursor.execute(
+            "SELECT id_item, ean_produto, descricao_produto, preco_unitario FROM cadastro WHERE id_item = ? OR ean_produto = ?",
+            (plu_pro, plu_pro)
+        )
+        resultado = cursor.fetchone()
+        return resultado if resultado else (0, 0, 0, 0)
+
+    except Exception as e:
+        print(f"Erro ao validar PLU: {e}")
+        return None, None, None, None
+
+    finally:
+        try:
+            cursor.close()
+            conexao.close()
+        except:
+            pass  

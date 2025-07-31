@@ -42,7 +42,7 @@ def sistema(usuario, empresa):
         nonlocal num_item, valor_pagar, cpf, cupom, dic
 
         # Validação e tratamento dos erros
-        material = entry_cod.get().replace(' ', '')
+        entrada = entry_cod.get().replace(' ', '')
         try:
             qtd = int(entry_qtd.get())
             if qtd < 1 or qtd > 99 or qtd is None:
@@ -55,59 +55,55 @@ def sistema(usuario, empresa):
             messagebox.showerror(
                 "Erro", "Click em Novo, Nova Compra para inicia uma compra!")
             return
-        if not material:
+        if not entrada:
             messagebox.showerror(
                 "Erro", "Erro no campo material ou descrição!")
             return
-        if adicionar.achar(material, dic) in (False, None):
-            messagebox.showerror("Erro", "Erro no campo material")
-            return
-        plu_pro = adicionar.achar(material, dic)
-    
-        for item in dic:
-            if item["cod"] == plu_pro:
-                num_item += 1
-                ean = item["ean"]
-                material = item["item"]
-                preco_unitario = item["preco"]
-                preco = item["preco"] * qtd
-                valor_pagar += preco
-                str_preco = f"{preco:.2f}"
-                
-                produto = [num_item, plu_pro, ean, material,
-                           qtd, preco_unitario, str_preco]
-                carrinho.append(produto)
-                linha1 = [f"{str(produto[0]).zfill(6)}  ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
-                linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
+        
+        plu, ean, descricao_produto, preco_unitario = arquivar.validar_plu(entrada)  
+        if plu:      
+            num_item += 1
+                    
+            preco = preco_unitario * qtd
+            valor_pagar += preco
+            str_preco = f"{preco:.2f}"
+            
+            produto = [num_item, plu, ean, descricao_produto, qtd, preco_unitario, str_preco]
+                        
+            carrinho.append(produto)
+            linha1 = [f"{str(produto[0]).zfill(6)}  ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
+            linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
 
-                tree.insert("", "end", values=linha1)
-                tree.insert("", "end", values=linha2)
- 
-                # Atualizar os campos visuais (Entries)
-                entry_descricao.configure(state='normal')
-                entry_descricao.delete(0, ctk.END)
-                entry_descricao.insert(0, material)
-                entry_descricao.configure(state='readonly')
+            tree.insert("", "end", values=linha1)
+            tree.insert("", "end", values=linha2)
 
-                entry_pre_unit.configure(state='normal')
-                entry_pre_unit.delete(0, ctk.END)
-                entry_pre_unit.insert(0, f" {preco_unitario:.2f}")
-                entry_pre_unit.configure(state='readonly')
+            # Atualizar os campos visuais (Entries)
+            entry_descricao.configure(state='normal')
+            entry_descricao.delete(0, ctk.END)
+            entry_descricao.insert(0, descricao_produto)
+            entry_descricao.configure(state='readonly')
 
-                entry_pre_comb.configure(state='normal')
-                entry_pre_comb.delete(0, ctk.END)
-                entry_pre_comb.insert(0, f" {preco:.2f}")
-                entry_pre_comb.configure(state='readonly')
+            entry_pre_unit.configure(state='normal')
+            entry_pre_unit.delete(0, ctk.END)
+            entry_pre_unit.insert(0, f" {preco_unitario:.2f}")
+            entry_pre_unit.configure(state='readonly')
 
-                entry_pre_total.configure(state='normal')
-                entry_pre_total.delete(0, ctk.END)
-                entry_pre_total.insert(0, f" {valor_pagar:.2f}")
-                entry_pre_total.configure(state='readonly')
+            entry_pre_comb.configure(state='normal')
+            entry_pre_comb.delete(0, ctk.END)
+            entry_pre_comb.insert(0, f" {preco:.2f}")
+            entry_pre_comb.configure(state='readonly')
+
+            entry_pre_total.configure(state='normal')
+            entry_pre_total.delete(0, ctk.END)
+            entry_pre_total.insert(0, f" {valor_pagar:.2f}")
+            entry_pre_total.configure(state='readonly')
 
             entry_cod.delete(0, ctk.END)
             entry_qtd.delete(0, ctk.END)
             entry_qtd.insert(0, "1")
-
+        else:
+            messagebox.showerror("Erro", "Produto não encontrado ou inválido!")
+            
     def deletar():
         nonlocal valor_pagar, carrinho, num_item
         try:

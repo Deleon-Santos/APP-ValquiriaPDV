@@ -1,78 +1,93 @@
 import customtkinter as ctk
+import tkinter as tk
 from tkinter import ttk, messagebox
 
-# Inicializa a lista padrão e a lista de pesquisa
-defaut = ['0', '0']
-pesquisa = []
+import model.modulo_arquivar as arquivar
 
-# Função para realizar a pesquisa no dicionário e exibir os resultados
-def pesquisar(dic):
-    # Função para capturar a seleção da linha e concluir a pesquisa
+defaut = ['0', '0']
+
+def pesquisar():
+    # === função que devolve o item selecionado ===
     def concluir():
         try:
-            # Pega a linha selecionada
-            linha_selecionada = tree.selection()[0]  # Pega a primeira linha selecionada
-            escolha = tree.item(linha_selecionada, 'values')  # Valores da linha selecionada
+            linha_selecionada = tree.selection()[0]
+            escolha = tree.item(linha_selecionada, 'values')
             janela_pesquisa.destroy()
-            return escolha[1], escolha[2]  # Retorna EAN e descrição do item
+            return escolha[0], escolha[1]
         except IndexError:
             messagebox.showwarning("Aviso", "Nenhum item selecionado!")
             janela_pesquisa.destroy()
-            return defaut[0], defaut[1]  # Retorna os valores padrão
+            return defaut[0], defaut[1]
 
-    # Janela principal
     janela_pesquisa = ctk.CTk()
     janela_pesquisa.title("PESQUISA POR ITEM")
-    janela_pesquisa.geometry("826x420+696+142")  # Definindo o tamanho da janela_pesquisa
+    janela_pesquisa.geometry("826x420+696+142")
     janela_pesquisa.focus_force()
-    ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru  
+    ctk.set_appearance_mode("light")
+    ctk.set_default_color_theme("database/themas.txt")
+
     
 
-    # Estilo para personalizar a Treeview
-    style = ttk.Style()
-    style.configure("Treeview.Heading", font=("Arial", 14, "bold"))  # Configura a fonte dos cabeçalhos
-    style.configure("Treeview", font=("Courier", 18))  # Configura a fonte dos valores
-
-   
-    # Frame para a tabela e botões
     frame = ctk.CTkFrame(janela_pesquisa)
     frame.pack(pady=(20,10), padx=10, fill="both", expand=True)
+    
+    
+    # estilo da Treeview
+    style_pesquisa = ttk.Style()
+    style_pesquisa.configure("Pes.Treeview.Heading", font=("Arial", 14, "bold"))
+    style_pesquisa.configure("Pes.Treeview", font=("Courier", 18))
 
-    # Títulos das colunas
-    titulos = [" Cod ", "   EAN    ", "   Descrição do Produto   "]
+    titulos_pesquisar = ["Cod", "EAN", "Descrição"]
+    tree = ttk.Treeview(frame, columns=titulos_pesquisar, show='headings', height=15 ,style="Pes.Treeview")
+   
+    tree.heading("Cod", text="Item")
+    tree.column("Cod", anchor=tk.E, width=20)
+    tree.heading("EAN", text="EAN")
+    tree.column("EAN", anchor=tk.W, width=40)
+    tree.heading("Descrição", text="  Descrição  ")
+    tree.column("Descrição", anchor=tk.W, width=500)
+    # tree.heading("Preço", text="Preço R$")
+    # tree.column("Preço", anchor=tk.E, width=100)
 
-    # Variável para a lista de pesquisa (pesquisa contém os dados da tabela)
-    pesquisa.clear()
-    for item in dic:
-        cod = item['cod']
-        ean = item['ean']
-        desc = item['item']
-        pesquisa.append([cod, ean, desc])
-
-    # Criação da Tabela (Treeview) para exibir os dados
-    tree = ttk.Treeview(frame, columns=titulos, show='headings', height=10)
-    tree.pack(side="top", fill="both", expand=True)
-
-    # Definir cabeçalhos e alinhar ao centro
-    for i, titulo in enumerate(titulos):
+    for i, titulo in enumerate(titulos_pesquisar):
         tree.heading(i, text=titulo)
         tree.column(i, anchor="center", width=200)
 
-    # Inserir os dados da lista de pesquisa na tabela
-    for linha in pesquisa:
-        tree.insert("", "end", values=linha)
+    tree.pack(side="top", fill="both", expand=True)
+    
+    frame_buttons = ctk.CTkFrame(janela_pesquisa, fg_color="transparent")
+    frame_buttons.pack(pady=(0,20), padx=10, fill="x")
 
-    # Botão "CONCLUIR" para finalizar a pesquisa
-    btn_concluir = ctk.CTkButton(janela_pesquisa, text="CONCLUIR", command=janela_pesquisa.quit)  # Fecha a janela_pesquisa ao clicar
-    btn_concluir.pack(pady=10)
+    # Configura as colunas do grid
+    frame_buttons.columnconfigure(0, weight=1)  # coluna expansiva (entry)
+    frame_buttons.columnconfigure(1, weight=0)  # coluna do botão
 
-    # Iniciar a janela_pesquisa e aguardar o comando
+    entry_pesquisa = ctk.CTkEntry(frame_buttons, placeholder_text="Descrição", width=500, font=("Courier", 18))
+    entry_pesquisa.grid(row=0, column=0, pady=10, sticky="w")  # coluna 0 → lado esquerdo
+
+    btn_concluir = ctk.CTkButton(frame_buttons, text="ADICIONAR", command=janela_pesquisa.quit,font=("Helvetica", 16))
+    btn_concluir.grid(row=0, column=1, pady=10, sticky="e")    # coluna 1 → lado direito
+
+
+    # === função de busca dinâmica (agora entry_pesquisa já existe!) ===
+    def buscar(event=None):
+        texto = entry_pesquisa.get()
+        busca_sql = f"%{texto}%"
+        resultados = arquivar.release(busca_sql)
+
+        # limpa tree
+        for item in tree.get_children():
+            tree.delete(item)
+
+        # carrega resultados na tree
+        for r in resultados:
+            tree.insert("", "end", values=r)
+
+    # carrega tudo inicialmente
+    #buscar()
+
+    entry_pesquisa.bind("<KeyRelease>", buscar)
 
     janela_pesquisa.mainloop()
-    
     return concluir()
-    
-    
-    
-    
+#pesquisar()

@@ -101,6 +101,7 @@
     "text_color_disabled": ["gray50", "gray45"]
   },
   "CTkScrollbar": {
+    "height":300,
     "corner_radius": 1000,
     "border_spacing": 4,
     "fg_color": "transparent",
@@ -128,9 +129,11 @@
     "scrollbar_button_hover_color": ["gray40", "gray53"]
   },
   "CTkScrollableFrame": {
-    "label_fg_color": ["gray80", "gray21"]
+    "label_fg_color": ["gray80", "gray21"],
+    "height":300
   },
   "DropdownMenu": {
+    "height":300,
     "fg_color": ["gray90", "gray20"],
     "hover_color": ["gray75", "gray28"],
     "text_color": ["gray14", "gray84"]

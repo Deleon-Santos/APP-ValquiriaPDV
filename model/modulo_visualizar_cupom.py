@@ -80,15 +80,15 @@ def venda_por_cupom(lista_dados):
     ctk.CTkButton(frame_botoes, text="SAIR", command=janela.destroy, fg_color='red').grid(row=4, column=2, padx=20, pady=20)
 
     # Configuração da Treeview para exibir os itens
-    tree = ttk.Treeview(frame_master, columns=("ITEM", "EAN", "Descrição", "Qtd", "Valor"), show='headings', height=10)
+    tree = ttk.Treeview(frame_master, columns=("Item", "EAN", "Descrição", "Qtd", "Valor"), show='headings', height=10)
     
-    tree.heading("ITEM", text="ITEM")
+    tree.heading("Item", text="Item")
     tree.heading("EAN", text="EAN")
     tree.heading("Descrição", text="Descrição")
     tree.heading("Qtd", text="Qtd")
     tree.heading("Valor", text="Valor")
 
-    tree.column("ITEM", anchor=tkinter.CENTER, width=90)
+    tree.column("Item", anchor=tkinter.CENTER, width=90)
     tree.column("EAN", anchor=tkinter.CENTER, width=200)
     tree.column("Descrição", anchor=tkinter.CENTER, width=400)
     tree.column("Qtd", anchor=tkinter.CENTER, width=80)
@@ -110,9 +110,9 @@ def venda_por_cupom(lista_dados):
             # gerar_pdf = imprimir.create_pdf(informacao, lista_itens,"impressora.pdf")# Chamda da funcao "PDF" com informacao da venda e dados do cupom
             
             if gerar_pdf:
-                messagebox.showerror("PDF Salvo", "Seu PDF foi salvo com sucesso")
+                messagebox.showinfo("PDF", "IMPRESSÃO CONCLUÍDA")
             else:
-                messagebox.showerror("PDF", "Erro em PDF")
+                messagebox.showerror("PDF", "ERRO AO GERAR IMPRESSÃO")
         else:
             print("Erro: lista_info está vazia ou não foi preenchida corretamente.")
 

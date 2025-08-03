@@ -69,7 +69,7 @@ def sistema(usuario, empresa):
             produto = [num_item, plu, ean, descricao_produto, qtd, preco_unitario, str_preco]
                         
             carrinho.append(produto)
-            linha1 = [f"{str(produto[0]).zfill(4)} ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
+            linha1 = [f"{str(produto[0]).zfill(3)} ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
             linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
 
             tree.insert("", "end", values=linha1)
@@ -113,10 +113,10 @@ def sistema(usuario, empresa):
                 valor_pagar -= novo_valor_pagar
 
                 num_item += 1
-                item_deletado = [num_item, "", f"{str(id).zfill(4)}: Removido",  f"{escolha[1]}".strip(" "), "", escolha[2], f'-{novo_valor_pagar:.2f}']
+                item_deletado = [num_item, "", f"{str(id).zfill(3)}: Removido",  f"{escolha[1]}".strip(" "), "", escolha[2], f'-{novo_valor_pagar:.2f}']
                 
                 carrinho.append(item_deletado) 
-                linha_escolha = [f"{str(item_deletado[0]).zfill(4)} ", f"  {item_deletado[3]}", f"{item_deletado[5]}", f"{item_deletado[6]}  "]
+                linha_escolha = [f"{str(item_deletado[0]).zfill(3)} ", f"  {item_deletado[3]}", f"{item_deletado[5]}", f"{item_deletado[6]}  "]
                 linha_escolha2 = ["",f"  {str(id).zfill(4)}: Removido", "", ""]
                 # Atualiza a árvore com o novo item
                 tree.insert("", "end", values=linha_escolha)
@@ -207,7 +207,7 @@ def sistema(usuario, empresa):
         entry_cupom.configure(state='readonly')
 
     def nova_pesquisa():
-        ean, material = pesquisar.pesquisar(dic)
+        ean, material = pesquisar.pesquisar()
         if ean != '0' and material != '0':
             entry_cod.delete(0, ctk.END)
             entry_cod.insert(0, ean)
@@ -237,15 +237,6 @@ def sistema(usuario, empresa):
         except FileNotFoundError:
             messagebox.showerror(
                 "Erro", "O arquivo 'SUPORTE' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
-
-    # def atualizar_dic():
-    #     nonlocal dic
-    #     try:
-    #         with open('database/bd_itens.txt', 'r') as adic:
-    #             dic = json.load(adic)
-    #     except FileNotFoundError:
-    #         messagebox.showerror(
-    #             "Erro", "O arquivo 'bd.txt' não foi encontrado!")
 
     def sair(janela_principal):
         resposta = messagebox.askyesno(

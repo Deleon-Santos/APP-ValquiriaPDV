@@ -1,7 +1,7 @@
 import sqlite3 as bd
 
 def conectar_bd():
-    conn=bd.connect("database/valquiria_bd")#cria o bd com nome valquiria
+    conn=bd.connect("valquiria_bd")#cria o bd com nome valquiria
     curs=conn.cursor()
     return conn, curs
 
@@ -140,3 +140,20 @@ def validar_plu(plu_pro):
             conexao.close()
         except:
             pass  
+
+
+def release(busca_sql):
+    # Conecta ao BD
+        conexao, cursor = conectar_bd()
+
+        # Faz a pesquisa por associação (caracteres digitados)
+        cursor.execute("SELECT id_item, descricao_produto, preco_unitario FROM cadastro WHERE descricao_produto LIKE ?", (busca_sql,))
+        resultados = cursor.fetchall()
+
+        # Limpa a treeview
+        
+
+        
+        cursor.close()
+        conexao.close()
+        return resultados

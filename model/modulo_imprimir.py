@@ -48,7 +48,7 @@ def create_pdf(content, table_data):
 
     #título da tabela
     c.setFont("Courier-Bold", 6)
-    c.drawString(5, y, "ID")
+    c.drawString(5, y, " ID")
     c.drawString(25, y, "Descrição/AEN")
     c.drawString(largura_cupom - 100, y, "Unid.R$/QTD")
     c.drawRightString(largura_cupom - 5, y, "SubTotalR$")

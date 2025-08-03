@@ -89,8 +89,8 @@ def pagar(valor_pagar):
     condicao_pagamento_var = ctk.StringVar(value="Pix")
     ctk.CTkOptionMenu(frame_valores, values=condicao_pagamento, variable=condicao_pagamento_var, font=("Any", 22), width=200).grid(row=1, column=0, sticky="w")
 
-    ctk.CTkButton(frame_botoes, text="VOLTAR", command=voltar, font=("Any", 13)).grid(row=0, column=2, pady=(0, 20))
-    ctk.CTkButton(frame_botoes, text="PAGAR", command=lambda: pagar_dinheiro() if condicao_pagamento_var.get() == "Dinheiro" else pagar_cartao_pix(), font=("Any", 13)).grid(row=1, column=2)
+    ctk.CTkButton(frame_botoes, text="VOLTAR", command=voltar, font=("Any", 13)).grid(row=1, column=2, pady=(0, 20))
+    ctk.CTkButton(frame_botoes, text="PAGAR", command=lambda: pagar_dinheiro() if condicao_pagamento_var.get() == "Dinheiro" else pagar_cartao_pix(), font=("Any", 13)).grid(row=0, column=2)
 
     # Frame para os valores
     ctk.CTkLabel(frame_valores, text="Valor da Compra R$:", font=("Any", 12)).grid(row=2, column=0, sticky="w")

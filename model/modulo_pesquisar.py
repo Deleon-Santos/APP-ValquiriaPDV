@@ -29,13 +29,12 @@ def pesquisar(dic):
     ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru  
     
 
-     # Estilo para personalizar a Treeview
+    # Estilo para personalizar a Treeview
     style = ttk.Style()
     style.configure("Treeview.Heading", font=("Arial", 14, "bold"))  # Configura a fonte dos cabeçalhos
     style.configure("Treeview", font=("Courier", 18))  # Configura a fonte dos valores
 
    
-
     # Frame para a tabela e botões
     frame = ctk.CTkFrame(janela_pesquisa)
     frame.pack(pady=(20,10), padx=10, fill="both", expand=True)

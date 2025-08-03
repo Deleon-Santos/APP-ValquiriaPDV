@@ -1,6 +1,5 @@
 import tkinter as tk
-from tkinter import ttk, messagebox, simpledialog
-import json
+from tkinter import ttk, messagebox
 import customtkinter as ctk
 from PIL import Image, ImageTk
 from datetime import datetime
@@ -8,7 +7,6 @@ from datetime import datetime
 import model.modulo_pagar as pagar
 import model.modulo_pesquisar as pesquisar
 import model.modulo_cadastrar as cadastrar
-import model.modulo_adicionar as adicionar
 import model.modulo_visualizar_cupom as visualizar
 import model.modulo_arquivar as arquivar
 import model.validar_cpf as teste
@@ -71,7 +69,7 @@ def sistema(usuario, empresa):
             produto = [num_item, plu, ean, descricao_produto, qtd, preco_unitario, str_preco]
                         
             carrinho.append(produto)
-            linha1 = [f"{str(produto[0]).zfill(6)}  ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
+            linha1 = [f"{str(produto[0]).zfill(4)} ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
             linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
 
             tree.insert("", "end", values=linha1)
@@ -108,25 +106,29 @@ def sistema(usuario, empresa):
         nonlocal valor_pagar, carrinho, num_item
         try:
             linha_selecionada = tree.selection()[0]
-            escolha = tree.item(linha_selecionada, 'values')
-            novo_valor_pagar = float(escolha[6])
-            valor_pagar -= novo_valor_pagar
+            if linha_selecionada is not None:
+                escolha = tree.item(linha_selecionada, 'values')
+                id= escolha[0]
+                novo_valor_pagar = float(escolha[3])
+                valor_pagar -= novo_valor_pagar
 
-            num_item += 1
+                num_item += 1
+                item_deletado = [num_item, "", f"{str(id).zfill(4)}: Removido",  f"{escolha[1]}".strip(" "), "", escolha[2], f'-{novo_valor_pagar:.2f}']
+                
+                carrinho.append(item_deletado) 
+                linha_escolha = [f"{str(item_deletado[0]).zfill(4)} ", f"  {item_deletado[3]}", f"{item_deletado[5]}", f"{item_deletado[6]}  "]
+                linha_escolha2 = ["",f"  {str(id).zfill(4)}: Removido", "", ""]
+                # Atualiza a árvore com o novo item
+                tree.insert("", "end", values=linha_escolha)
+                tree.insert("", "end", values=linha_escolha2)
+                entry_pre_total.configure(state='normal')
+                entry_pre_total.delete(0, ctk.END)
+                entry_pre_total.insert(0, f" {valor_pagar:.2f}")
+                entry_pre_total.configure(state='readonly')
 
-            escolha = list(escolha)
-            escolha[0] = num_item  # Define o número do item
-            escolha[6] = f'-{novo_valor_pagar:.2f}'
-            carrinho.append(escolha)
-
-            # Atualiza a árvore com o novo item
-            tree.insert("", "end", values=escolha)
-            entry_pre_total.configure(state='normal')
-            entry_pre_total.delete(0, ctk.END)
-            entry_pre_total.insert(0, f" {valor_pagar:.2f}")
-            entry_pre_total.configure(state='readonly')
-
-            return valor_pagar, num_item  # Retorna EAN e item
+                return valor_pagar, num_item  # Retorna EAN e item
+            else:
+                messagebox.showwarning("Aviso", "Nenhum item selecionado!")
         except IndexError:
             messagebox.showwarning("Aviso", "Nenhum item selecionado!")
             return
@@ -217,7 +219,7 @@ def sistema(usuario, empresa):
     def novo_item():
         if usuario == "Administrador":
             cadastrar.novo_item()
-            atualizar_dic()
+            #atualizar_dic()
         else:
             messagebox.showerror(
                 "Erro", "Seu usuário não tem permissão para cadastrar item!")
@@ -236,14 +238,14 @@ def sistema(usuario, empresa):
             messagebox.showerror(
                 "Erro", "O arquivo 'SUPORTE' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
-    def atualizar_dic():
-        nonlocal dic
-        try:
-            with open('database/bd_itens.txt', 'r') as adic:
-                dic = json.load(adic)
-        except FileNotFoundError:
-            messagebox.showerror(
-                "Erro", "O arquivo 'bd.txt' não foi encontrado!")
+    # def atualizar_dic():
+    #     nonlocal dic
+    #     try:
+    #         with open('database/bd_itens.txt', 'r') as adic:
+    #             dic = json.load(adic)
+    #     except FileNotFoundError:
+    #         messagebox.showerror(
+    #             "Erro", "O arquivo 'bd.txt' não foi encontrado!")
 
     def sair(janela_principal):
         resposta = messagebox.askyesno(
@@ -386,7 +388,7 @@ def sistema(usuario, empresa):
 
     style = ttk.Style()  
     style.configure("Set.Treeview.Heading", font=("Helvetica", 14, "bold"))
-    style.configure("Set.Treeview", font=("Courier", 16, "normal"),justify='left')
+    style.configure("Set.Treeview", font=("Courier", 18, "normal"),justify='left', height=40)
 
     # Colunas da Tabela
     columns = ["Item/Cod", "Descrição/EAN","PreUnitR$/Qtd", "Preço R$"]
@@ -394,10 +396,10 @@ def sistema(usuario, empresa):
                         show="headings", height=27,style="Set.Treeview")
 
     # Definindo os cabeçalhos e as larguras das colunas
-    tree.heading("Item/Cod", text=" Item/Cod ")
-    tree.column("Item/Cod", anchor=tk.E, width=80)
+    tree.heading("Item/Cod", text=" Item ")
+    tree.column("Item/Cod", anchor=tk.E, width=40)
     tree.heading("Descrição/EAN", text="  Descrição/EAN  ")
-    tree.column("Descrição/EAN", anchor=tk.W, width=450)
+    tree.column("Descrição/EAN", anchor=tk.W, width=600)
     tree.heading("PreUnitR$/Qtd", text=" Preço R$/Qtd ")
     tree.column("PreUnitR$/Qtd", anchor=tk.E, width=100)
     tree.heading("Preço R$", text=" Total Item R$ ")
@@ -447,7 +449,7 @@ def sistema(usuario, empresa):
         return data_atual
     dic = {}
     data = atualizar_data()
-    atualizar_dic()
+    #atualizar_dic()
 
     janela_principal.mainloop()
     #entry_cod.focus_set()

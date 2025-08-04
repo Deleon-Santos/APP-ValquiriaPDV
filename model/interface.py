@@ -9,7 +9,7 @@ import model.modulo_pesquisar as pesquisar
 import model.modulo_cadastrar as cadastrar
 import model.modulo_visualizar_cupom as visualizar
 import model.modulo_arquivar as arquivar
-import model.validar_cpf as teste
+import model.modulo_validar_cpf as teste
 
 # Entrada no sistema
 def sistema(usuario, empresa):

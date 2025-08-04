@@ -6,17 +6,17 @@ import tkinter
 import model.modulo_arquivar as arquivar
 import model.modulo_imprimir as imprimir
 
-# Lista de cupons disponíveis (será preenchida pelo loop)
+
 cupom_disponivel = []
 
-# Função principal de venda por cupom
+
 def venda_por_cupom(lista_dados):
     lista_itens = []
     lista_info = []
     cupom_disponivel.clear()
     
-    for dado in lista_dados: # Preenchendo `cupom_disponivel` com números de cupom disponíveis
-        cupom_disponivel.append(str(dado[0]))  # Adiciona o número do cupom
+    for dado in lista_dados: 
+        cupom_disponivel.append(str(dado[0])) 
 
     # Criando a janela principal
     janela = ctk.CTkToplevel()
@@ -26,8 +26,8 @@ def venda_por_cupom(lista_dados):
     janela.focus_force()
     janela.grab_set()
     
-    ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuru
+    ctk.set_appearance_mode("light")  
+    ctk.set_default_color_theme("database/themas.txt") 
 
 
     # Configuração dos frames
@@ -44,10 +44,10 @@ def venda_por_cupom(lista_dados):
     cnpj_entry = ctk.CTkEntry(frame1, width=160, font=('Ariel', 18))
     cnpj_entry.grid(row=1, column=0, padx=20)
 
-    empresa_entry = ctk.CTkEntry(frame1, width=330, font=('Ariel', 16))
+    empresa_entry = ctk.CTkEntry(frame1, width=330, font=('Ariel', 18))
     empresa_entry.grid(row=1, column=1, padx=20)
 
-    cliente_entry = ctk.CTkEntry(frame1, width=160, font=('Ariel', 16))
+    cliente_entry = ctk.CTkEntry(frame1, width=160, font=('Ariel', 18))
     cliente_entry.grid(row=1, column=2, padx=20)
 
     frame_2 = ctk.CTkFrame(frame_master,fg_color='transparent')
@@ -58,7 +58,7 @@ def venda_por_cupom(lista_dados):
     ctk.CTkLabel(frame_2, text="Operador").grid(row=2, column=2, padx=20, sticky="w")
     ctk.CTkLabel(frame_2, text="N° Cupom").grid(row=2, column=3, padx=20, sticky="w")
     
-    #Entry's e label's
+   
     valor_entry = ctk.CTkEntry(frame_2, width=110)
     valor_entry.grid(row=3, column=0, padx=20)
     data_entry = ctk.CTkEntry(frame_2, width=200)
@@ -98,7 +98,7 @@ def venda_por_cupom(lista_dados):
 
     def imprimir_cupom():
         nonlocal lista_itens, lista_info
-        informacao = '\n'  # Composição da string formatada de dados de venda
+        informacao = '\n'  
         
         if lista_info:
             informacao += f"Razão Social: {lista_info[5]}\n" 
@@ -107,7 +107,6 @@ def venda_por_cupom(lista_dados):
            
             lista_itens = arquivar.lista_item_por_carrinho(lista_info[0]) # Pegar os itens do carrinho             
             gerar_pdf = imprimir.create_pdf(lista_info, lista_itens)
-            # gerar_pdf = imprimir.create_pdf(informacao, lista_itens,"impressora.pdf")# Chamda da funcao "PDF" com informacao da venda e dados do cupom
             
             if gerar_pdf:
                 messagebox.showinfo("PDF", "IMPRESSÃO CONCLUÍDA")
@@ -116,7 +115,7 @@ def venda_por_cupom(lista_dados):
         else:
             print("Erro: lista_info está vazia ou não foi preenchida corretamente.")
 
-    # Função para pesquisar cupons e preencher campos
+    
     def pesquisar_cupom(cupom_var, cnpj_entry, empresa_entry, cliente_entry, valor_entry, data_entry, usuario_entry, tree):
         nonlocal lista_info, lista_dados
         tree.delete(*tree.get_children())

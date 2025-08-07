@@ -15,7 +15,7 @@ import model.modulo_validar_cpf as teste
 def sistema(usuario, empresa):
     data = ""
     carrinho = []
-    cupom = 1000
+    cupom = 0
     num_item = 0
     valor_pagar = 0
     cnpj = '45.333.0001/45'
@@ -23,8 +23,8 @@ def sistema(usuario, empresa):
 
     def nova_compra():
         nonlocal cupom, cpf
-        count = arquivar.gerar_cupom()  # Verifica e atualiza o número do cupom
-        cupom += cupom + int(count)
+        count = arquivar.gerar_cupom(cupom)  # Verifica e atualiza o número do cupom
+        cupom = count
         cpf = teste.cpf()
         
         label_titulo.configure(text="CAIXA ABERTO", font=(
@@ -167,7 +167,7 @@ def sistema(usuario, empresa):
             nonlocal valor_pagar, num_item, cupom, cpf, carrinho
             valor_pagar = 0
             num_item = 0
-            cupom = 1000
+            cupom = 0
             cpf = ""
             carrinho.clear()
             limpar_campos()  # Limpa os campos de entrada e o carrinho
@@ -378,13 +378,13 @@ def sistema(usuario, empresa):
     frame_direita.grid(row=0, column=1, padx=(15, 30), pady=(0, 20))
 
     style = ttk.Style()  
-    style.configure("Set.Treeview.Heading", font=("Helvetica", 14, "bold"))
-    style.configure("Set.Treeview", font=("Courier", 18, "normal"),justify='left', height=40)
+    style.configure("Set.Treeview.Heading", font=("Helvetica", 16, "bold"))
+    style.configure("Set.Treeview", font=("Courier", 24, "normal"),justify='left', rowheight=30)
 
     # Colunas da Tabela
     columns = ["Item/Cod", "Descrição/EAN","PreUnitR$/Qtd", "Preço R$"]
     tree = ttk.Treeview(frame_direita, columns=columns,
-                        show="headings", height=27,style="Set.Treeview")
+                        show="headings", height=18,style="Set.Treeview")
 
     # Definindo os cabeçalhos e as larguras das colunas
     tree.heading("Item/Cod", text=" Item ")

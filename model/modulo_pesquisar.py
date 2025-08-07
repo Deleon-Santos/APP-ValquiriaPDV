@@ -33,12 +33,12 @@ def pesquisar():
     
     
     # estilo da Treeview
-    style_pesquisa = ttk.Style()
-    style_pesquisa.configure("Pes.Treeview.Heading", font=("Arial", 14, "bold"))
-    style_pesquisa.configure("Pes.Treeview", font=("Courier", 18))
+    style= ttk.Style()
+    style.configure("Set.Treeview.Heading", font=("Arial", 14, "bold"))
+    style.configure("Set.Treeview", font=("Courier", 18))
 
     titulos_pesquisar = ["Cod", "EAN", "Descrição"]
-    tree = ttk.Treeview(frame, columns=titulos_pesquisar, show='headings', height=15 ,style="Pes.Treeview")
+    tree = ttk.Treeview(frame, columns=titulos_pesquisar, show='headings', height=15 ,style="Set.Treeview")
    
     tree.heading("Cod", text="Item")
     tree.column("Cod", anchor=tk.E, width=20)
@@ -62,11 +62,11 @@ def pesquisar():
     frame_buttons.columnconfigure(0, weight=1)  # coluna expansiva (entry)
     frame_buttons.columnconfigure(1, weight=0)  # coluna do botão
 
-    entry_pesquisa = ctk.CTkEntry(frame_buttons, placeholder_text="Descrição", width=500, font=("Courier", 18))
+    entry_pesquisa = ctk.CTkEntry(frame_buttons, placeholder_text="Descrição", width=800, font=("Courier", 20))
     entry_pesquisa.grid(row=0, column=0, pady=10, sticky="w")  # coluna 0 → lado esquerdo
 
-    btn_concluir = ctk.CTkButton(frame_buttons, text="ADICIONAR", command=janela_pesquisa.quit,font=("Helvetica", 16))
-    btn_concluir.grid(row=0, column=1, pady=10, sticky="e")    # coluna 1 → lado direito
+    btn_concluir = ctk.CTkButton(janela_pesquisa, text="ADICIONAR", command=janela_pesquisa.quit,font=("Helvetica", 16))
+    btn_concluir.pack(pady=10)    # coluna 1 → lado direito
 
 
     # === função de busca dinâmica (agora entry_pesquisa já existe!) ===

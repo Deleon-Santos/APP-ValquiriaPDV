@@ -5,19 +5,25 @@ def conectar_bd():
     curs=conn.cursor()
     return conn, curs
 
-def gerar_cupom():
-    n = 0
-    try:
-        conexao, cursor = conectar_bd()
-        cursor.execute("SELECT COUNT(*) FROM vendas WHERE EXISTS (SELECT 1 FROM vendas)") #testa se existe algum registro e conta o numero de vendas
-        count = cursor.fetchone()[0]
-        print(f'count dentro de gerar cupom {count}')
-        return count
-    
-    except Exception as e:
-        print(f'erro{e}')
-        return n #retorna '0' se não hover um registro no banco
-    
+def gerar_cupom(cupom): 
+    if cupom == 0: 
+        try:
+            conexao, cursor = conectar_bd()
+            cursor.execute("SELECT MAX(n_cupom) FROM vendas") 
+            max = cursor.fetchone()[0]
+            cursor.close()
+            conexao.close()
+            if max is None:
+                return 1000
+            else:
+                return max + 1
+            
+        except Exception as e:
+            print(f'erro{e}')
+            return 1000 
+    return cupom 
+
+   
 def lista_de_vendas():
     conexao, cursor = conectar_bd()
     

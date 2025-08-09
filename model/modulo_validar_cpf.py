@@ -24,7 +24,7 @@ def cpf():
             janela_cpf.destroy()
             return
         
-        elif len(cpf_value) == 11 and cpf_value.isnumeric():
+        if len(cpf_value) == 11 and cpf_value.isnumeric():
             cpf_formatado = f"{cpf_value[:3]}.{cpf_value[3:6]}.{cpf_value[6:9]}-{cpf_value[9:]}"           
             messagebox.showinfo("CPF Válido", f"CPF: {cpf_formatado}")          
             janela_cpf.destroy()

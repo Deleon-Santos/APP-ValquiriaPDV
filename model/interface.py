@@ -26,7 +26,8 @@ def sistema(usuario, empresa):
         count = arquivar.gerar_cupom(cupom)  # Verifica e atualiza o número do cupom
         cupom = count
         cpf = teste.cpf()
-        
+        if len(cpf) != 14: 
+            return
         label_titulo.configure(text="CAIXA ABERTO", font=(
             "Arial", 30, 'bold'))  # Atualiza o texto da label
         entry_cupom.configure(state='normal')
@@ -207,7 +208,7 @@ def sistema(usuario, empresa):
         entry_cupom.configure(state='readonly')
 
     def nova_pesquisa():
-        ean, material = pesquisar.pesquisar()
+        ean, material = pesquisar.pesquisar(pesquisa_aberta=False)
         if ean != '0' and material != '0':
             entry_cod.delete(0, ctk.END)
             entry_cod.insert(0, ean)

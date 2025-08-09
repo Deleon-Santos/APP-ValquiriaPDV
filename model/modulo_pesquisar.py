@@ -5,9 +5,13 @@ from tkinter import ttk, messagebox
 import model.modulo_arquivar as arquivar
 
 defaut = ['0', '0']
+#pesquisa_aberta = False
 
-def pesquisar():
-    # === função que devolve o item selecionado ===
+def pesquisar(pesquisa_aberta):
+    
+    if pesquisa_aberta:
+        return defaut[0], defaut[1] 
+    pesquisa_aberta = True
     def concluir():
         try:
             linha_selecionada = tree.selection()[0]
@@ -23,10 +27,9 @@ def pesquisar():
     janela_pesquisa.title("PESQUISA POR ITEM")
     janela_pesquisa.geometry("826x420+696+142")
     janela_pesquisa.focus_force()
+    #janela_pesquisa.overrideredirect(True)
     ctk.set_appearance_mode("light")
     ctk.set_default_color_theme("database/themas.txt")
-
-    
 
     frame = ctk.CTkFrame(janela_pesquisa)
     frame.pack(pady=(20,10), padx=10, fill="both", expand=True)
@@ -46,8 +49,6 @@ def pesquisar():
     tree.column("EAN", anchor=tk.W, width=40)
     tree.heading("Descrição", text="  Descrição  ")
     tree.column("Descrição", anchor=tk.W, width=500)
-    # tree.heading("Preço", text="Preço R$")
-    # tree.column("Preço", anchor=tk.E, width=100)
 
     for i, titulo in enumerate(titulos_pesquisar):
         tree.heading(i, text=titulo)
@@ -59,35 +60,31 @@ def pesquisar():
     frame_buttons.pack(pady=(0,20), padx=10, fill="x")
 
     # Configura as colunas do grid
-    frame_buttons.columnconfigure(0, weight=1)  # coluna expansiva (entry)
-    frame_buttons.columnconfigure(1, weight=0)  # coluna do botão
+    frame_buttons.columnconfigure(0, weight=1)  
+    frame_buttons.columnconfigure(1, weight=0)  
 
     entry_pesquisa = ctk.CTkEntry(frame_buttons, placeholder_text="Descrição", width=800, font=("Courier", 20))
-    entry_pesquisa.grid(row=0, column=0, pady=10, sticky="w")  # coluna 0 → lado esquerdo
+    entry_pesquisa.grid(row=0, column=0, pady=10, sticky="w")  
 
     btn_concluir = ctk.CTkButton(janela_pesquisa, text="ADICIONAR", command=janela_pesquisa.quit,font=("Helvetica", 16))
-    btn_concluir.pack(pady=10)    # coluna 1 → lado direito
+    btn_concluir.pack(pady=10)    
 
-
-    # === função de busca dinâmica (agora entry_pesquisa já existe!) ===
     def buscar(event=None):
         texto = entry_pesquisa.get()
         busca_sql = f"%{texto}%"
         resultados = arquivar.release(busca_sql)
 
-        # limpa tree
         for item in tree.get_children():
             tree.delete(item)
 
-        # carrega resultados na tree
         for r in resultados:
             tree.insert("", "end", values=r)
 
-    # carrega tudo inicialmente
-    #buscar()
-
     entry_pesquisa.bind("<KeyRelease>", buscar)
 
+  
     janela_pesquisa.mainloop()
+    #janela_pesquisa.destroy()
+    pesquisa_aberta = False
     return concluir()
 #pesquisar()

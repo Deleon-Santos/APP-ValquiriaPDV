@@ -8,8 +8,10 @@ from tkinter import messagebox
 ctk.set_appearance_mode("light")  
 ctk.set_default_color_theme("database/themas.txt")  # carrega o esquema de aparencia Tema de cores 
 
+visualisar_janela = False  # Variável para controlar se a janela de login está aberta
 
 def autenticar_usuario():
+    
     usuario = usuario_var.get()
     senha = senha_var.get()
     empresa = empresa_var.get()

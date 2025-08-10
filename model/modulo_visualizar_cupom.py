@@ -9,8 +9,14 @@ import model.modulo_imprimir as imprimir
 
 cupom_disponivel = []
 
+visualisar_janela = False  # Variável para controlar se a janela de visualização do cupom está aberta
 
 def venda_por_cupom(lista_dados):
+    global visualisar_janela
+    if visualisar_janela:
+        
+        return
+    visualisar_janela =True
     lista_itens = []
     lista_info = []
     cupom_disponivel.clear()
@@ -29,10 +35,16 @@ def venda_por_cupom(lista_dados):
     ctk.set_appearance_mode("light")  
     ctk.set_default_color_theme("database/themas.txt") 
 
+    def fechar_janela():
+        global visualisar_janela
+        visualisar_janela = False
+        janela.destroy()
+
+    janela.protocol("WM_DELETE_WINDOW", fechar_janela)
 
     # Configuração dos frames
     frame_master = ctk.CTkFrame(janela)
-    frame_master.pack(padx=10, pady=20)
+    frame_master.pack(padx=10, pady=(20,0))
     frame1 = ctk.CTkFrame(frame_master,fg_color='transparent')
     frame1.grid(row=0, column=0)
 
@@ -71,16 +83,16 @@ def venda_por_cupom(lista_dados):
     cupom_combobox = ctk.CTkComboBox(frame_2, values=cupom_disponivel, variable=cupom_var, width=100, font=('Ariel', 16),)
     cupom_combobox.grid(row=3, column=3, padx=20)
 
-    frame_botoes = ctk.CTkFrame(frame_master,fg_color='transparent')
-    frame_botoes.grid(row=4, column=0)
+    frame_botoes = ctk.CTkFrame(janela,fg_color='transparent')
+    frame_botoes.pack(padx=10)
 
     # Botões
     ctk.CTkButton(frame_botoes, text="PESQUISAR", command=lambda: pesquisar_cupom(cupom_var, cnpj_entry, empresa_entry, cliente_entry, valor_entry, data_entry, usuario_entry, tree)).grid(row=4, column=0, padx=20, pady=20)
     ctk.CTkButton(frame_botoes, text="IMPRIMIR", command=lambda: imprimir_cupom()).grid(row=4, column=1, padx=20, pady=20)
-    ctk.CTkButton(frame_botoes, text="SAIR", command=janela.destroy, fg_color='red').grid(row=4, column=2, padx=20, pady=20)
+    ctk.CTkButton(frame_botoes, text="SAIR", command=fechar_janela, fg_color='red').grid(row=4, column=2, padx=20, pady=20)
 
     # Configuração da Treeview para exibir os itens
-    tree = ttk.Treeview(frame_master, columns=("Item", "EAN", "Descrição", "Qtd", "Valor"), show='headings', height=10)
+    tree = ttk.Treeview(frame_master, columns=("Item", "EAN", "Descrição", "Qtd", "Valor"), show='headings', height=11)
     
     tree.heading("Item", text="Item")
     tree.heading("EAN", text="EAN")
@@ -94,7 +106,7 @@ def venda_por_cupom(lista_dados):
     tree.column("Qtd", anchor=tkinter.CENTER, width=80)
     tree.column("Valor", anchor=tkinter.CENTER, width=150)
 
-    tree.grid(row=6, column=0, columnspan=5, padx=20, pady=20)
+    tree.grid(row=6, column=0, columnspan=5, padx=20, pady=(20,10))
 
     def imprimir_cupom():
         nonlocal lista_itens, lista_info

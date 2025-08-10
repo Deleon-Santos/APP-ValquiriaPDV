@@ -3,7 +3,7 @@
 
 ## Sistema de Cobrança em Caixa de Supermercados
 
-- O VALQUIRA esta conectado a um banco de dados integrado SQLite que permite o aque todas as vendas seja armazenadas e gerenciadas.
+- O VALQUIRA foi desenvolvido para processar vendas do tipo varejo e possue as principais funcionalidades de um caixa registrador de supermercado. Possue interface simples e intuitiva, banco de dados integrado e possibilidade de imprimir uma venda.
 
 ## Tecnologias Usadas
 

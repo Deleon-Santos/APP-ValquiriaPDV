@@ -1,9 +1,10 @@
 
 import customtkinter as ctk
 import tkinter as tk
-from tkinter import ttk , messagebox # Importa o Treeview do Tkinter padrão
-import json
+from tkinter import ttk , messagebox 
 import model.modulo_arquivar as arquivar
+ctk.set_appearance_mode("light")  # Modo de aparência escura
+ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
 
 cadartar_aberto = False  # Variável para controlar se a janela de cadastro está aberta
 
@@ -22,7 +23,6 @@ def novo_item():
                 messagebox.showerror(title="ERRO CADASTRO", message="Preencha os campos necessários!", icon="warning")
                 return
 
-            # Extrair os valores dos campos
             preco_material = str(entry_preco.get()).replace(",", ".").replace(" ", "0")
             descricao_material = entry_produto.get().title()
             ean_material = str(int(entry_ean.get()))  # Converte EAN para int e de volta para string
@@ -33,14 +33,8 @@ def novo_item():
             entry_produto.delete(0, ctk.END)
             entry_preco.delete(0, ctk.END)
             entry_ean.delete(0, ctk.END)
-        
         except ValueError:
             messagebox.showerror(title="ERRO CADASTRO", message="Informe Preço ou EAN\n em valor numérico", icon="warning")
-
-    
-    
-    ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
 
     # Janela principal
     janela_cadastrar = ctk.CTkToplevel()
@@ -50,82 +44,55 @@ def novo_item():
     janela_cadastrar.focus_force()
     janela_cadastrar.grab_set()
     
-    ctk.set_appearance_mode("light")  # Modo de aparência escura
-    ctk.set_default_color_theme("database/themas.txt")  # Tema de cores azul-escuro
-
     def fechar_janela():
         global cadartar_aberto
         cadartar_aberto = False
         janela_cadastrar.destroy()
-
     janela_cadastrar.protocol("WM_DELETE_WINDOW", fechar_janela)
     
-    #intens do cadastro
     frame_cadastro= ctk.CTkFrame(janela_cadastrar)
     frame_cadastro.pack(padx=20,pady=10, fill=ctk.BOTH, expand=True)
 
-    # Descrição
     lbl_descricao = ctk.CTkLabel(frame_cadastro, text="Descrição:", width=44)
     lbl_descricao.grid(row=0, column=1, padx=(10,0), pady=(10,0),sticky='w')
     
-    # Campo de entrada para o nome do produto
     entry_produto = ctk.CTkEntry(frame_cadastro, width=320,font=('Helvetica',18))
     entry_produto.grid(row=1, column=1, padx=(10,30),pady=(0,10), sticky='w')
 
-    # EAN
     lbl_ean = ctk.CTkLabel(frame_cadastro, text="EAN:", width=28)
     lbl_ean.grid(row=0, column=2, padx=0, pady=(10,0),sticky='w')
 
-    # Campo de entrada para o EAN
     entry_ean = ctk.CTkEntry(frame_cadastro, width=150,font=('Helvetica',18))
     entry_ean.grid(row=1, column=2, padx=(0,30),pady=(0,10), sticky='w')
 
-    # Preço
     lbl_preco = ctk.CTkLabel(frame_cadastro, text="Preço R$:", width=10)
     lbl_preco.grid(row=0, column=3, padx=0, pady=(10,0),sticky='w')
 
-    # Campo de entrada para o preço
     entry_preco = ctk.CTkEntry(frame_cadastro, width=100,font=('Helvetica',18))
     entry_preco.grid(row=1, column=3, padx=(0,30),pady=(0,10),  sticky='w')
 
     btn_cadastrar = ctk.CTkButton(frame_cadastro, text="CADASTRAR", command=cadastrar_item,width=90)
     btn_cadastrar.grid(row=1, column=4, padx=(0,0),pady=(0,10),  sticky='w')
 
-    # Tabela para exibir os itens cadastrados
     style = ttk.Style()
-
-    # Configurando o estilo do heading da Treeview
     style.configure("Treeview.Heading", font=("Arial", 14)) 
     style.configure("Treeview", font=("Arial", 14))  
     
-    # Colunas da Tabela
     columns = ["Cod", "EAN", "Descrição", "PUni R$"]
     tree = ttk.Treeview(janela_cadastrar, columns=columns, show="headings", height=14)
-    
-    # Definindo os cabeçalhos e as larguras das colunas
    
     tree.heading("Cod", text="Cod")
     tree.column("Cod", anchor=tk.CENTER, width=20)  
-
     tree.heading("EAN", text="EAN")
     tree.column("EAN", anchor=tk.CENTER, width=50)
-
     tree.heading("Descrição", text="Descrição")
     tree.column("Descrição", anchor=tk.CENTER, width=100)  
-
     tree.heading("PUni R$", text="PUni R$")
     tree.column("PUni R$", anchor=tk.CENTER, width=40)  #
 
     tree.pack(fill=ctk.BOTH, expand=False,padx=20,pady=20)
-    
-    # Botão para cadastrar o item
-    
 
     btn_sair = ctk.CTkButton(janela_cadastrar, text="SAIR", fg_color="red", command=fechar_janela,width=90)
     btn_sair.pack( padx=(10,0), pady=10 )
 
     janela_cadastrar.wait_window()
-    
-
-# Chama a função para abrir a interface de cadastro
-#novo_item()

@@ -1,3 +1,6 @@
+
+
+
 import customtkinter as ctk
 from PIL import Image, ImageTk  
 import model.interface as vendas
@@ -6,20 +9,15 @@ from tkinter import messagebox
 
 
 ctk.set_appearance_mode("light")  
-ctk.set_default_color_theme("database/themas.txt")  # carrega o esquema de aparencia Tema de cores 
+ctk.set_default_color_theme("database/themas.txt")   
 
-visualisar_janela = False  # Variável para controlar se a janela de login está aberta
-
-def autenticar_usuario():
-    
+def autenticar_usuario():    
     usuario = usuario_var.get()
     senha = senha_var.get()
     empresa = empresa_var.get()
 
     if not usuario or not senha or not empresa:
-        messagebox.showerror(
-            
-            "Erro", "Usuário, Senha ou Data\nnão devem ser nulos")
+        messagebox.showerror("Erro", "Usuário, Senha ou Data\nnão devem ser nulos")
         return
     try:
         autenticado = False  
@@ -41,8 +39,7 @@ def abrir_suporte():
             arquivo = legenda.read()
             messagebox.showinfo("Suporte", arquivo)
     except FileNotFoundError:
-        messagebox.showerror(
-            "Erro", "O arquivo 'usuarios.txt' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
+        messagebox.showerror("Erro", "O arquivo 'usuarios.txt' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
 try:
     with open('database/bd_usuarios.txt', 'r') as bd:
@@ -73,43 +70,34 @@ imagem = imagem.resize((392, 270))
 imagem_tk = ImageTk.PhotoImage(imagem)  
 
 imagem_label = ctk.CTkLabel(master=frame, image=imagem_tk, text="")
-imagem_label.grid(row=0, column=0, padx=(20, 0), pady=(
-    20, 10))  
+imagem_label.grid(row=0, column=0, padx=(20, 0), pady=(20, 10))  
 
 form_frame = ctk.CTkFrame(master=frame, fg_color='transparent')
 form_frame.grid(row=0, column=1, padx=50, pady=20)
 
-empresa_label = ctk.CTkLabel(
-    master=form_frame, text="Empresa", font=('any', 12))
+empresa_label = ctk.CTkLabel(master=form_frame, text="Empresa", font=('any', 12))
 empresa_label.grid(row=0, column=0, sticky="w")
-empresa_combo = ctk.CTkComboBox(master=form_frame, values=[
-                                "Tem De Tudo ME"], variable=empresa_var, font=('any', 17), width=300)
+empresa_combo = ctk.CTkComboBox(master=form_frame, values=["Tem De Tudo ME"], variable=empresa_var, font=('any', 17), width=300)
 empresa_combo.grid(row=1, column=0)
 
-usuario_label = ctk.CTkLabel(
-    master=form_frame, text="Usuário", font=('any', 12))
+usuario_label = ctk.CTkLabel(master=form_frame, text="Usuário", font=('any', 12))
 usuario_label.grid(row=2, column=0, sticky="w")
-usuario_combo = ctk.CTkComboBox(master=form_frame, values=[
-                                "Administrador", "Operador do Turno 1", "Operador do Turno 2"], variable=usuario_var, font=('any', 18), width=300)
+usuario_combo = ctk.CTkComboBox(master=form_frame, values=["Administrador", "Operador do Turno 1", "Operador do Turno 2"], variable=usuario_var, font=('any', 18), width=300)
 usuario_combo.grid(row=3, column=0)
 
 # Campo para entrada da senha
 senha_label = ctk.CTkLabel(master=form_frame, text="Senha", font=('any', 12))
 senha_label.grid(row=4, column=0, sticky="w")
-senha_entry = ctk.CTkEntry(master=form_frame, show="*", textvariable=senha_var, font=(
-    'any', 18), width=300)  
+senha_entry = ctk.CTkEntry(master=form_frame, show="*", textvariable=senha_var, font=('any', 18), width=300)  
 senha_entry.grid(row=5, column=0)
 
 button_frame = ctk.CTkFrame(master=janela_login, fg_color='transparent')
 button_frame.pack(pady=1)
-ok_button = ctk.CTkButton(master=button_frame, text="OK",
-                          command=autenticar_usuario, font=('any', 10, 'bold'), width=100)
+ok_button = ctk.CTkButton(master=button_frame, text="OK",command=autenticar_usuario, font=('any', 10, 'bold'), width=100)
 ok_button.grid(row=0, column=0, padx=10)
-sair_button = ctk.CTkButton(master=button_frame, text="SAIR", command=janela_login.quit, font=(
-    'any', 10, 'bold'), fg_color="red", width=100)
+sair_button = ctk.CTkButton(master=button_frame, text="SAIR", command=janela_login.quit, font=('any', 10, 'bold'), fg_color="red", width=100)
 sair_button.grid(row=0, column=1, padx=10, pady=20)
-suporte_button = ctk.CTkButton(master=button_frame, text="SUPORTE",
-                               command=abrir_suporte, font=('any', 10, 'bold'), width=100)
+suporte_button = ctk.CTkButton(master=button_frame, text="SUPORTE",command=abrir_suporte, font=('any', 10, 'bold'), width=100)
 suporte_button.grid(row=0, column=2, padx=10, pady=20)
 
 janela_login.mainloop()

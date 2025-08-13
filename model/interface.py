@@ -70,7 +70,7 @@ def sistema(usuario, empresa):
             produto = [num_item, plu, ean, descricao_produto, qtd, preco_unitario, str_preco]
                         
             carrinho.append(produto)
-            linha1 = [f"{str(produto[0]).zfill(3)} ",f"  {produto[3]}", f"{produto[5]}  ", f"{produto[6]}  "]
+            linha1 = [f"{str(produto[0]).zfill(3)} ",f"  {produto[3]}", f"{produto[5]:.2f}  ", f"{produto[6]}  "]
             linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
 
             tree.insert("", "end", values=linha1)

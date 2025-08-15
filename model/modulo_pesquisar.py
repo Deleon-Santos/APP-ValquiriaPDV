@@ -51,19 +51,16 @@ def pesquisar(pesquisa_aberta):
         tree.heading(i, text=titulo)
         tree.column(i, anchor="center")
     tree.pack(side="top", fill="both", expand=True)
-    
+ 
+    entry_pesquisa = ctk.CTkEntry(janela_pesquisa, placeholder_text="Descrição", width=800, font=("Courier", 20))
+    entry_pesquisa.pack( pady=(10, 0), padx=10, fill="x")
     frame_buttons = ctk.CTkFrame(janela_pesquisa, fg_color="transparent")
-    frame_buttons.pack(pady=(0,20), padx=10, fill="x")
-
-    # Configura as colunas do grid
-    frame_buttons.columnconfigure(0, weight=1)  
-    frame_buttons.columnconfigure(1, weight=0)  
-
-    entry_pesquisa = ctk.CTkEntry(frame_buttons, placeholder_text="Descrição", width=800, font=("Courier", 20))
-    entry_pesquisa.grid(row=0, column=0, pady=10, sticky="w")  
-
-    btn_concluir = ctk.CTkButton(janela_pesquisa, text="ADICIONAR", command=janela_pesquisa.quit,font=("Helvetica", 16))
-    btn_concluir.pack(pady=(0,10))    
+    frame_buttons.pack(pady=(0,20), padx=10)
+ 
+    btn_concluir = ctk.CTkButton(frame_buttons, text="ADICIONAR", command=janela_pesquisa.quit,font=("Helvetica", 16))
+    btn_concluir.grid(row= 0, column= 0,pady=(10,0), padx=10)  
+    btn_sair = ctk.CTkButton(frame_buttons, text="SAIR", command=janela_pesquisa.quit,font=("Helvetica", 16), fg_color="red")
+    btn_sair.grid(row= 0, column= 1,pady=(10,0), padx=10)  
 
     def buscar(event=None):
         texto = entry_pesquisa.get()

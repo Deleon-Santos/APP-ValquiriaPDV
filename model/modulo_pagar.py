@@ -1,16 +1,15 @@
 import customtkinter as ctk
 from tkinter import messagebox, simpledialog
 
-# Condições de pagamento
+
 condicao_pagamento = ['Dinheiro', 'Cartão à Vista', 'Cartão à Prazo', 'Pix']
 pagamento= False
 def pagar(valor_pagar):
     global pagamento
     if pagamento:
-        #messagebox.showinfo("ORDEM DE PAGAMENTO", "Pagamento já realizado")
         return valor_pagar
-    pagamento = True  # Marca que o pagamento foi iniciado
-    # Função para voltar e fechar a janela
+    pagamento = True  
+
     def voltar():
         global  pagamento
         pagamento = False 
@@ -18,9 +17,8 @@ def pagar(valor_pagar):
         window_pagamento.destroy()
         return valor_pagar
 
-    # Função para pagamento com Cartão ou Pix
     def pagar_cartao_pix():
-        nonlocal valor_pagar  # Refere-se à variável valor_pagar da função externa
+        nonlocal valor_pagar  
         if valor_pagar > 0:
             valor_entry.configure(state="normal")
             valor_entry.delete(0, ctk.END)
@@ -32,15 +30,12 @@ def pagar(valor_pagar):
             recebido_entry.configure(state="readonly")
             autenticação.configure(text="PAGAMENTO", text_color="lightgreen")
             autenticação1.configure(text="AUTORIZADO", text_color="lightgreen")
-            #messagebox.showinfo("ORDEM DE PAGAMENTO", "Pagamento Autorizado")
-            valor_pagar = 0.0  # Define valor_pagar para 0 após o pagamento
-            #window_pagamento.destroy()
+            valor_pagar = 0.0 
             return valor_pagar
         else:
             autenticação.configure(text="PAGAMENTO", text_color="lightgreen")
             autenticação1.configure(text="AUTORIZADO", text_color="lightgreen")
-            #messagebox.showwarning("ORDEM DE PAGAMENTO", "Informe o Valor da Compra")
-            return valor_pagar  # Retorna o valor original se o pagamento não for concluído"""
+            return valor_pagar  
 
     # Função para pagamento em Dinheiro
     def pagar_dinheiro():
@@ -49,25 +44,21 @@ def pagar(valor_pagar):
             dinheiro_str = recebido_entry.get()
             if dinheiro_str is None or dinheiro_str.strip() == "":
                 autenticação.configure(text="VALOR RECEBIDO", text_color="yellow")
-                autenticação1.configure(text="NÃO INFORMADO", text_color="yellow")
+                autenticação1.configure(text="INVALIDO", text_color="yellow")
                 return  valor_pagar 
 
-            # Converte o valor para float e lida com vírgula como separador decimal
-            
-            if dinheiro < valor_pagar:
-                dinheiro = float(dinheiro_str.replace(",", "."))
-                autenticação.configure(text="PAGAMENTO", text_color="lightred")
-                autenticação1.configure(text="NÃO AUTORIZADO", text_color="lightred")
-                messagebox.showinfo("ORDEM DE PAGAMENTO", "VALOR INSUFICIENTE \nPARA PAGAMENTO")
-                return valor_pagar  # Retorna o valor original se o pagamento não for suficiente
+            dinheiro = float(dinheiro_str.replace(",", "."))
+            if dinheiro < valor_pagar:                
+                autenticação.configure(text="PAGAMENTO", text_color="orange")
+                autenticação1.configure(text="VALOR INSUFICIENTE", text_color="orange")
+                return valor_pagar 
             
             elif valor_pagar ==0:
                 autenticação.configure(text="PAGAMENTO", text_color="lightgreen")
-                autenticação1.configure(text="AUTORIZADO", text_color="lightgreen")
+                autenticação1.configure(text="JÁ AUTORIZADO", text_color="lightgreen")
                 return valor_pagar  # Retorna o valor original se o pagamento for zero
             else:
                 troco = round(dinheiro - valor_pagar, 2)
-
                 valor_entry.configure(state="normal")
                 valor_entry.delete(0, ctk.END)
                 valor_entry.insert(0, f"{0:.2f}")
@@ -81,11 +72,8 @@ def pagar(valor_pagar):
                 troco_entry.insert(0, f"{troco:.2f}")
                 troco_entry.configure(state="readonly")
                 autenticação.configure(text="PAGAMENTO", text_color="lightgreen")
-                autenticação1.configure(text="AUTORIZADO", text_color="lightgreen")
-                
-                valor_pagar = 0.0  # Define valor_pagar para 0 após o pagamento
-                #messagebox.showinfo("ORDEM DE PAGAMENTO", f"Pagamento Autorizado! Troco: R$ {troco:.2f}")
-                #window_pagamento.destroy()  # Fecha a janela após o pagamento
+                autenticação1.configure(text="AUTORIZADO", text_color="lightgreen")           
+                valor_pagar = 0.0  
                 return valor_pagar
             
         except ValueError:
@@ -125,7 +113,7 @@ def pagar(valor_pagar):
     valor_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right',fg_color='#FFFFE0')
     valor_entry.grid(row=2, column=1, sticky="w")
     valor_entry.insert(0, f"{valor_pagar:.2f}")
-    valor_entry.configure(state="readonly")  # Torna o campo somente leitura
+    valor_entry.configure(state="readonly") 
     ctk.CTkLabel(frame_valores, text="Valor Recebido R$:", font=("Any", 12)).grid(row=3, column=1, sticky="w")
     recebido_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right',placeholder_text="0.00", fg_color='#FFFFE0')
     recebido_entry.grid(row=4, column=1, sticky="w")
@@ -135,13 +123,11 @@ def pagar(valor_pagar):
     autenticação1 = ctk.CTkLabel(frame_valores, text="", font=("helvetica", 20))
     autenticação1.grid(row=5, column=2, pady=(0, 10), padx=(20, 0), sticky="we")
 
-
     ctk.CTkLabel(frame_valores, text="Troco Devolvido R$:", font=("Any", 12)).grid(row=5, column=1, sticky="w")
     troco_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right', placeholder_text="0,00",fg_color='#FFFFE0')
     troco_entry.configure(state="readonly")  
     troco_entry.grid(row=6, column=1, sticky="w")   
     
-    # window_pagamento.wait_window()
     window_pagamento.wait_window()
     return valor_pagar
 

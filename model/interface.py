@@ -29,18 +29,17 @@ def sistema(usuario, empresa):
         if len(cpf) != 14: 
             return
         label_titulo.configure(text="CAIXA ABERTO", font=(
-            "Arial", 30, 'bold'))  # Atualiza o texto da label
+            "Arial", 30, 'bold'))  
         entry_cupom.configure(state='normal')
         entry_cupom.delete(0, ctk.END)
-        entry_cupom.insert(0, str(cupom))  # Insere o valor atualizado do cupom
+        entry_cupom.insert(0, str(cupom))  
         entry_cupom.configure(state='readonly')
         
         return cupom, cpf
 
     def adicionar_item():
-        nonlocal num_item, valor_pagar, cpf, cupom, dic
+        nonlocal num_item, valor_pagar, cpf, cupom
 
-        # Validação e tratamento dos erros
         entrada = entry_cod.get().replace(' ', '')
         try:
             qtd = int(entry_qtd.get())
@@ -61,14 +60,12 @@ def sistema(usuario, empresa):
         
         plu, ean, descricao_produto, preco_unitario = arquivar.validar_plu(entrada)  
         if plu:      
-            num_item += 1
-                    
+            num_item += 1           
             preco = preco_unitario * qtd
             valor_pagar += preco
             str_preco = f"{preco:.2f}"
             
-            produto = [num_item, plu, ean, descricao_produto, qtd, preco_unitario, str_preco]
-                        
+            produto = [num_item, plu, ean, descricao_produto, qtd, preco_unitario, str_preco]               
             carrinho.append(produto)
             linha1 = [f"{str(produto[0]).zfill(3)} ",f"  {produto[3]}", f"{produto[5]:.2f}  ", f"{produto[6]}  "]
             linha2 = ["",f"  {produto[2]}", f"{'x'+str(produto[4])}  ",""]
@@ -76,7 +73,7 @@ def sistema(usuario, empresa):
             tree.insert("", "end", values=linha1)
             tree.insert("", "end", values=linha2)
 
-            # Atualizar os campos visuais (Entries)
+            # Atualizar os campos visuais 
             entry_descricao.configure(state='normal')
             entry_descricao.delete(0, ctk.END)
             entry_descricao.insert(0, descricao_produto)
@@ -119,6 +116,7 @@ def sistema(usuario, empresa):
                 carrinho.append(item_deletado) 
                 linha_escolha = [f"{str(item_deletado[0]).zfill(3)} ", f"  {item_deletado[3]}", f"{item_deletado[5]}", f"{item_deletado[6]}  "]
                 linha_escolha2 = ["",f"  {str(id).zfill(4)}: Removido", "", ""]
+                
                 # Atualiza a árvore com o novo item
                 tree.insert("", "end", values=linha_escolha)
                 tree.insert("", "end", values=linha_escolha2)
@@ -143,21 +141,20 @@ def sistema(usuario, empresa):
                 v_pago = f"{valor_pagar:.2f}"  # Valor pago formatado
                 print(f'Retorno antes de pagar: {valor_pagar}')
 
-                # Chama a função de pagamento e atualiza o valor
                 valor_pagar = pagar.pagar(valor_pagar)
                 print(f'Retorno da função pagar: {valor_pagar}')
 
                 if valor_pagar == 0:  # Verifica se o pagamento foi concluído com sucesso
                     arquivar.arquivo(cupom, data, usuario, cnpj,
                                      cpf, v_pago, empresa, carrinho)
-                    voltar()  # limpa os campos com valores residuais
+                    voltar()  
 
                 else:
                     messagebox.showwarning(
                         "Pagamento Incompleto", f"Ainda resta um valor de R$ {valor_pagar:.2f} para ser pago.")
             else:
-                messagebox.showerror(
-                    "Erro", " iniciar uma compra!")
+                messagebox.showinfo(
+                    "NOVA COMPRA", "F1 para iniciar uma compra")
                 return
 
         except Exception as e:
@@ -184,7 +181,6 @@ def sistema(usuario, empresa):
             messagebox.showerror("Erro", f"Erro ao finalizar venda: {e}")
 
     def limpar_campos():
-        # Função para limpar os campos de entrada
         entry_descricao.configure(state='normal')
         entry_descricao.delete(0, ctk.END)
         entry_descricao.configure(state='readonly')
@@ -220,7 +216,6 @@ def sistema(usuario, empresa):
     def novo_item():
         if usuario == "Administrador":
             cadastrar.novo_item()
-            #atualizar_dic()
         else:
             messagebox.showerror(
                 "Erro", "Seu usuário não tem permissão para cadastrar item!")
@@ -239,10 +234,8 @@ def sistema(usuario, empresa):
             messagebox.showerror(
                 "Erro", "O arquivo 'SUPORTE' não foi encontrado.\nVerifique o caminho ou crie o arquivo.")
 
-    def sair(janela_principal):
-        resposta = messagebox.askyesno(
-            "Encerrar", "Deseja encerrar o programa?")
-
+    def sair():
+        resposta = messagebox.askyesno("Encerrar", "Deseja encerrar o programa?")
         if resposta:
             janela_principal.destroy()
         else:
@@ -370,7 +363,7 @@ def sistema(usuario, empresa):
     janela_principal.bind_all("<F1>", lambda event: nova_compra())
     janela_principal.bind_all("<F2>", lambda event: nova_pesquisa())
     janela_principal.bind_all("<F3>", lambda event: novo_item())
-    janela_principal.bind_all("<F4>", lambda event: sair(janela_principal))
+    janela_principal.bind_all("<F4>", lambda event: sair())
     janela_principal.bind_all("<F5>", lambda event: venda_cupom())
     janela_principal.bind_all("<F6>", lambda event: mostrar_ajuda())
 
@@ -439,12 +432,10 @@ def sistema(usuario, empresa):
         data_label.configure(text=f"Data: {data_atual}")
         janela_principal.after(1000, atualizar_data)
         return data_atual
-    dic = {}
+    
     data = atualizar_data()
-    #atualizar_dic()
-
     janela_principal.mainloop()
-    #entry_cod.focus_set()
+    
 
 # usuario,  empresa = "Administrador",  "Tem De Tudo ME"
 # sistema(usuario, empresa)

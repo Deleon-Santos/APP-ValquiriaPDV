@@ -22,7 +22,7 @@ def pagar(valor_pagar):
         if valor_pagar > 0:
             valor_entry.configure(state="normal")
             valor_entry.delete(0, ctk.END)
-            valor_entry.insert(0, f" {0:.2f}")
+            valor_entry.insert(0, f" {valor_pagar:.2f}")
             valor_entry.configure(state="readonly")
             recebido_entry.configure(state="normal")
             recebido_entry.delete(0, ctk.END)
@@ -61,7 +61,7 @@ def pagar(valor_pagar):
                 troco = round(dinheiro - valor_pagar, 2)
                 valor_entry.configure(state="normal")
                 valor_entry.delete(0, ctk.END)
-                valor_entry.insert(0, f"{0:.2f}")
+                valor_entry.insert(0, f"{valor_pagar:.2f}")
 
                 recebido_entry.configure(state="normal")
                 recebido_entry.delete(0, ctk.END)
@@ -117,6 +117,7 @@ def pagar(valor_pagar):
     ctk.CTkLabel(frame_valores, text="Valor Recebido R$:", font=("Any", 12)).grid(row=3, column=1, sticky="w")
     recebido_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right',placeholder_text="0.00", fg_color='#FFFFE0')
     recebido_entry.grid(row=4, column=1, sticky="w")
+    recebido_entry.focus_set()# Define o foco no campo de entrada
     
     autenticação = ctk.CTkLabel(frame_valores, text="", font=("helvetica", 20))
     autenticação.grid(row=4, column=2, pady=(0, 10), padx=(20, 0), sticky="we")
@@ -124,7 +125,7 @@ def pagar(valor_pagar):
     autenticação1.grid(row=5, column=2, pady=(0, 10), padx=(20, 0), sticky="we")
 
     ctk.CTkLabel(frame_valores, text="Troco Devolvido R$:", font=("Any", 12)).grid(row=5, column=1, sticky="w")
-    troco_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right', placeholder_text="0,00",fg_color='#FFFFE0')
+    troco_entry = ctk.CTkEntry(frame_valores, font=("Any", 30), width=200, justify='right', placeholder_text="0.00",fg_color='#FFFFE0')
     troco_entry.configure(state="readonly")  
     troco_entry.grid(row=6, column=1, sticky="w")   
     

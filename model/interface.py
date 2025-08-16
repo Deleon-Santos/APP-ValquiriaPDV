@@ -434,6 +434,7 @@ def sistema(usuario, empresa):
         return data_atual
     
     data = atualizar_data()
+    janela_principal.after(100, lambda:entry_cod.focus_set())
     janela_principal.mainloop()
     
 

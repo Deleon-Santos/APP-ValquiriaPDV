@@ -73,7 +73,7 @@ def pesquisar(pesquisa_aberta):
         for r in resultados:
             tree.insert("", "end", values=r)
     entry_pesquisa.bind("<KeyRelease>", buscar)
-  
+    janela_pesquisa.after(100, lambda: entry_pesquisa.focus_set())
     janela_pesquisa.mainloop()
     pesquisa_aberta = False
     return concluir()
